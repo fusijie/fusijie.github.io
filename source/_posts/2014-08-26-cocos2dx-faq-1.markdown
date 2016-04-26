@@ -1,0 +1,326 @@
+---
+layout: post
+title: "Cocos2dx-FAQ-1"
+date: 2014-08-26 17:28
+comments: true
+categories: Cocos2dx-FAQ
+tags: 
+---
+
+### Q:如何在安卓上给应用程序设置透明背景？
+
+(1)NativeActivity，以Cocos2d-x 3.0 rc0为例
+
+[http://www.cocoachina.com/bbs/read.php?tid=196780](http://www.cocoachina.com/bbs/read.php?tid=196780)
+
+(2)JavaActivity，以Cocos2d-x 3.2 release为例
+
+[http://www.cocoachina.com/bbs/read.php?tid=224544](http://www.cocoachina.com/bbs/read.php?tid=224544)
+
+<!-- more -->
+
+<br></br>
+
+### Q:SimpleAudioEngine在Windows平台上卡顿严重，无法调节音量？
+
+SimpleAudioEngine是分平台实现的，Windows平台上部分API是空实现（比如preloadBackgroundMusic等等）,所以在Windows平台上并不提供预加载，调节音量等功能（参见[cocos/audio/win32/SimpleAudioEngine.cpp](https://github.com/cocos2d/cocos2d-x/blob/v3/cocos/audio/win32/SimpleAudioEngine.cpp)），移植到Android/iOS/Mac上就正常了。Windows上调节音量有网友提供了解决方案。
+
+参考链接：[http://www.cocoachina.com/bbs/read.php?tid=213345](http://www.cocoachina.com/bbs/read.php?tid=213345)
+
+<br></br>
+
+### Q:Cocos2d-x 3.x无法重写Node::draw()方法？
+
+Cocos2d-x 从v3.0开始将Node::draw()方法标记为final（参见[cocos2d/2d/CCNode.h](https://github.com/cocos2d/cocos2d-x/blob/v3/cocos/2d/CCNode.h)），引擎另外提供了
+    
+``` cpp draw函数
+	virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags);
+	
+```
+
+函数，可以通过重写这个函数来绘制你自己的节点，需注意的是如果更改了任何的GL状态，在使用完后必须还原。
+
+参考链接：[http://www.cocoachina.com/bbs/read.php?tid=200176](http://www.cocoachina.com/bbs/read.php?tid=200176)
+
+<br></br>
+
+### Q:使用ClippingNode，为什么在Android/iOS裁剪显示错误，或者背景变为绿色？
+
+未开启OpenGL深度缓存，解决方法如下：
+
+*(1)iOS：在AppController.mm修改*
+
+``` objc iOS修改深度缓存
+	EAGLView *__glView = [EAGLView viewWithFrame: [window bounds]
+                                     pixelFormat: kEAGLColorFormatRGBA8
+                                     depthFormat: GL_DEPTH24_STENCIL8_OES
+                              preserveBackbuffer: NO
+                                      sharegroup: nil
+                                   multiSampling: NO
+                                 numberOfSamples: 0];
+    
+```
+                                 
+*(2)Android：在AppActivity.java修改*
+
+``` java Android修改深度缓存
+	public class AppActivity extends Cocos2dxActivity {
+     
+    public Cocos2dxGLSurfaceView onCreateView() {
+        Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
+        // TestCpp should create stencil buffer
+           glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
+         
+        return glSurfaceView;
+    }
+	}
+	
+```
+
+<br></br>
+
+### Q:如何在Cocos2d-x实现C++调用Java？
+
+C++调用Java代码主要是通过JNI实现，这里以Cocos2d-x 3.2为例。
+
+(1)C++部分：
+
+在HelloWorld.cpp增加如下函数，用于调用java代码。
+
+``` cpp C++代码
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	#include <jni.h>
+	#include "platform/android/jni/JniHelper.h"
+	#include <cocos2d.h>
+	#endif
+
+	void HelloWorld::testJNI()
+	{
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		JniMethodInfo minfo;
+ 
+		bool isHave = JniHelper::getStaticMethodInfo(minfo,"org/cocos2dx/cpp/AppActivity","testjni", "()V");
+ 
+		if (!isHave) {
+    		log("jni:testjni is null");
+		}else{
+    		minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID);
+		}
+	#endif
+	}
+	
+```
+	
+(2)Java部分：
+
+在org.cocos2dx.cpp.Activity中增加如下函数，供C++调用。
+
+``` java Java代码
+	public static void testjni() {  
+	    System.out.println("From Java"); 
+	}
+
+```
+
+更详细的使用说明，请参考：[Java Native Interface Specification](http://docs.oracle.com/javase/6/docs/technotes/guides/jni/spec/jniTOC.html)
+
+<br></br>
+
+### Q:如何在Cocos2d-x实现Java调用C++？
+
+Java调C++代码也是通过JNI实现，当然Android给我们提供了更方便的工具NDK。由于这里是以Cocos2d-x为例，所以不再去赘述NDK使用。同样以Cocos2d-x 3.2为例。
+
+(1)C++部分：
+
+在HelloWorld.cpp增加如下函数，供java调用。
+
+``` cpp C++代码	
+	#include <jni.h>
+
+	#ifdef __cplusplus
+	extern "C" {
+	#endif
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_testjni
+    (JNIEnv *env, jclass)
+    {
+        return env->NewStringUTF("From C++");
+    }
+	#ifdef __cplusplus
+	}
+	#endif
+
+```
+
+(2)Java部分：
+
+在org.cocos2dx.cpp.Activity中增加如下函数，用于调用C++代码。
+
+``` java java代码
+	public class AppActivity extends Cocos2dxActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		System.out.println(testjni());
+	}
+	
+	public static native String testjni();
+	}
+	
+```
+
+参考地址：[Java Programming Tutorial Java Native Interface](https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html)
+
+<br></br>
+
+### Q:如何在Cocos2d-x实现截图功能？
+
+*（1）Cocos2d-x 2.x*
+
+Cocos2d-x 2.x没有提供截图功能，但是可以用CCRenderTexture来实现这个功能
+
+``` cpp SaveScreenShot
+	void CTestLayer::SaveScreenShot()  
+	{  
+    	//获取屏幕尺寸  
+    	CCSize size = CCDirector::sharedDirector()->getWinSize();  
+    	//使用屏幕尺寸初始化一个空的渲染纹理对象  
+    	CCRenderTexture* texture = CCRenderTexture::create((int)size.width, (int)size.height);  
+    	//设置位置      
+    	texture->setPosition(ccp(size.width/2, size.height/2));  
+    	//开始获取      
+    	texture->begin();  
+    	//遍历场景节点对象，填充纹理到texure中  
+    	CCDirector::sharedDirector()->getRunningScene()->visit();  
+    	//结束获取  
+    	texture->end();  
+    	//保存为PNG图，Win32/Debug目录下  
+    	texture->saveToFile("screenshot.png", kCCImageFormatPNG);  
+	}  
+```
+
+*（2）Cocos2d-x 3.x*
+
+在Cocos2d-x 3.2之前，引擎也没有提供截图功能，同样可以使用RenderTexture实现
+
+``` cpp SaveScreenShot
+	void Director::saveScreenshot(const std::string& fileName,const std::function<void(const std::string&)>& callback)  
+	{  
+    	Image::Format format;  
+    	//进行后缀判断  
+    	if(std::string::npos != fileName.find_last_of(".")){  
+        auto extension = fileName.substr(fileName.find_last_of("."),fileName.length());  
+        if (!extension.compare(".png")) {  
+            format = Image::Format::PNG;  
+        } else if(!extension.compare(".jpg")) {  
+            format = Image::Format::JPG;  
+        } else{  
+            log("cocos2d: the image can only be saved as JPG or PNG format");  
+            return;  
+        }  
+    } else {  
+        log("cocos2d: the image can only be saved as JPG or PNG format");  
+        return ;  
+    }  
+    //获取屏幕尺寸，初始化一个空的渲染纹理对象  
+    	auto renderTexture = RenderTexture::create(getWinSize().width, getWinSize().height, Texture2D::PixelFormat::RGBA8888);  
+    	//清空并开始获取  
+    	renderTexture->beginWithClear(0.0f, 0.0f, 0.0f, 0.0f);  
+    	//遍历场景节点对象，填充纹理到RenderTexture中  
+    	getRunningScene()->visit();  
+    	//结束获取  
+    	renderTexture->end();  
+    	//保存文件  
+    	renderTexture->saveToFile(fileName , format);  
+    	//使用schedule在下一帧中调用callback函数  
+    	auto fullPath = FileUtils::getInstance()->getWritablePath() + fileName;  
+    	auto scheduleCallback = [&,fullPath,callback](float dt){  
+        	callback(fullPath);  
+    	};  
+    	auto _schedule = getRunningScene()->getScheduler();  
+    	_schedule->schedule(scheduleCallback, this, 0.0f,0,0.0f, false, "screenshot");  
+	}
+
+```
+
+从Cocos2d-x 3.2之后开始，引擎提供了captureScreen函数来实现截图功能
+
+``` cpp captureScreen
+	void Util::captureScreen(const std::function<void(bool, const std::string&)>& afterCaptured, const std::string& filename);
+
+```
+
+<br></br>
+
+### Q:如何在Cocos2d-x获取随机数？
+
+首先计算机是无法产生真正的随机数的，都是伪随机。获取随机数的方式和算法多种多样，这里只给出一种方法，基于最新的C++11。
+
+``` cpp 随机数产生
+	#include <random>
+
+    std::uniform_int_distribution<unsigned> u(1,1000);
+    std::default_random_engine e;
+    e.seed((unsigned)time(NULL));
+    int random_number = u(e);
+
+```
+
+这个例子产生了一个范围在1～1000的随机数（这里采用的标准分布是离散型均匀分布）。
+
+参考：[C++11:Random number generation](http://www.stroustrup.com/C++11FAQ.html#std-random)
+
+<br></br>
+
+
+### Q:为什么直接点击Windows平台生成的exe可执行文件，提示程序已停止工作？
+
+这里以Cocos2d-x 3.2为例。
+
+(1)如果直接在Visual Studio编译生成目标文件，那么目标文件会被生成到`项目/proj.win32/Debug.win32`目录下（debug模式）或者`项目/proj.win32/release.win32`目录下（release模式）。由于资源文件没有拷贝到目标文件目录的关系，此时点击xxx.exe，程序会停止工作。
+
+解决方法是：手动将资源文件拷贝到xxx.exe同级目录下。
+
+(2)如果采用的是命令行
+
+	cocos run -p win32
+	
+那目标文件会被生成到`项目/bin/debug/win32`目录下，同时资源文件也会被拷贝到这个文件夹，此时直接点击xxx.exe就可以运行。`项目/proj.win32/Debug.win32`目录也会有xxx.exe，点击也会提示停止工作，解决方法同上。
+
+<br></br>
+
+### Q:如何在popScene时使用场景过渡效果？
+
+这里以Cocos2d-x 3.2为例。需要修改引擎的Director::popScene()函数，也可以进行重载或者设置默认参数。
+
+``` cpp popScene
+	void Director::popScene(const std::function<void(Scene* &)>& callback)
+	{
+    	CCASSERT(_runningScene != nullptr, "running scene should not null");
+ 
+    	_scenesStack.popBack();
+    	ssize_t c = _scenesStack.size();
+ 
+    	if (c == 0)
+    	{
+        	end();
+    	}
+    	else
+    	{
+        	_sendCleanupToScene = true;
+        	_nextScene = _scenesStack.at(c - 1);
+        	if(callback)
+        		callback(_nextScene);
+    	}
+	}
+
+```
+
+使用方式：
+
+``` cpp 使用新的popScene
+	auto callback = [](Scene*& scene){scene = TransitionJumpZoom::create(1.0f, scene);};
+    Director::getInstance()->popScene(callback);
+    
+```
