@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever | Jacky&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前在遇到这么一个问题，在CCSequence中加入CCRepeatForever，发现其他动作执行没问题，就是CCRepeatForever无法执行。代码并没有问题，很奇怪。
+示例示例123456789101112CCBlink* blink=CCBlink::create(0.5f,10);//创建闪烁动画，duration=0.5s  CCAnimation* animation=CCAni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever">
+<meta property="og:url" content="http://fusijie.github.io/2013/11/28/play-cocos2dx-27/index.html">
+<meta property="og:site_name" content="Jacky's Blog">
+<meta property="og:description" content="之前在遇到这么一个问题，在CCSequence中加入CCRepeatForever，发现其他动作执行没问题，就是CCRepeatForever无法执行。代码并没有问题，很奇怪。
+示例示例123456789101112CCBlink* blink=CCBlink::create(0.5f,10);//创建闪烁动画，duration=0.5s  CCAnimation* animation=CCAni">
+<meta property="og:updated_time" content="2016-04-24T13:38:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever">
+<meta name="twitter:description" content="之前在遇到这么一个问题，在CCSequence中加入CCRepeatForever，发现其他动作执行没问题，就是CCRepeatForever无法执行。代码并没有问题，很奇怪。
+示例示例123456789101112CCBlink* blink=CCBlink::create(0.5f,10);//创建闪烁动画，duration=0.5s  CCAnimation* animation=CCAni">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">偶尔e网事</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/message">给我留言</a></li>
+                        
+                            <li><a href="/works">作品展示</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                            
+                                <a class="fl qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CCARRAY-FOREACH/" style="font-size: 10px;">CCARRAY_FOREACH</a> <a href="/tags/CCAction/" style="font-size: 10px;">CCAction</a> <a href="/tags/CCApplication/" style="font-size: 10px;">CCApplication</a> <a href="/tags/CCArray/" style="font-size: 10px;">CCArray</a> <a href="/tags/CCClipingNode/" style="font-size: 10px;">CCClipingNode</a> <a href="/tags/CCCopying/" style="font-size: 10px;">CCCopying</a> <a href="/tags/CCDICT-FOREACH/" style="font-size: 10px;">CCDICT_FOREACH</a> <a href="/tags/CCDictElement/" style="font-size: 10px;">CCDictElement</a> <a href="/tags/CCDictionary/" style="font-size: 15px;">CCDictionary</a> <a href="/tags/CCDirector/" style="font-size: 10px;">CCDirector</a> <a href="/tags/CCDisplayLinkDirecto/" style="font-size: 10px;">CCDisplayLinkDirecto</a> <a href="/tags/CCDrawNode/" style="font-size: 10px;">CCDrawNode</a> <a href="/tags/CCDrawingPrimitives/" style="font-size: 10px;">CCDrawingPrimitives</a> <a href="/tags/CCEGLView/" style="font-size: 10px;">CCEGLView</a> <a href="/tags/CCEditBox/" style="font-size: 10px;">CCEditBox</a> <a href="/tags/CCFiniteTimeAction/" style="font-size: 10px;">CCFiniteTimeAction</a> <a href="/tags/CCFollowCCSpeed/" style="font-size: 10px;">CCFollowCCSpeed</a> <a href="/tags/CCHttpClient/" style="font-size: 10px;">CCHttpClient</a> <a href="/tags/CCLayer/" style="font-size: 10px;">CCLayer</a> <a href="/tags/CCLayerMultiplex/" style="font-size: 15px;">CCLayerMultiplex</a> <a href="/tags/CCMenu/" style="font-size: 10px;">CCMenu</a> <a href="/tags/CCNode/" style="font-size: 10px;">CCNode</a> <a href="/tags/CCNotificationCenter/" style="font-size: 10px;">CCNotificationCenter</a> <a href="/tags/CCObject/" style="font-size: 10px;">CCObject</a> <a href="/tags/CCRenderTexture/" style="font-size: 10px;">CCRenderTexture</a> <a href="/tags/CCRepeatForever/" style="font-size: 10px;">CCRepeatForever</a> <a href="/tags/CCScale9Sprite/" style="font-size: 10px;">CCScale9Sprite</a> <a href="/tags/CCScene/" style="font-size: 10px;">CCScene</a> <a href="/tags/CCScheduler/" style="font-size: 10px;">CCScheduler</a> <a href="/tags/CCSequence/" style="font-size: 10px;">CCSequence</a> <a href="/tags/CCSprite/" style="font-size: 10px;">CCSprite</a> <a href="/tags/CCTableView/" style="font-size: 10px;">CCTableView</a> <a href="/tags/CCTextureProtocol/" style="font-size: 10px;">CCTextureProtocol</a> <a href="/tags/EarthWarrior3D/" style="font-size: 10px;">EarthWarrior3D</a> <a href="/tags/Item/" style="font-size: 10px;">Item</a> <a href="/tags/JNI/" style="font-size: 10px;">JNI</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Mutex/" style="font-size: 10px;">Mutex</a> <a href="/tags/OpenGL坐标系/" style="font-size: 10px;">OpenGL坐标系</a> <a href="/tags/PowerCmd/" style="font-size: 10px;">PowerCmd</a> <a href="/tags/RapidXML/" style="font-size: 10px;">RapidXML</a> <a href="/tags/Smali/" style="font-size: 10px;">Smali</a> <a href="/tags/TexturePacket/" style="font-size: 10px;">TexturePacket</a> <a href="/tags/TinyXML/" style="font-size: 10px;">TinyXML</a> <a href="/tags/VS2012/" style="font-size: 10px;">VS2012</a> <a href="/tags/addChild/" style="font-size: 10px;">addChild</a> <a href="/tags/addImageAsync/" style="font-size: 10px;">addImageAsync</a> <a href="/tags/addSpriteFramesWithFile/" style="font-size: 10px;">addSpriteFramesWithFile</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/apache/" style="font-size: 10px;">apache</a> <a href="/tags/applicationDidFinish/" style="font-size: 10px;">applicationDidFinish</a> <a href="/tags/cocos2d-x/" style="font-size: 20px;">cocos2d-x</a> <a href="/tags/cocos2d-x联网/" style="font-size: 10px;">cocos2d-x联网</a> <a href="/tags/commit-hash/" style="font-size: 10px;">commit hash</a> <a href="/tags/copyWithZone/" style="font-size: 10px;">copyWithZone</a> <a href="/tags/fastmove/" style="font-size: 10px;">fastmove</a> <a href="/tags/merge/" style="font-size: 10px;">merge</a> <a href="/tags/mutex/" style="font-size: 10px;">mutex</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/plist/" style="font-size: 10px;">plist</a> <a href="/tags/pthread/" style="font-size: 15px;">pthread</a> <a href="/tags/rebase/" style="font-size: 10px;">rebase</a> <a href="/tags/update/" style="font-size: 10px;">update</a> <a href="/tags/uthash/" style="font-size: 10px;">uthash</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/win32/" style="font-size: 10px;">win32</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/xml解析/" style="font-size: 10px;">xml解析</a> <a href="/tags/中国好学霸/" style="font-size: 10px;">中国好学霸</a> <a href="/tags/中文显示/" style="font-size: 10px;">中文显示</a> <a href="/tags/中英文切换/" style="font-size: 10px;">中英文切换</a> <a href="/tags/关卡选择/" style="font-size: 10px;">关卡选择</a> <a href="/tags/内存/" style="font-size: 10px;">内存</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/函数指针/" style="font-size: 10px;">函数指针</a> <a href="/tags/售票/" style="font-size: 10px;">售票</a> <a href="/tags/回调函数/" style="font-size: 15px;">回调函数</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/定时器/" style="font-size: 10px;">定时器</a> <a href="/tags/屏幕坐标系/" style="font-size: 10px;">屏幕坐标系</a> <a href="/tags/属性/" style="font-size: 10px;">属性</a> <a href="/tags/带颜色的Layer/" style="font-size: 10px;">带颜色的Layer</a> <a href="/tags/常用接口/" style="font-size: 15px;">常用接口</a> <a href="/tags/常用方法/" style="font-size: 10px;">常用方法</a> <a href="/tags/异步加载图片/" style="font-size: 10px;">异步加载图片</a> <a href="/tags/微信SDK集成/" style="font-size: 10px;">微信SDK集成</a> <a href="/tags/我叫MT/" style="font-size: 10px;">我叫MT</a> <a href="/tags/截图保存/" style="font-size: 10px;">截图保存</a> <a href="/tags/手动内存管理/" style="font-size: 10px;">手动内存管理</a> <a href="/tags/拷贝机制/" style="font-size: 10px;">拷贝机制</a> <a href="/tags/效率/" style="font-size: 10px;">效率</a> <a href="/tags/数据传递/" style="font-size: 10px;">数据传递</a> <a href="/tags/数据源/" style="font-size: 10px;">数据源</a> <a href="/tags/无法执行/" style="font-size: 10px;">无法执行</a> <a href="/tags/时间片/" style="font-size: 10px;">时间片</a> <a href="/tags/服务器/" style="font-size: 10px;">服务器</a> <a href="/tags/消息传递/" style="font-size: 10px;">消息传递</a> <a href="/tags/游戏loading/" style="font-size: 10px;">游戏loading</a> <a href="/tags/游戏引导/" style="font-size: 10px;">游戏引导</a> <a href="/tags/游戏引擎/" style="font-size: 10px;">游戏引擎</a> <a href="/tags/游戏破解/" style="font-size: 10px;">游戏破解</a> <a href="/tags/游戏遮罩/" style="font-size: 10px;">游戏遮罩</a> <a href="/tags/滚动/" style="font-size: 10px;">滚动</a> <a href="/tags/滚动公告/" style="font-size: 10px;">滚动公告</a> <a href="/tags/滚动字幕/" style="font-size: 10px;">滚动字幕</a> <a href="/tags/点九图/" style="font-size: 10px;">点九图</a> <a href="/tags/特点/" style="font-size: 10px;">特点</a> <a href="/tags/环境配置/" style="font-size: 10px;">环境配置</a> <a href="/tags/疯狂猜成语/" style="font-size: 10px;">疯狂猜成语</a> <a href="/tags/相对坐标系/" style="font-size: 10px;">相对坐标系</a> <a href="/tags/精灵拖拽/" style="font-size: 10px;">精灵拖拽</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/绘图/" style="font-size: 10px;">绘图</a> <a href="/tags/绝对坐标系/" style="font-size: 10px;">绝对坐标系</a> <a href="/tags/自动内存管理/" style="font-size: 10px;">自动内存管理</a> <a href="/tags/菜单选项卡/" style="font-size: 10px;">菜单选项卡</a> <a href="/tags/裁剪节点/" style="font-size: 10px;">裁剪节点</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/解决方案/" style="font-size: 10px;">解决方案</a> <a href="/tags/解析/" style="font-size: 10px;">解析</a> <a href="/tags/跨平台实现/" style="font-size: 10px;">跨平台实现</a> <a href="/tags/输入框/" style="font-size: 10px;">输入框</a> <a href="/tags/逆向分析/" style="font-size: 10px;">逆向分析</a> <a href="/tags/锚点排列/" style="font-size: 10px;">锚点排列</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">偶尔e网事</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">偶尔e网事</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/message">给我留言</a></li>
+                
+                    <li><a href="/works">作品展示</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                    
+                        <a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-play-cocos2dx-27" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/11/28/play-cocos2dx-27/" class="article-date">
+      <time datetime="2013-11-28T01:25:00.000Z" itemprop="datePublished">2013-11-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCRepeatForever/">CCRepeatForever</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCSequence/">CCSequence</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/无法执行/">无法执行</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/解决方案/">解决方案</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>之前在遇到这么一个问题，在CCSequence中加入CCRepeatForever，发现其他动作执行没问题，就是CCRepeatForever无法执行。代码并没有问题，很奇怪。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight cpp"><figcaption><span>示例</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CCBlink* blink=CCBlink::create(<span class="number">0.5f</span>,<span class="number">10</span>);<span class="comment">//创建闪烁动画，duration=0.5s  </span></span><br><span class="line">CCAnimation* animation=CCAnimation::create();  </span><br><span class="line">animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseSelected.png"</span>);  </span><br><span class="line">animation-&gt;setDelayPerUnit(<span class="number">1.0f</span>);<span class="comment">//帧间间隔1s  </span></span><br><span class="line">CCAnimate* animate=CCAnimate::create(animation);<span class="comment">//创建帧动画  </span></span><br><span class="line">CCRepeatForever* repeat=CCRepeatForever::create(animate);  </span><br><span class="line">CCSequence* sequence=CCSequence::create(blink,repeat,NULL);<span class="comment">//创建连续动画  </span></span><br><span class="line">CCSprite* close=CCSprite::create(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">close-&gt;setPosition(ccp(<span class="number">240</span>,<span class="number">160</span>));  </span><br><span class="line"><span class="keyword">this</span>-&gt;addChild(close);  </span><br><span class="line">close-&gt;runAction(sequence);<span class="comment">//执行连续动画</span></span><br></pre></td></tr></table></figure>
+<p>结果精灵闪烁10次以后，帧动画不执行了。</p>
+<a id="more"></a>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>先了解一下CCSequence的创建和执行原理。</p>
+<h4 id="CCSequence的创建"><a href="#CCSequence的创建" class="headerlink" title="CCSequence的创建"></a>CCSequence的创建</h4><p>创建CCSequence调用</p>
+<figure class="highlight cpp"><figcaption><span>创建CCSequence</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CCSequence* CCSequence::create(CCFiniteTimeAction *pAction1, ...)</span><br></pre></td></tr></table></figure>
+<p>内部调用了createWithVariableList，从实现可以看出这是一个递归调用。</p>
+<figure class="highlight cpp"><figcaption><span>createWithVariableList</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取动作列表，创建CCSequence  </span></span><br><span class="line">CCSequence* CCSequence::createWithVariableList(CCFiniteTimeAction *pAction1, va_list args)  </span><br><span class="line">&#123;  </span><br><span class="line">	CCFiniteTimeAction *pNow;<span class="comment">//当前动作  </span></span><br><span class="line">	CCFiniteTimeAction *pPrev = pAction1;<span class="comment">//第一个动作  </span></span><br><span class="line">	<span class="keyword">bool</span> bOneAction = <span class="literal">true</span>;<span class="comment">//只有一个动作的标志位  </span></span><br><span class="line">  </span><br><span class="line">	<span class="keyword">while</span> (pAction1)  </span><br><span class="line">	&#123;  </span><br><span class="line">		pNow = va_arg(args, CCFiniteTimeAction*);<span class="comment">//获取当前动作  </span></span><br><span class="line">		<span class="keyword">if</span> (pNow)<span class="comment">//如果存在  </span></span><br><span class="line">		&#123;  </span><br><span class="line">			pPrev = createWithTwoActions(pPrev, pNow);<span class="comment">//用前两个动作创建CCSequence并赋给第一个动作  </span></span><br><span class="line">			bOneAction = <span class="literal">false</span>;<span class="comment">//置false  </span></span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">else</span><span class="comment">//如果不存在  </span></span><br><span class="line">		&#123;  </span><br><span class="line">			<span class="comment">// If only one action is added to CCSequence, make up a CCSequence by adding a simplest finite time action.  </span></span><br><span class="line">			<span class="keyword">if</span> (bOneAction)<span class="comment">//如果只有一个动作  </span></span><br><span class="line">			&#123;  </span><br><span class="line">				pPrev = createWithTwoActions(pPrev, ExtraAction::create());  </span><br><span class="line">			&#125;  </span><br><span class="line">		<span class="keyword">break</span>;<span class="comment">//跳出循环  </span></span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;  </span><br><span class="line">	return ((CCSequence*)pPrev);<span class="comment">//返回第一个动作  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假如有3个动作要被串联，则先把第1个和第2个串联一个CCSequence，再把这个CCSequence和第3个动作串联成最终的CCSequence，然后返回。从CCSequence的成员变量可以看到：</p>
+<figure class="highlight cpp"><figcaption><span>动作对象指针成员变量</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CCFiniteTimeAction *m_pActions[<span class="number">2</span>];<span class="comment">//表明只包含2个动作对象指针</span></span><br></pre></td></tr></table></figure>
+<p>使用递归多少会降低程序的运行效率，但是却可以换来代码的简洁性，同样的CCSpawn也是这么实现的。<br>在createWithTwoActions中，调用了initWithTwoActions函数，实现了把两个动作串成一个CCSequence，关键代码如下：</p>
+<figure class="highlight cpp"><figcaption><span>initWithTwoActions</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> d = pActionOne-&gt;getDuration() + pActionTwo-&gt;getDuration();<span class="comment">//获取两个动作的duration  </span></span><br><span class="line">CCActionInterval::initWithDuration(d);<span class="comment">//赋给新的CCSequence  </span></span><br><span class="line">  </span><br><span class="line">m_pActions[<span class="number">0</span>] = pActionOne;<span class="comment">//同时把两个动作赋给m_pActions指针数组  </span></span><br><span class="line">pActionOne-&gt;retain();  </span><br><span class="line">  </span><br><span class="line">m_pActions[<span class="number">1</span>] = pActionTwo;  </span><br><span class="line">pActionTwo-&gt;retain();</span><br></pre></td></tr></table></figure>
+<h4 id="duration"><a href="#duration" class="headerlink" title="duration"></a>duration</h4><p>从示例可以看出，闪烁动画blink的duration是0.5s，那CCRepeatForever呢？1s？当然不是，1s只是帧动画animate的帧间间隔，每个帧动画包含2帧，而CCRepeatForever的duration是0。因此，当示例中的闪烁动画blink和重复动画repeat串联成CCSequence sequence的时候，sequence的duration就变成0.5+0=0.5s，这很重要。</p>
+<h4 id="m-split"><a href="#m-split" class="headerlink" title="m_split"></a>m_split</h4><p>CCSequence中有这么一个成员变量</p>
+<figure class="highlight cpp"><figcaption><span>m_split</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> m_split;<span class="comment">//记录了第一个动画时长占总时长的比例，也就是2个动画的时长分界</span></span><br></pre></td></tr></table></figure>
+<p>当执行runAction的时候，CCSequence会调用</p>
+<figure class="highlight cpp"><figcaption><span>startWithTarget</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> CCSequence::startWithTarget(CCNode *pTarget)  </span><br><span class="line">&#123;  </span><br><span class="line">   	CCActionInterval::startWithTarget(pTarget);  </span><br><span class="line">   	m_split = m_pActions[<span class="number">0</span>]-&gt;getDuration() / m_fDuration;<span class="comment">//获取第一个动画占总时长的比例  </span></span><br><span class="line">   	m_last = <span class="number">-1</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而这里由于blink占了0.5s，repeat占了0s，总时长0.5s，所以m_split是0.5/0.5=1。blink占满了整个CCSequence，所以CCSequence无法执行repeat。</p>
+<p>这时候再来看CCSequence::update(float dt)函数的执行，就会恍然大悟了。</p>
+<figure class="highlight cpp"><figcaption><span>update</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> found = <span class="number">0</span>;<span class="comment">//当前播放动作索引  </span></span><br><span class="line"><span class="keyword">float</span> <span class="keyword">new_t</span> = <span class="number">0.0f</span>;<span class="comment">//新播放进度  </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>( t &lt; m_split ) &#123;<span class="comment">//播放进度&lt;分界进度  </span></span><br><span class="line">   	found = <span class="number">0</span>;<span class="comment">//设置当前播放的是第一个动作  </span></span><br><span class="line">   	<span class="keyword">if</span>( m_split != <span class="number">0</span> )<span class="comment">//如果第一个动作时长占比!=0  </span></span><br><span class="line">       	<span class="keyword">new_t</span> = t / m_split;<span class="comment">//计算出第一个动作新的播放进度  </span></span><br><span class="line">   	<span class="keyword">else</span>  </span><br><span class="line">       	<span class="keyword">new_t</span> = <span class="number">1</span>;<span class="comment">//设置第一个已播放完毕  </span></span><br><span class="line"> </span><br><span class="line">&#125; <span class="keyword">else</span> &#123;<span class="comment">//播放进度&gt;=分界进度  </span></span><br><span class="line">   	found = <span class="number">1</span>;<span class="comment">//设置当前播放的是第二个动作  </span></span><br><span class="line">   	<span class="keyword">if</span> ( m_split == <span class="number">1</span> )<span class="comment">//如果第一个动作时长占比==1  </span></span><br><span class="line">       	<span class="keyword">new_t</span> = <span class="number">1</span>;<span class="comment">//设置第二个动作已完成  </span></span><br><span class="line">   	<span class="keyword">else</span>  </span><br><span class="line">       	<span class="keyword">new_t</span> = (t-m_split) / (<span class="number">1</span> - m_split );<span class="comment">//计算出第二个动作新的播放进度  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p><em>（1）CCSpawn也会有这个问题，所以CCSpawn也无法执行加入其中的CCRepeatForever动作。</em></p>
+<p><em>（2）CCRepeatForever的反转动作也是无效了，一个不会停止的动作从什么地方开始反转？当然你可以先把动作反转了再加入CCRepeatForever中，这是没问题的。</em></p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p><em>（1）对于同时动作，不使用CCSpawn，采用分别执行</em></p>
+<figure class="highlight cpp"><figcaption><span>分别执行</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">close-&gt;runAction(blink);  </span><br><span class="line">close-&gt;runAction(repeat);</span><br></pre></td></tr></table></figure>
+<p><em>（2）对于连续动作，不直接往CCSequence中加入CCRepeatForever，而是把CCRepeatForever放入瞬时动作CCCallFunc中，再把CCCallFunc加入CCSequence中执行。</em></p>
+<figure class="highlight cpp"><figcaption><span>CCSequence串联</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">close=CCSprite::create(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">CCBlink* blink=CCBlink::create(<span class="number">0.5f</span>,<span class="number">10</span>);  </span><br><span class="line">CCCallFunc* callFunc=CCCallFunc::create(this,callfunc_selector(TestScene::repeatFunc));<span class="comment">//创建CCCallFunc对象  </span></span><br><span class="line">CCSequence* sequence=CCSequence::create(blink,callFunc,NULL);<span class="comment">//把CCCallFunc对象加入CCSequence中  </span></span><br><span class="line">close-&gt;setPosition(ccp(<span class="number">240</span>,<span class="number">160</span>));  </span><br><span class="line"><span class="keyword">this</span>-&gt;addChild(close);  </span><br><span class="line">close-&gt;runAction(sequence);  </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">void</span> TestScene::repeatFunc()  </span><br><span class="line">&#123;  </span><br><span class="line">   	CCAnimation* animation=CCAnimation::create();  </span><br><span class="line">   	animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">   	animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseSelected.png"</span>);  </span><br><span class="line">   	animation-&gt;setDelayPerUnit(<span class="number">1.0f</span>);  </span><br><span class="line">   	CCAnimate* animate=CCAnimate::create(animation);  </span><br><span class="line">   	CCRepeatForever* repeat=CCRepeatForever::create(animate);  </span><br><span class="line">   	close-&gt;runAction(repeat);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>（3）对于CCAnimation帧动画，可以设置循环属性，而不使用CCRepeatForever。</em></p>
+<figure class="highlight cpp"><figcaption><span>setLoops</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">animation-&gt;setLoops(<span class="number">-1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>虽然CCRepeatForever也同样继承于CCActionInterval，理论上是延时动作的子类，但是和一般的延时动作又有很大的不同，所以平时在使用的时候必须很小心，不能当成一般的CCActionInterval使用。而在cocos2d-x动作的分类上是不是应该把它从CCAction继承出来会比较好一点？</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
+        <p><span>发布时间:</span>2013年11月28日 - 09时25分</p>
+        <p><span>最后更新:</span>2016年04月24日 - 21时38分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2013/11/28/play-cocos2dx-27/" title="【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever">http://fusijie.github.io/2013/11/28/play-cocos2dx-27/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2013/11/28/play-cocos2dx-27/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2013/12/03/play-cocos2dx-28/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/11/26/play-cocos2dx-26/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【玩转cocos2d-x之二十六】数据结构CCDictionary</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原因"><span class="toc-number">2.</span> <span class="toc-text">原因</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CCSequence的创建"><span class="toc-number">2.1.</span> <span class="toc-text">CCSequence的创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#duration"><span class="toc-number">2.2.</span> <span class="toc-text">duration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#m-split"><span class="toc-number">2.3.</span> <span class="toc-text">m_split</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">3.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2013/11/28/play-cocos2dx-27/" data-title="【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever" data-url="http://fusijie.github.io/2013/11/28/play-cocos2dx-27/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fusijie"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/12/03/play-cocos2dx-28/" title="上一篇: 【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2013/11/26/play-cocos2dx-26/" title="下一篇: 【玩转cocos2d-x之二十六】数据结构CCDictionary">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2014/11/18/what-is-a-rebase/">(译)第三部分：什么是rebase?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/15/what-is-a-merge/">(译)第二部分：什么是merge?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/08/what-is-a-commit-hash/">(译)第一部分：什么是commit hash?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/08/smali-introduction/">Smali和逆向分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/02/cocos2dx-faq-2/">Cocos2dx-FAQ-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/31/how-to-complie-cpp-with-lua-in-the-vs/">如何在Windows平台使用VS搭建C++/Lua的开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/cocos2dx-faq-1/">Cocos2dx-FAQ-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/24/tools-powercmd/">PowerCmd，一个Windows下cmd的绝佳替代工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/21/play-cocos2dx-37/">【玩转cocos2d-x之三十七】在Cocos2d-x中集成安卓版微信SDK</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/10/play-cocos2dx-36/">【玩转cocos2d-x之三十六】Earth Warrior 3D 大揭秘</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/25/play-cocos2dx-35/">【玩转cocos2d-x之三十五】《我叫MT offline》Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/08/play-cocos2dx-34/">【玩转cocos2d-x之三十四】绘图：CCDrawingPrimitives和CCDrawNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/26/play-cocos2dx-33/">【玩转cocos2d-x之三十三】游戏嵌入Webview网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/play-cocos2dx-32/">【玩转cocos2d-x之三十二】xml的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/17/play-cocos2dx-31/">【玩转cocos2d-x之三十一】服务器的网络通信编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/13/play-cocos2dx-30/">【玩转cocos2d-x之三十】点九图和输入框的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/06/play-cocos2dx-29/">【玩转cocos2d-x之二十九】利用CCClipingNode做游戏遮罩</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/03/play-cocos2dx-28/">【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/play-cocos2dx-26/">【玩转cocos2d-x之二十六】数据结构CCDictionary</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/25/play-cocos2dx-25/">【玩转cocos2d-x之二十五】数据结构CCArray</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/play-cocos2dx-24/">【玩转cocos2d-x之二十四】截图保存功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/play-cocos2dx-23/">【玩转cocos2d-x之二十三】多线程和同步03-图片异步加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/05/play-cocos2dx-22/">【玩转cocos2d-x之二十二】多线程和同步02-售票</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/04/play-cocos2dx-21/">【玩转cocos2d-x之二十一】多线程和同步01-pthread库</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/31/play-cocos2dx-20/">【玩转cocos2d-x之二十】从CCObject看cocos2d-x的内存管理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/30/play-cocos2dx-19/">【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/28/play-cocos2dx-18/">【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/25/play-cocos2dx-17/">【玩转cocos2d-x之十七】cocos2d-x中文显示</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/24/play-cocos2dx-16/">【玩转cocos2d-x之十六】滚动字幕和公告</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/23/play-cocos2dx-15/">【玩转cocos2d-x之十五】关卡选择的设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/22/play-cocos2dx-14/">【玩转cocos2d-x之十四】菜单选项卡的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/21/play-cocos2dx-13/">【玩转cocos2d-x之十三】CCMenu的布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/19/play-cocos2dx-12/">【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/18/play-cocos2dx-11/">【玩转cocos2d-x之十一】定时器schedule</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/17/play-cocos2dx-10/">【玩转cocos2d-x之十】cocos2d-x坐标系</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/16/play-cocos2dx-09/">【玩转cocos2d-x之九】动作类CCAction</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/15/play-cocos2dx-08/">【玩转cocos2d-x之八】精灵类CCSprite</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-07/">【玩转cocos2d-x之七】场景类CCScene和布景类CCLayer</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-06/">【玩转cocos2d-x之六】节点类CCNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/12/play-cocos2dx-05/">【玩转cocos2d-x之五】导演类CCDirector</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/11/play-cocos2dx-04/">【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/10/play-cocos2dx-03/">【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/09/play-cocos2dx-02/">【玩转cocos2d-x之二】游戏和引擎构成</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/08/play-cocos2dx-01/">【玩转cocos2d-x之一】V2.2.0版本开发环境配置</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 偶尔e网事
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?6a700383a5c5c84a6ebb00bc6823e169";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

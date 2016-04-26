@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker | Jacky&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前拿了一些别人的图片素材，是用TexturePacker打包合成的，结果写程序的时候不知道每个合成前小png图的名字是什么，只能一个一个从plist文件中找，然后猜测对应的名字，再进行显示，如果不对，还要继续猜。。。坑爹啊，效率大大降低了，时间都耗在找图片名字上了。后来决定动手写一个解析plist的软件，就叫它Anti_TexturePacker吧。
+Anti_TexurePacker软件基于V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker">
+<meta property="og:url" content="http://fusijie.github.io/2013/10/19/play-cocos2dx-12/index.html">
+<meta property="og:site_name" content="Jacky's Blog">
+<meta property="og:description" content="之前拿了一些别人的图片素材，是用TexturePacker打包合成的，结果写程序的时候不知道每个合成前小png图的名字是什么，只能一个一个从plist文件中找，然后猜测对应的名字，再进行显示，如果不对，还要继续猜。。。坑爹啊，效率大大降低了，时间都耗在找图片名字上了。后来决定动手写一个解析plist的软件，就叫它Anti_TexturePacker吧。
+Anti_TexurePacker软件基于V">
+<meta property="og:image" content="http://fusijie.github.io/images/posts/2013-10-19-play-cocos2dx-12/1.jpg">
+<meta property="og:image" content="http://img.blog.csdn.net/20131209081920468">
+<meta property="og:image" content="http://img.blog.csdn.net/20131209081956500">
+<meta property="og:image" content="http://img.blog.csdn.net/20131209082032718">
+<meta property="og:image" content="http://img.blog.csdn.net/20131207171220015">
+<meta property="og:updated_time" content="2016-04-24T14:22:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker">
+<meta name="twitter:description" content="之前拿了一些别人的图片素材，是用TexturePacker打包合成的，结果写程序的时候不知道每个合成前小png图的名字是什么，只能一个一个从plist文件中找，然后猜测对应的名字，再进行显示，如果不对，还要继续猜。。。坑爹啊，效率大大降低了，时间都耗在找图片名字上了。后来决定动手写一个解析plist的软件，就叫它Anti_TexturePacker吧。
+Anti_TexurePacker软件基于V">
+<meta name="twitter:image" content="http://fusijie.github.io/images/posts/2013-10-19-play-cocos2dx-12/1.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">偶尔e网事</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/message">给我留言</a></li>
+                        
+                            <li><a href="/works">作品展示</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                            
+                                <a class="fl qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CCARRAY-FOREACH/" style="font-size: 10px;">CCARRAY_FOREACH</a> <a href="/tags/CCAction/" style="font-size: 10px;">CCAction</a> <a href="/tags/CCApplication/" style="font-size: 10px;">CCApplication</a> <a href="/tags/CCArray/" style="font-size: 10px;">CCArray</a> <a href="/tags/CCClipingNode/" style="font-size: 10px;">CCClipingNode</a> <a href="/tags/CCCopying/" style="font-size: 10px;">CCCopying</a> <a href="/tags/CCDICT-FOREACH/" style="font-size: 10px;">CCDICT_FOREACH</a> <a href="/tags/CCDictElement/" style="font-size: 10px;">CCDictElement</a> <a href="/tags/CCDictionary/" style="font-size: 15px;">CCDictionary</a> <a href="/tags/CCDirector/" style="font-size: 10px;">CCDirector</a> <a href="/tags/CCDisplayLinkDirecto/" style="font-size: 10px;">CCDisplayLinkDirecto</a> <a href="/tags/CCDrawNode/" style="font-size: 10px;">CCDrawNode</a> <a href="/tags/CCDrawingPrimitives/" style="font-size: 10px;">CCDrawingPrimitives</a> <a href="/tags/CCEGLView/" style="font-size: 10px;">CCEGLView</a> <a href="/tags/CCEditBox/" style="font-size: 10px;">CCEditBox</a> <a href="/tags/CCFiniteTimeAction/" style="font-size: 10px;">CCFiniteTimeAction</a> <a href="/tags/CCFollowCCSpeed/" style="font-size: 10px;">CCFollowCCSpeed</a> <a href="/tags/CCHttpClient/" style="font-size: 10px;">CCHttpClient</a> <a href="/tags/CCLayer/" style="font-size: 10px;">CCLayer</a> <a href="/tags/CCLayerMultiplex/" style="font-size: 15px;">CCLayerMultiplex</a> <a href="/tags/CCMenu/" style="font-size: 10px;">CCMenu</a> <a href="/tags/CCNode/" style="font-size: 10px;">CCNode</a> <a href="/tags/CCNotificationCenter/" style="font-size: 10px;">CCNotificationCenter</a> <a href="/tags/CCObject/" style="font-size: 10px;">CCObject</a> <a href="/tags/CCRenderTexture/" style="font-size: 10px;">CCRenderTexture</a> <a href="/tags/CCRepeatForever/" style="font-size: 10px;">CCRepeatForever</a> <a href="/tags/CCScale9Sprite/" style="font-size: 10px;">CCScale9Sprite</a> <a href="/tags/CCScene/" style="font-size: 10px;">CCScene</a> <a href="/tags/CCScheduler/" style="font-size: 10px;">CCScheduler</a> <a href="/tags/CCSequence/" style="font-size: 10px;">CCSequence</a> <a href="/tags/CCSprite/" style="font-size: 10px;">CCSprite</a> <a href="/tags/CCTableView/" style="font-size: 10px;">CCTableView</a> <a href="/tags/CCTextureProtocol/" style="font-size: 10px;">CCTextureProtocol</a> <a href="/tags/EarthWarrior3D/" style="font-size: 10px;">EarthWarrior3D</a> <a href="/tags/Item/" style="font-size: 10px;">Item</a> <a href="/tags/JNI/" style="font-size: 10px;">JNI</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Mutex/" style="font-size: 10px;">Mutex</a> <a href="/tags/OpenGL坐标系/" style="font-size: 10px;">OpenGL坐标系</a> <a href="/tags/PowerCmd/" style="font-size: 10px;">PowerCmd</a> <a href="/tags/RapidXML/" style="font-size: 10px;">RapidXML</a> <a href="/tags/Smali/" style="font-size: 10px;">Smali</a> <a href="/tags/TexturePacket/" style="font-size: 10px;">TexturePacket</a> <a href="/tags/TinyXML/" style="font-size: 10px;">TinyXML</a> <a href="/tags/VS2012/" style="font-size: 10px;">VS2012</a> <a href="/tags/addChild/" style="font-size: 10px;">addChild</a> <a href="/tags/addImageAsync/" style="font-size: 10px;">addImageAsync</a> <a href="/tags/addSpriteFramesWithFile/" style="font-size: 10px;">addSpriteFramesWithFile</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/apache/" style="font-size: 10px;">apache</a> <a href="/tags/applicationDidFinish/" style="font-size: 10px;">applicationDidFinish</a> <a href="/tags/cocos2d-x/" style="font-size: 20px;">cocos2d-x</a> <a href="/tags/cocos2d-x联网/" style="font-size: 10px;">cocos2d-x联网</a> <a href="/tags/commit-hash/" style="font-size: 10px;">commit hash</a> <a href="/tags/copyWithZone/" style="font-size: 10px;">copyWithZone</a> <a href="/tags/fastmove/" style="font-size: 10px;">fastmove</a> <a href="/tags/merge/" style="font-size: 10px;">merge</a> <a href="/tags/mutex/" style="font-size: 10px;">mutex</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/plist/" style="font-size: 10px;">plist</a> <a href="/tags/pthread/" style="font-size: 15px;">pthread</a> <a href="/tags/rebase/" style="font-size: 10px;">rebase</a> <a href="/tags/update/" style="font-size: 10px;">update</a> <a href="/tags/uthash/" style="font-size: 10px;">uthash</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/win32/" style="font-size: 10px;">win32</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/xml解析/" style="font-size: 10px;">xml解析</a> <a href="/tags/中国好学霸/" style="font-size: 10px;">中国好学霸</a> <a href="/tags/中文显示/" style="font-size: 10px;">中文显示</a> <a href="/tags/中英文切换/" style="font-size: 10px;">中英文切换</a> <a href="/tags/关卡选择/" style="font-size: 10px;">关卡选择</a> <a href="/tags/内存/" style="font-size: 10px;">内存</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/函数指针/" style="font-size: 10px;">函数指针</a> <a href="/tags/售票/" style="font-size: 10px;">售票</a> <a href="/tags/回调函数/" style="font-size: 15px;">回调函数</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/定时器/" style="font-size: 10px;">定时器</a> <a href="/tags/屏幕坐标系/" style="font-size: 10px;">屏幕坐标系</a> <a href="/tags/属性/" style="font-size: 10px;">属性</a> <a href="/tags/带颜色的Layer/" style="font-size: 10px;">带颜色的Layer</a> <a href="/tags/常用接口/" style="font-size: 15px;">常用接口</a> <a href="/tags/常用方法/" style="font-size: 10px;">常用方法</a> <a href="/tags/异步加载图片/" style="font-size: 10px;">异步加载图片</a> <a href="/tags/微信SDK集成/" style="font-size: 10px;">微信SDK集成</a> <a href="/tags/我叫MT/" style="font-size: 10px;">我叫MT</a> <a href="/tags/截图保存/" style="font-size: 10px;">截图保存</a> <a href="/tags/手动内存管理/" style="font-size: 10px;">手动内存管理</a> <a href="/tags/拷贝机制/" style="font-size: 10px;">拷贝机制</a> <a href="/tags/效率/" style="font-size: 10px;">效率</a> <a href="/tags/数据传递/" style="font-size: 10px;">数据传递</a> <a href="/tags/数据源/" style="font-size: 10px;">数据源</a> <a href="/tags/无法执行/" style="font-size: 10px;">无法执行</a> <a href="/tags/时间片/" style="font-size: 10px;">时间片</a> <a href="/tags/服务器/" style="font-size: 10px;">服务器</a> <a href="/tags/消息传递/" style="font-size: 10px;">消息传递</a> <a href="/tags/游戏loading/" style="font-size: 10px;">游戏loading</a> <a href="/tags/游戏引导/" style="font-size: 10px;">游戏引导</a> <a href="/tags/游戏引擎/" style="font-size: 10px;">游戏引擎</a> <a href="/tags/游戏破解/" style="font-size: 10px;">游戏破解</a> <a href="/tags/游戏遮罩/" style="font-size: 10px;">游戏遮罩</a> <a href="/tags/滚动/" style="font-size: 10px;">滚动</a> <a href="/tags/滚动公告/" style="font-size: 10px;">滚动公告</a> <a href="/tags/滚动字幕/" style="font-size: 10px;">滚动字幕</a> <a href="/tags/点九图/" style="font-size: 10px;">点九图</a> <a href="/tags/特点/" style="font-size: 10px;">特点</a> <a href="/tags/环境配置/" style="font-size: 10px;">环境配置</a> <a href="/tags/疯狂猜成语/" style="font-size: 10px;">疯狂猜成语</a> <a href="/tags/相对坐标系/" style="font-size: 10px;">相对坐标系</a> <a href="/tags/精灵拖拽/" style="font-size: 10px;">精灵拖拽</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/绘图/" style="font-size: 10px;">绘图</a> <a href="/tags/绝对坐标系/" style="font-size: 10px;">绝对坐标系</a> <a href="/tags/自动内存管理/" style="font-size: 10px;">自动内存管理</a> <a href="/tags/菜单选项卡/" style="font-size: 10px;">菜单选项卡</a> <a href="/tags/裁剪节点/" style="font-size: 10px;">裁剪节点</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/解决方案/" style="font-size: 10px;">解决方案</a> <a href="/tags/解析/" style="font-size: 10px;">解析</a> <a href="/tags/跨平台实现/" style="font-size: 10px;">跨平台实现</a> <a href="/tags/输入框/" style="font-size: 10px;">输入框</a> <a href="/tags/逆向分析/" style="font-size: 10px;">逆向分析</a> <a href="/tags/锚点排列/" style="font-size: 10px;">锚点排列</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">偶尔e网事</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">偶尔e网事</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/message">给我留言</a></li>
+                
+                    <li><a href="/works">作品展示</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                    
+                        <a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-play-cocos2dx-12" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/19/play-cocos2dx-12/" class="article-date">
+      <time datetime="2013-10-19T01:49:00.000Z" itemprop="datePublished">2013-10-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TexturePacket/">TexturePacket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos2d-x/">cocos2d-x</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/plist/">plist</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/解析/">解析</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>之前拿了一些别人的图片素材，是用TexturePacker打包合成的，结果写程序的时候不知道每个合成前小png图的名字是什么，只能一个一个从plist文件中找，然后猜测对应的名字，再进行显示，如果不对，还要继续猜。。。坑爹啊，效率大大降低了，时间都耗在找图片名字上了。后来决定动手写一个解析plist的软件，就叫它Anti_TexturePacker吧。</p>
+<p>Anti_TexurePacker软件基于VS 2008 MFC Dialog。</p>
+<h3 id="PNG图的显示"><a href="#PNG图的显示" class="headerlink" title="PNG图的显示"></a>PNG图的显示</h3><p>这个还好，VS2008提供了GDI+，所以可以直接用它显示。关键是屏幕尺寸有限，如果打包后的PNG图很大的话，不能直接显示，又懒得做滚动条，所以直接采用缩放的方式了。缩放比例较大的话，可能会出现捕获点计算不精确，不过效果还是不错的，没有尺寸限制。</p>
+<a id="more"></a>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CDC* pDC =GetDC();  </span><br><span class="line">Graphics graphics( pDC-&gt;m_hDC);  </span><br><span class="line">Image image(m_PNGFileName.GetString(), FALSE);  </span><br><span class="line">graphics.DrawImage(&amp;image,ORIGIN_DRAW_X,ORIGIN_DRAW_Y,(int)(m_RealWidth*m_ScaleRatio),(int)(m_RealHeight*m_ScaleRatio));</span><br></pre></td></tr></table></figure>
+<p>要注意PNG图的显示要放在OnPaint中执行，这样窗口进行重绘的时候才会保证PNG图的正常显示。</p>
+<h3 id="plist文件的读取"><a href="#plist文件的读取" class="headerlink" title="plist文件的读取"></a>plist文件的读取</h3><p>看一下plist的格式：</p>
+<div align="center"><img src="/images/posts/2013-10-19-play-cocos2dx-12/1.jpg" alt="" border="0" title="4"><br><br></div>
+
+<p>这样一看，就知道了标准的plist文件中，我们需要的是第7，10，14，20，23，27…行。抓出规律，读取到CStringArray。我没有采用xml的解析库，而是直接无耻的这么做了，用起来倒是没什么问题，但是不要学啊。。。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> needName=<span class="number">7</span>;</span><br><span class="line"><span class="keyword">int</span> needConfig=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> needrotate=<span class="number">14</span>;</span><br><span class="line"><span class="keyword">if</span>(!bFileExist)<span class="comment">//如果文件存在且可读</span></span><br><span class="line">&#123;</span><br><span class="line">	return FALSE;</span><br><span class="line">&#125;</span><br><span class="line">CString strline;</span><br><span class="line">FileContainer.RemoveAll();</span><br><span class="line"><span class="comment">//将PlistFile文件数据读到FileContainer</span></span><br><span class="line"><span class="keyword">while</span>(PlistFile.ReadString(strline))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (i==needName)</span><br><span class="line">	&#123;</span><br><span class="line">		FileContainer.Add(strline);</span><br><span class="line">		needName+=<span class="number">13</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (i==needConfig)</span><br><span class="line">	&#123;</span><br><span class="line">		FileContainer.Add(strline);</span><br><span class="line">		needConfig+=<span class="number">13</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (i==needrotate)</span><br><span class="line">	&#123;</span><br><span class="line">		FileContainer.Add(strline);</span><br><span class="line">		needrotate+=<span class="number">13</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	i++;</span><br><span class="line">&#125;</span><br><span class="line">PlistFile.Close();</span><br></pre></td></tr></table></figure>
+<p>然后再解析出CCStringArray中的名字和对应的坐标，尺寸，是否旋转赋值到一个结构体（包含Name，Width，Height，OriginX，OriginY，isRotate）。创建一个CList来储存这些结构体。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(i&lt;iFileLines)</span><br><span class="line">&#123;</span><br><span class="line">	strline = FileContainer.GetAt(i++);</span><br><span class="line">	strline.TrimLeft();<span class="comment">//删除左边的空格</span></span><br><span class="line">	<span class="keyword">if</span> (i%<span class="number">3</span>==<span class="number">1</span>)<span class="comment">//第1行，储存名字</span></span><br><span class="line">	&#123;</span><br><span class="line">		str=strline.Mid(<span class="number">5</span>,strline.GetLength()<span class="number">-11</span>);</span><br><span class="line">		t_pngcfg.strName=str;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(i%<span class="number">3</span>==<span class="number">2</span>)<span class="comment">//第2行，储存坐标和尺寸</span></span><br><span class="line">	&#123;</span><br><span class="line">		CString strTemp;</span><br><span class="line">		str=strline.Mid(<span class="number">10</span>,strline.GetLength()<span class="number">-21</span>);</span><br><span class="line">		AfxExtractSubString(strTemp,str,<span class="number">0</span>,<span class="string">','</span>);</span><br><span class="line">		t_pngcfg.originX=_ttoi(strTemp);</span><br><span class="line">		AfxExtractSubString(strTemp,str,<span class="number">1</span>,<span class="string">','</span>);</span><br><span class="line">		strTemp=strTemp.Left(strTemp.GetLength()<span class="number">-1</span>);</span><br><span class="line">		t_pngcfg.originY=_ttoi(strTemp);</span><br><span class="line">		AfxExtractSubString(strTemp,str,<span class="number">2</span>,<span class="string">','</span>);</span><br><span class="line">		strTemp=strTemp.Right(strTemp.GetLength()<span class="number">-1</span>);</span><br><span class="line">		t_pngcfg.width=_ttoi(strTemp);</span><br><span class="line">		AfxExtractSubString(strTemp,str,<span class="number">3</span>,<span class="string">','</span>);</span><br><span class="line">		t_pngcfg.height=_ttoi(strTemp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="comment">//第3行，存储旋转属性</span></span><br><span class="line">	&#123;</span><br><span class="line">		str=strline.Mid(<span class="number">1</span>,strline.GetLength()<span class="number">-3</span>);</span><br><span class="line">		<span class="keyword">if</span> (str==<span class="string">"true"</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			t_pngcfg.isRotate=<span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (str==<span class="string">"false"</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			t_pngcfg.isRotate=<span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		m_list.AddTail(t_pngcfg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为plist文件最后还有一个metadata字段，所以后面进行遍历的时候要对CCList的个数减1。</p>
+<h3 id="随鼠标移动的PNG图片名字的获取"><a href="#随鼠标移动的PNG图片名字的获取" class="headerlink" title="随鼠标移动的PNG图片名字的获取"></a>随鼠标移动的PNG图片名字的获取</h3><p>在OnMouseMove中进行处理显示。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CPoint ptInPNG;  </span><br><span class="line">ptInPNG.x=(point.x-ORIGIN_DRAW_X)/m_ScaleRatio;  </span><br><span class="line">ptInPNG.y=(point.y-ORIGIN_DRAW_Y)/m_ScaleRatio;  </span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> count=m_plistFile.m_list.GetCount();  </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;count<span class="number">-1</span>;i++)  </span><br><span class="line">&#123;  </span><br><span class="line">    PNGCfg t_pngcfg=m_plistFile.m_list.GetAt(m_plistFile.m_list.FindIndex(i));  </span><br><span class="line">    <span class="keyword">if</span> (isPtInRect(ptInPNG,t_pngcfg))  </span><br><span class="line">    &#123;  </span><br><span class="line">        showStastus(t_pngcfg.strName);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="单击PNG图拷贝名字到剪切板"><a href="#单击PNG图拷贝名字到剪切板" class="headerlink" title="单击PNG图拷贝名字到剪切板"></a>单击PNG图拷贝名字到剪切板</h3><p>在OnLButtonDown中进行处理拷贝。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(OpenClipboard()) <span class="comment">//首先打开一个剪切板，如果成功则返回非0值  </span></span><br><span class="line">&#123;</span><br><span class="line">	HANDLE hClip;<span class="comment">//声明一个句柄  </span></span><br><span class="line">	<span class="keyword">char</span> *pBuf;  </span><br><span class="line">	EmptyClipboard();<span class="comment">//置空这个剪切板，且得到剪切板的所有权  </span></span><br><span class="line">	hClip=GlobalAlloc(GMEM_MOVEABLE,t_pngcfg.strName.GetLength()+<span class="number">1</span>);  </span><br><span class="line">	<span class="comment">//申请锁定一块存放数据的内存区域  </span></span><br><span class="line">	pBuf=(char *)GlobalLock(hClip);<span class="comment">//得到指向内存区域的第一个字节指针  </span></span><br><span class="line">	<span class="built_in">strcpy</span>(pBuf,(char*)<span class="keyword">_bstr_t</span>(t_pngcfg.strName.GetBuffer()));<span class="comment">//将文本框的值拷贝到内存中  </span></span><br><span class="line">	GlobalUnlock(hClip);<span class="comment">//解除内存锁定  </span></span><br><span class="line">	SetClipboardData(CF_TEXT,hClip);<span class="comment">//设置数据到剪切板中  </span></span><br><span class="line">	CloseClipboard();<span class="comment">//关闭剪切板  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="PNG图的裁剪和保存"><a href="#PNG图的裁剪和保存" class="headerlink" title="PNG图的裁剪和保存"></a>PNG图的裁剪和保存</h3><p>创建一个新的GDI+Bitmap对象，传入图像数据和大小，进行保存即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Gdiplus::<span class="function">Rect <span class="title">rcImage</span><span class="params">(x, y, width, height)</span></span>;  </span><br><span class="line">pWrapBitmap-&gt;LockBits(&amp;rcImage, Gdiplus::ImageLockModeRead, pWrapBitmap-&gt;GetPixelFormat(), &amp;bitmapData);  </span><br><span class="line">pBitmap = new Gdiplus::Bitmap(bitmapData.Width, bitmapData.Height, bitmapData.Stride, PixelFormat32bppARGB, (BYTE*)bitmapData.Scan0);  </span><br><span class="line">pWrapBitmap-&gt;UnlockBits(&amp;bitmapData);  </span><br><span class="line"><span class="keyword">if</span> (pngcfg.isRotate)  </span><br><span class="line">&#123;  </span><br><span class="line">   	pBitmap-&gt;RotateFlip(Rotate270FlipNone);  </span><br><span class="line">&#125;  </span><br><span class="line"> </span><br><span class="line">CLSID pngClsid;   </span><br><span class="line">GetEncoderClsid(<span class="string">L"image/png"</span>, &amp;pngClsid);   </span><br><span class="line">CString strpathName=strClipDir;  </span><br><span class="line">strpathName+=<span class="string">"\\"</span>;  </span><br><span class="line">strpathName+=pngcfg.strName;  </span><br><span class="line">pBitmap-&gt;Save(strpathName, &amp;pngClsid, <span class="literal">NULL</span>);  </span><br><span class="line"><span class="keyword">delete</span> pBitmap;  </span><br><span class="line"><span class="keyword">delete</span> pWrapBitmap;</span><br></pre></td></tr></table></figure>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>（1）鼠标移动到小图上，右上角显示当前位置所在的PNG名。单击小图，PNG名自动复制到剪切板。</p>
+<div align="center"><img src="http://img.blog.csdn.net/20131209081920468" alt="" border="0" title="1"><br><br></div><br>（2）在列表中选择小图名字，软件自动显示红框。包裹该小图。<br><div align="center"><img src="http://img.blog.csdn.net/20131209081956500" alt="" border="0" title="2"><br><br></div><br>（3）点击裁剪PNG，弹出保存路径，选择保存路径确定,工作线程中处理PNG图的裁剪,PNG图裁剪成功,目录下可以看到裁剪后的小图，按照原来名字命名。<br><div align="center"><img src="http://img.blog.csdn.net/20131209082032718" alt="" border="0" title="3"><br><br></div><br>（4）直接拖拽PNG或者Plist进对话框，即可打开图像。<br><div align="center"><img src="http://img.blog.csdn.net/20131207171220015" alt="" border="0" title="4"><br><br></div>
+
+<h3 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h3><p><strong>v.1.7版</strong></p>
+<p>更新说明：</p>
+<p>修复：</p>
+<ul>
+<li>1.移除更新检测，避免异常崩溃。</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/8383195" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v.1.6版</strong></p>
+<p>更新说明：</p>
+<p>修复：</p>
+<ul>
+<li>1.中文路径打开出错异常崩溃。</li>
+</ul>
+<p>新增：</p>
+<ul>
+<li>1.支持png，plist，pack中文名。</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6904533" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v.1.5版</strong></p>
+<p>更新说明：</p>
+<p>新增：</p>
+<ul>
+<li>1.新增对.pack格式的支持。自动识别，优先解析plist。</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6901411" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v.1.4版</strong></p>
+<p>更新说明：</p>
+<p>新增：</p>
+<ul>
+<li>1.新增支持5种Plist类型的解析。</li>
+<li>2.支持plist的UTF-8编码（主要是针对中文图片名）。</li>
+<li>3.支持PNG，BMP，GIF，JPEG和TIFF图片格式的解码。</li>
+<li>4.裁剪自动生成目录（目录名为大图片名）。</li>
+<li>5.联网检测升级。</li>
+</ul>
+<p>修复：</p>
+<ul>
+<li>1.异常PNG解析失败导致程序崩溃bug</li>
+<li>2.文件名为多级目录导致裁剪失败bug</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6882859" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v.1.3版</strong></p>
+<p>更新说明：</p>
+<ul>
+<li>1.增加了直接拖拽PNG或者Plist进对话框即可打开的功能。</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6674999" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v.1.2版</strong></p>
+<p>更新说明：</p>
+<ul>
+<li>1.增加PNG剪裁为小PNG功能</li>
+<li>2.修正列表显示</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6440769" target="_blank" rel="external">下载地址</a></p>
+<p><strong>v1.1版</strong></p>
+<p>更新说明：</p>
+<ul>
+<li>1.修复旋转属性显示错误bug</li>
+<li>2.修复png相对路径无法显示bug</li>
+<li>3.增加双击列表显示红框功能</li>
+<li>4.简化操作</li>
+<li>5.修改icon</li>
+</ul>
+<p><a href="http://download.csdn.net/detail/jackyvincefu/6429297" target="_blank" rel="external">下载地址</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2013/10/19/play-cocos2dx-12/">【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
+        <p><span>发布时间:</span>2013年10月19日 - 09时49分</p>
+        <p><span>最后更新:</span>2016年04月24日 - 22时22分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2013/10/19/play-cocos2dx-12/" title="【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker">http://fusijie.github.io/2013/10/19/play-cocos2dx-12/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2013/10/19/play-cocos2dx-12/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2013/10/21/play-cocos2dx-13/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          【玩转cocos2d-x之十三】CCMenu的布局
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/10/18/play-cocos2dx-11/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【玩转cocos2d-x之十一】定时器schedule</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PNG图的显示"><span class="toc-number">1.</span> <span class="toc-text">PNG图的显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#plist文件的读取"><span class="toc-number">2.</span> <span class="toc-text">plist文件的读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随鼠标移动的PNG图片名字的获取"><span class="toc-number">3.</span> <span class="toc-text">随鼠标移动的PNG图片名字的获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单击PNG图拷贝名字到剪切板"><span class="toc-number">4.</span> <span class="toc-text">单击PNG图拷贝名字到剪切板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PNG图的裁剪和保存"><span class="toc-number">5.</span> <span class="toc-text">PNG图的裁剪和保存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图"><span class="toc-number">6.</span> <span class="toc-text">效果图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载地址"><span class="toc-number">7.</span> <span class="toc-text">下载地址</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2013/10/19/play-cocos2dx-12/" data-title="【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker" data-url="http://fusijie.github.io/2013/10/19/play-cocos2dx-12/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fusijie"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/10/21/play-cocos2dx-13/" title="上一篇: 【玩转cocos2d-x之十三】CCMenu的布局">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2013/10/18/play-cocos2dx-11/" title="下一篇: 【玩转cocos2d-x之十一】定时器schedule">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2014/11/18/what-is-a-rebase/">(译)第三部分：什么是rebase?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/15/what-is-a-merge/">(译)第二部分：什么是merge?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/08/what-is-a-commit-hash/">(译)第一部分：什么是commit hash?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/08/smali-introduction/">Smali和逆向分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/02/cocos2dx-faq-2/">Cocos2dx-FAQ-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/31/how-to-complie-cpp-with-lua-in-the-vs/">如何在Windows平台使用VS搭建C++/Lua的开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/cocos2dx-faq-1/">Cocos2dx-FAQ-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/24/tools-powercmd/">PowerCmd，一个Windows下cmd的绝佳替代工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/21/play-cocos2dx-37/">【玩转cocos2d-x之三十七】在Cocos2d-x中集成安卓版微信SDK</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/10/play-cocos2dx-36/">【玩转cocos2d-x之三十六】Earth Warrior 3D 大揭秘</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/25/play-cocos2dx-35/">【玩转cocos2d-x之三十五】《我叫MT offline》Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/08/play-cocos2dx-34/">【玩转cocos2d-x之三十四】绘图：CCDrawingPrimitives和CCDrawNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/26/play-cocos2dx-33/">【玩转cocos2d-x之三十三】游戏嵌入Webview网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/play-cocos2dx-32/">【玩转cocos2d-x之三十二】xml的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/17/play-cocos2dx-31/">【玩转cocos2d-x之三十一】服务器的网络通信编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/13/play-cocos2dx-30/">【玩转cocos2d-x之三十】点九图和输入框的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/06/play-cocos2dx-29/">【玩转cocos2d-x之二十九】利用CCClipingNode做游戏遮罩</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/03/play-cocos2dx-28/">【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/play-cocos2dx-26/">【玩转cocos2d-x之二十六】数据结构CCDictionary</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/25/play-cocos2dx-25/">【玩转cocos2d-x之二十五】数据结构CCArray</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/play-cocos2dx-24/">【玩转cocos2d-x之二十四】截图保存功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/play-cocos2dx-23/">【玩转cocos2d-x之二十三】多线程和同步03-图片异步加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/05/play-cocos2dx-22/">【玩转cocos2d-x之二十二】多线程和同步02-售票</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/04/play-cocos2dx-21/">【玩转cocos2d-x之二十一】多线程和同步01-pthread库</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/31/play-cocos2dx-20/">【玩转cocos2d-x之二十】从CCObject看cocos2d-x的内存管理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/30/play-cocos2dx-19/">【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/28/play-cocos2dx-18/">【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/25/play-cocos2dx-17/">【玩转cocos2d-x之十七】cocos2d-x中文显示</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/24/play-cocos2dx-16/">【玩转cocos2d-x之十六】滚动字幕和公告</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/23/play-cocos2dx-15/">【玩转cocos2d-x之十五】关卡选择的设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/22/play-cocos2dx-14/">【玩转cocos2d-x之十四】菜单选项卡的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/21/play-cocos2dx-13/">【玩转cocos2d-x之十三】CCMenu的布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/19/play-cocos2dx-12/">【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/18/play-cocos2dx-11/">【玩转cocos2d-x之十一】定时器schedule</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/17/play-cocos2dx-10/">【玩转cocos2d-x之十】cocos2d-x坐标系</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/16/play-cocos2dx-09/">【玩转cocos2d-x之九】动作类CCAction</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/15/play-cocos2dx-08/">【玩转cocos2d-x之八】精灵类CCSprite</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-07/">【玩转cocos2d-x之七】场景类CCScene和布景类CCLayer</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-06/">【玩转cocos2d-x之六】节点类CCNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/12/play-cocos2dx-05/">【玩转cocos2d-x之五】导演类CCDirector</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/11/play-cocos2dx-04/">【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/10/play-cocos2dx-03/">【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/09/play-cocos2dx-02/">【玩转cocos2d-x之二】游戏和引擎构成</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/08/play-cocos2dx-01/">【玩转cocos2d-x之一】V2.2.0版本开发环境配置</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 偶尔e网事
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?6a700383a5c5c84a6ebb00bc6823e169";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台 | Jacky&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="cocos2d-x到底是怎样实现跨平台的呢？这里以Win32和Android为例。
+跨平台项目目录结构先看一下一个项目创建后的目录结构吧！这还是以HelloCpp为例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台">
+<meta property="og:url" content="http://fusijie.github.io/2013/10/11/play-cocos2dx-04/index.html">
+<meta property="og:site_name" content="Jacky's Blog">
+<meta property="og:description" content="cocos2d-x到底是怎样实现跨平台的呢？这里以Win32和Android为例。
+跨平台项目目录结构先看一下一个项目创建后的目录结构吧！这还是以HelloCpp为例。">
+<meta property="og:image" content="http://img.blog.csdn.net/20131010095420500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamFja3lzdHVkaW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20131010110524765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamFja3lzdHVkaW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2016-04-24T14:00:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台">
+<meta name="twitter:description" content="cocos2d-x到底是怎样实现跨平台的呢？这里以Win32和Android为例。
+跨平台项目目录结构先看一下一个项目创建后的目录结构吧！这还是以HelloCpp为例。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20131010095420500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamFja3lzdHVkaW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">偶尔e网事</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/message">给我留言</a></li>
+                        
+                            <li><a href="/works">作品展示</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                            
+                                <a class="fl qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CCARRAY-FOREACH/" style="font-size: 10px;">CCARRAY_FOREACH</a> <a href="/tags/CCAction/" style="font-size: 10px;">CCAction</a> <a href="/tags/CCApplication/" style="font-size: 10px;">CCApplication</a> <a href="/tags/CCArray/" style="font-size: 10px;">CCArray</a> <a href="/tags/CCClipingNode/" style="font-size: 10px;">CCClipingNode</a> <a href="/tags/CCCopying/" style="font-size: 10px;">CCCopying</a> <a href="/tags/CCDICT-FOREACH/" style="font-size: 10px;">CCDICT_FOREACH</a> <a href="/tags/CCDictElement/" style="font-size: 10px;">CCDictElement</a> <a href="/tags/CCDictionary/" style="font-size: 15px;">CCDictionary</a> <a href="/tags/CCDirector/" style="font-size: 10px;">CCDirector</a> <a href="/tags/CCDisplayLinkDirecto/" style="font-size: 10px;">CCDisplayLinkDirecto</a> <a href="/tags/CCDrawNode/" style="font-size: 10px;">CCDrawNode</a> <a href="/tags/CCDrawingPrimitives/" style="font-size: 10px;">CCDrawingPrimitives</a> <a href="/tags/CCEGLView/" style="font-size: 10px;">CCEGLView</a> <a href="/tags/CCEditBox/" style="font-size: 10px;">CCEditBox</a> <a href="/tags/CCFiniteTimeAction/" style="font-size: 10px;">CCFiniteTimeAction</a> <a href="/tags/CCFollowCCSpeed/" style="font-size: 10px;">CCFollowCCSpeed</a> <a href="/tags/CCHttpClient/" style="font-size: 10px;">CCHttpClient</a> <a href="/tags/CCLayer/" style="font-size: 10px;">CCLayer</a> <a href="/tags/CCLayerMultiplex/" style="font-size: 15px;">CCLayerMultiplex</a> <a href="/tags/CCMenu/" style="font-size: 10px;">CCMenu</a> <a href="/tags/CCNode/" style="font-size: 10px;">CCNode</a> <a href="/tags/CCNotificationCenter/" style="font-size: 10px;">CCNotificationCenter</a> <a href="/tags/CCObject/" style="font-size: 10px;">CCObject</a> <a href="/tags/CCRenderTexture/" style="font-size: 10px;">CCRenderTexture</a> <a href="/tags/CCRepeatForever/" style="font-size: 10px;">CCRepeatForever</a> <a href="/tags/CCScale9Sprite/" style="font-size: 10px;">CCScale9Sprite</a> <a href="/tags/CCScene/" style="font-size: 10px;">CCScene</a> <a href="/tags/CCScheduler/" style="font-size: 10px;">CCScheduler</a> <a href="/tags/CCSequence/" style="font-size: 10px;">CCSequence</a> <a href="/tags/CCSprite/" style="font-size: 10px;">CCSprite</a> <a href="/tags/CCTableView/" style="font-size: 10px;">CCTableView</a> <a href="/tags/CCTextureProtocol/" style="font-size: 10px;">CCTextureProtocol</a> <a href="/tags/EarthWarrior3D/" style="font-size: 10px;">EarthWarrior3D</a> <a href="/tags/Item/" style="font-size: 10px;">Item</a> <a href="/tags/JNI/" style="font-size: 10px;">JNI</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Mutex/" style="font-size: 10px;">Mutex</a> <a href="/tags/OpenGL坐标系/" style="font-size: 10px;">OpenGL坐标系</a> <a href="/tags/PowerCmd/" style="font-size: 10px;">PowerCmd</a> <a href="/tags/RapidXML/" style="font-size: 10px;">RapidXML</a> <a href="/tags/Smali/" style="font-size: 10px;">Smali</a> <a href="/tags/TexturePacket/" style="font-size: 10px;">TexturePacket</a> <a href="/tags/TinyXML/" style="font-size: 10px;">TinyXML</a> <a href="/tags/VS2012/" style="font-size: 10px;">VS2012</a> <a href="/tags/addChild/" style="font-size: 10px;">addChild</a> <a href="/tags/addImageAsync/" style="font-size: 10px;">addImageAsync</a> <a href="/tags/addSpriteFramesWithFile/" style="font-size: 10px;">addSpriteFramesWithFile</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/apache/" style="font-size: 10px;">apache</a> <a href="/tags/applicationDidFinish/" style="font-size: 10px;">applicationDidFinish</a> <a href="/tags/cocos2d-x/" style="font-size: 20px;">cocos2d-x</a> <a href="/tags/cocos2d-x联网/" style="font-size: 10px;">cocos2d-x联网</a> <a href="/tags/commit-hash/" style="font-size: 10px;">commit hash</a> <a href="/tags/copyWithZone/" style="font-size: 10px;">copyWithZone</a> <a href="/tags/fastmove/" style="font-size: 10px;">fastmove</a> <a href="/tags/merge/" style="font-size: 10px;">merge</a> <a href="/tags/mutex/" style="font-size: 10px;">mutex</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/plist/" style="font-size: 10px;">plist</a> <a href="/tags/pthread/" style="font-size: 15px;">pthread</a> <a href="/tags/rebase/" style="font-size: 10px;">rebase</a> <a href="/tags/update/" style="font-size: 10px;">update</a> <a href="/tags/uthash/" style="font-size: 10px;">uthash</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/win32/" style="font-size: 10px;">win32</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/xml解析/" style="font-size: 10px;">xml解析</a> <a href="/tags/中国好学霸/" style="font-size: 10px;">中国好学霸</a> <a href="/tags/中文显示/" style="font-size: 10px;">中文显示</a> <a href="/tags/中英文切换/" style="font-size: 10px;">中英文切换</a> <a href="/tags/关卡选择/" style="font-size: 10px;">关卡选择</a> <a href="/tags/内存/" style="font-size: 10px;">内存</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/函数指针/" style="font-size: 10px;">函数指针</a> <a href="/tags/售票/" style="font-size: 10px;">售票</a> <a href="/tags/回调函数/" style="font-size: 15px;">回调函数</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/定时器/" style="font-size: 10px;">定时器</a> <a href="/tags/屏幕坐标系/" style="font-size: 10px;">屏幕坐标系</a> <a href="/tags/属性/" style="font-size: 10px;">属性</a> <a href="/tags/带颜色的Layer/" style="font-size: 10px;">带颜色的Layer</a> <a href="/tags/常用接口/" style="font-size: 15px;">常用接口</a> <a href="/tags/常用方法/" style="font-size: 10px;">常用方法</a> <a href="/tags/异步加载图片/" style="font-size: 10px;">异步加载图片</a> <a href="/tags/微信SDK集成/" style="font-size: 10px;">微信SDK集成</a> <a href="/tags/我叫MT/" style="font-size: 10px;">我叫MT</a> <a href="/tags/截图保存/" style="font-size: 10px;">截图保存</a> <a href="/tags/手动内存管理/" style="font-size: 10px;">手动内存管理</a> <a href="/tags/拷贝机制/" style="font-size: 10px;">拷贝机制</a> <a href="/tags/效率/" style="font-size: 10px;">效率</a> <a href="/tags/数据传递/" style="font-size: 10px;">数据传递</a> <a href="/tags/数据源/" style="font-size: 10px;">数据源</a> <a href="/tags/无法执行/" style="font-size: 10px;">无法执行</a> <a href="/tags/时间片/" style="font-size: 10px;">时间片</a> <a href="/tags/服务器/" style="font-size: 10px;">服务器</a> <a href="/tags/消息传递/" style="font-size: 10px;">消息传递</a> <a href="/tags/游戏loading/" style="font-size: 10px;">游戏loading</a> <a href="/tags/游戏引导/" style="font-size: 10px;">游戏引导</a> <a href="/tags/游戏引擎/" style="font-size: 10px;">游戏引擎</a> <a href="/tags/游戏破解/" style="font-size: 10px;">游戏破解</a> <a href="/tags/游戏遮罩/" style="font-size: 10px;">游戏遮罩</a> <a href="/tags/滚动/" style="font-size: 10px;">滚动</a> <a href="/tags/滚动公告/" style="font-size: 10px;">滚动公告</a> <a href="/tags/滚动字幕/" style="font-size: 10px;">滚动字幕</a> <a href="/tags/点九图/" style="font-size: 10px;">点九图</a> <a href="/tags/特点/" style="font-size: 10px;">特点</a> <a href="/tags/环境配置/" style="font-size: 10px;">环境配置</a> <a href="/tags/疯狂猜成语/" style="font-size: 10px;">疯狂猜成语</a> <a href="/tags/相对坐标系/" style="font-size: 10px;">相对坐标系</a> <a href="/tags/精灵拖拽/" style="font-size: 10px;">精灵拖拽</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/绘图/" style="font-size: 10px;">绘图</a> <a href="/tags/绝对坐标系/" style="font-size: 10px;">绝对坐标系</a> <a href="/tags/自动内存管理/" style="font-size: 10px;">自动内存管理</a> <a href="/tags/菜单选项卡/" style="font-size: 10px;">菜单选项卡</a> <a href="/tags/裁剪节点/" style="font-size: 10px;">裁剪节点</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/解决方案/" style="font-size: 10px;">解决方案</a> <a href="/tags/解析/" style="font-size: 10px;">解析</a> <a href="/tags/跨平台实现/" style="font-size: 10px;">跨平台实现</a> <a href="/tags/输入框/" style="font-size: 10px;">输入框</a> <a href="/tags/逆向分析/" style="font-size: 10px;">逆向分析</a> <a href="/tags/锚点排列/" style="font-size: 10px;">锚点排列</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">偶尔e网事</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">偶尔e网事</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/message">给我留言</a></li>
+                
+                    <li><a href="/works">作品展示</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                    
+                        <a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-play-cocos2dx-04" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/11/play-cocos2dx-04/" class="article-date">
+      <time datetime="2013-10-11T13:23:00.000Z" itemprop="datePublished">2013-10-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocos2d-x/">cocos2d-x</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/win32/">win32</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨平台实现/">跨平台实现</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>cocos2d-x到底是怎样实现跨平台的呢？这里以Win32和Android为例。</p>
+<h3 id="跨平台项目目录结构"><a href="#跨平台项目目录结构" class="headerlink" title="跨平台项目目录结构"></a>跨平台项目目录结构</h3><p>先看一下一个项目创建后的目录结构吧！这还是以HelloCpp为例。</p>
+<a id="more"></a>
+<div align="center"><img src="http://img.blog.csdn.net/20131010095420500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamFja3lzdHVkaW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="" border="0" title="跨平台项目目录结构"><br><br></div>
+
+<p>从左边目录可以看到，Classes和Resource已经平台无关了，而Classes中包含了AppDelegate类，因此我们可以认为AppDelegate是与平台最接近的类，在它以上就要区分平台了。</p>
+<h3 id="Win32下的实现"><a href="#Win32下的实现" class="headerlink" title="Win32下的实现"></a>Win32下的实现</h3><p>在前一篇就介绍了Win32怎么开始cocos2dx，Win32平台下main.cpp就是程序入口：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> APIENTRY _tWinMain(HINSTANCE hInstance,  </span><br><span class="line">   HINSTANCE hPrevInstance,  </span><br><span class="line">   LPTSTRlpCmdLine,  </span><br><span class="line">   <span class="keyword">int</span>   nCmdShow)  </span><br><span class="line">&#123;  </span><br><span class="line">	UNREFERENCED_PARAMETER(hPrevInstance);  </span><br><span class="line">	UNREFERENCED_PARAMETER(lpCmdLine);  </span><br><span class="line">  </span><br><span class="line">	<span class="comment">// create the application instance  </span></span><br><span class="line">	AppDelegate app;<span class="comment">//创建应用实例  </span></span><br><span class="line">	CCEGLView* eglView = CCEGLView::sharedOpenGLView();  </span><br><span class="line">	eglView-&gt;setViewName(<span class="string">"HelloCpp"</span>);  </span><br><span class="line">	eglView-&gt;setFrameSize(<span class="number">2048</span>, <span class="number">1536</span>);  </span><br><span class="line">	eglView-&gt;setFrameZoomFactor(<span class="number">0.4f</span>);  </span><br><span class="line">	return CCApplication::sharedApplication()-&gt;run();<span class="comment">//运行程序  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Win32下的实现比较简单，就是正常的创建实例，运行就可以了。</p>
+<h3 id="Android下的实现"><a href="#Android下的实现" class="headerlink" title="Android下的实现"></a>Android下的实现</h3><h4 id="cocos2d-x程序入口"><a href="#cocos2d-x程序入口" class="headerlink" title="cocos2d-x程序入口"></a>cocos2d-x程序入口</h4><p>我们先看一下Android下cocos2d-x程序入口点在哪，我们知道Android是采用Java编写的，而cocos2d-x是c++编写的，所以如果要在Java中调用c++代码，那就需要采用JNI技术，看起来好像高端大气上档次，其实程序就是函数调用，也就是输入→处理→输出，所以JNI实际上简单抽象出来就这么回事：</p>
+<p>java输入→Jni→c++输入→c++处理（API实现）→c++输出→Jni→java输出  </p>
+<p>在\proj.android\jni\hellocpp文件夹下可以找到main.cpp，这就是cocos2d-x的入口：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM *vm, <span class="keyword">void</span> *reserved)</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">    	JniHelper::setJavaVM(vm);  </span><br><span class="line">      </span><br><span class="line">    	return JNI_VERSION_1_4;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit</span><span class="params">(JNIEnv*  env, jobject thiz, jint w, jint h)</span>  </span><br><span class="line">	</span>&#123;  </span><br><span class="line">		<span class="keyword">if</span> (!CCDirector::sharedDirector()-&gt;getOpenGLView())  </span><br><span class="line">		&#123;  </span><br><span class="line">			CCEGLView *view = CCEGLView::sharedOpenGLView();  </span><br><span class="line">			view-&gt;setFrameSize(w, h);  </span><br><span class="line">  </span><br><span class="line">			AppDelegate *pAppDelegate = new AppDelegate();  </span><br><span class="line">			CCApplication::sharedApplication()-&gt;run();  </span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">else</span>  </span><br><span class="line">		&#123;  </span><br><span class="line">			ccGLInvalidateStateCache();  </span><br><span class="line">			CCShaderCache::sharedShaderCache()-&gt;reloadDefaultShaders();  </span><br><span class="line">			ccDrawInit();  </span><br><span class="line">			CCTextureCache::reloadAllTextures();  </span><br><span class="line">			CCNotificationCenter::sharedNotificationCenter()-&gt;postNotification(EVENT_COME_TO_FOREGROUND, <span class="literal">NULL</span>);  </span><br><span class="line">			CCDirector::sharedDirector()-&gt;setGLDefaultValues();   </span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>里面包含了2个函数，JNI_OnLoad和Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit。我们看一下功能而先不管它在哪里被调用。</p>
+<p><em>（1）JNI_OnLoad，</em>这个函数主要是用来高速Android VM当前使用的是什么版本是Jni，如果不提供此函数，则默认使用Jni1.1版本。</p>
+<p><em>（2）Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit，</em>这个函数很明显就是运行一个cocos2d-x的应用实例了，这和Win32是一样的，当然它多了一个openGlView的检测。一旦调用了它那么cocos2d-x游戏启动。<br>接下来再看看它们是在哪里被调用的。</p>
+<h4 id="JNI-OnLoad的调用"><a href="#JNI-OnLoad的调用" class="headerlink" title="JNI_OnLoad的调用"></a>JNI_OnLoad的调用</h4><p>在proj.android\src\org\cocos2dx\hellocpp目录下，可以看到Android的入口Activity，也就是HelloCpp，它继承自Cocos2dxActivity。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloCpp</span> <span class="keyword">extends</span> <span class="title">Cocos2dxActivity</span></span>&#123;  </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;  </span><br><span class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);  </span><br><span class="line">   	&#125;  </span><br><span class="line">     </span><br><span class="line"><span class="keyword">static</span> &#123;  </span><br><span class="line">        System.loadLibrary(<span class="string">"hellocpp"</span>);  </span><br><span class="line">   	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很简单的代码，因为功能都被封装到Cocos2dxActivity中了，所以OnCreate中调用了父类的OnCreate就把功能都实现了，而system.LoadLibrary就是载入编译出来的.so文件，此时就会执行JNI_OnLoad。</p>
+<h4 id="Java-org-cocos2dx-lib-Cocos2dxRenderer-nativeInit的调用"><a href="#Java-org-cocos2dx-lib-Cocos2dxRenderer-nativeInit的调用" class="headerlink" title="Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit的调用"></a>Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit的调用</h4><p>那最重要的Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit是在哪调用呢？这就比较麻烦了，先大致了解一下Cocos2dxActivity做了一些什么事。</p>
+<p>直接进入Cocos2dxActivity的OnCreate函数，它调用了一个init初始化函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">         </span><br><span class="line">       <span class="comment">// 设置布局，是一个FrameLayout  </span></span><br><span class="line">       ViewGroup.LayoutParams framelayout_params =  </span><br><span class="line">       <span class="keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,  </span><br><span class="line">                                      ViewGroup.LayoutParams.FILL_PARENT);  </span><br><span class="line">       FrameLayout framelayout = <span class="keyword">new</span> FrameLayout(<span class="keyword">this</span>);  </span><br><span class="line">       framelayout.setLayoutParams(framelayout_params);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// 设置Cocos2dxEditText布局，这一个跟GLSurfaceView兼容的edittext  </span></span><br><span class="line">       ViewGroup.LayoutParams edittext_layout_params =  </span><br><span class="line">       <span class="keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,  </span><br><span class="line">                                  ViewGroup.LayoutParams.WRAP_CONTENT);  </span><br><span class="line">       Cocos2dxEditText edittext = <span class="keyword">new</span> Cocos2dxEditText(<span class="keyword">this</span>);  </span><br><span class="line">       edittext.setLayoutParams(edittext_layout_params);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// 添加到framelaout  </span></span><br><span class="line">       framelayout.addView(edittext);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// 创建Cocos2dxGLSurfaceView  </span></span><br><span class="line">       <span class="keyword">this</span>.mGLSurfaceView = <span class="keyword">this</span>.onCreateView();  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// 添加到framelaout  </span></span><br><span class="line">       framelayout.addView(<span class="keyword">this</span>.mGLSurfaceView);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// Switch to supported OpenGL (ARGB888) mode on emulator  </span></span><br><span class="line">       <span class="keyword">if</span> (isAndroidEmulator())  </span><br><span class="line">          <span class="keyword">this</span>.mGLSurfaceView.setEGLConfigChooser(<span class="number">8</span> , <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">0</span>);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">//设置Cocos2dxRenderer和Cocos2dxEditText  </span></span><br><span class="line">       <span class="keyword">this</span>.mGLSurfaceView.setCocos2dxRenderer(<span class="keyword">new</span> Cocos2dxRenderer());  </span><br><span class="line">       <span class="keyword">this</span>.mGLSurfaceView.setCocos2dxEditText(edittext);  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">// 设置framelayout作为内容视图  </span></span><br><span class="line">   	setContentView(framelayout);  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>在这里Cocos2dxActivity做的就是创建Cocos2dxGLSurfaceView，并设置了Cocos2dxRenderer和Cocos2dxEditText，然后添加到FramLayout。具体的各部分实现这里就不贴代码了，画了个图：</p>
+<div align="center"><img src="http://img.blog.csdn.net/20131010110524765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvamFja3lzdHVkaW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="" border="0" title="Android调用流程"><br><br></div>
+
+<p>好了，就这样吧。因为我对Android界面开发，特别是OpenGLView这块也不熟，所以只能大概推出是这样子了，有什么错误，还请指出。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2013/10/11/play-cocos2dx-04/">【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
+        <p><span>发布时间:</span>2013年10月11日 - 21时23分</p>
+        <p><span>最后更新:</span>2016年04月24日 - 22时00分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2013/10/11/play-cocos2dx-04/" title="【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台">http://fusijie.github.io/2013/10/11/play-cocos2dx-04/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2013/10/11/play-cocos2dx-04/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2013/10/12/play-cocos2dx-05/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          【玩转cocos2d-x之五】导演类CCDirector
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/10/10/play-cocos2dx-03/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#跨平台项目目录结构"><span class="toc-number">1.</span> <span class="toc-text">跨平台项目目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Win32下的实现"><span class="toc-number">2.</span> <span class="toc-text">Win32下的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android下的实现"><span class="toc-number">3.</span> <span class="toc-text">Android下的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cocos2d-x程序入口"><span class="toc-number">3.1.</span> <span class="toc-text">cocos2d-x程序入口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JNI-OnLoad的调用"><span class="toc-number">3.2.</span> <span class="toc-text">JNI_OnLoad的调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-org-cocos2dx-lib-Cocos2dxRenderer-nativeInit的调用"><span class="toc-number">3.3.</span> <span class="toc-text">Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit的调用</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2013/10/11/play-cocos2dx-04/" data-title="【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台" data-url="http://fusijie.github.io/2013/10/11/play-cocos2dx-04/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fusijie"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2013/10/12/play-cocos2dx-05/" title="上一篇: 【玩转cocos2d-x之五】导演类CCDirector">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2013/10/10/play-cocos2dx-03/" title="下一篇: 【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2014/11/18/what-is-a-rebase/">(译)第三部分：什么是rebase?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/15/what-is-a-merge/">(译)第二部分：什么是merge?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/08/what-is-a-commit-hash/">(译)第一部分：什么是commit hash?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/08/smali-introduction/">Smali和逆向分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/02/cocos2dx-faq-2/">Cocos2dx-FAQ-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/31/how-to-complie-cpp-with-lua-in-the-vs/">如何在Windows平台使用VS搭建C++/Lua的开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/cocos2dx-faq-1/">Cocos2dx-FAQ-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/24/tools-powercmd/">PowerCmd，一个Windows下cmd的绝佳替代工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/21/play-cocos2dx-37/">【玩转cocos2d-x之三十七】在Cocos2d-x中集成安卓版微信SDK</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/10/play-cocos2dx-36/">【玩转cocos2d-x之三十六】Earth Warrior 3D 大揭秘</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/25/play-cocos2dx-35/">【玩转cocos2d-x之三十五】《我叫MT offline》Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/08/play-cocos2dx-34/">【玩转cocos2d-x之三十四】绘图：CCDrawingPrimitives和CCDrawNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/26/play-cocos2dx-33/">【玩转cocos2d-x之三十三】游戏嵌入Webview网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/play-cocos2dx-32/">【玩转cocos2d-x之三十二】xml的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/17/play-cocos2dx-31/">【玩转cocos2d-x之三十一】服务器的网络通信编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/13/play-cocos2dx-30/">【玩转cocos2d-x之三十】点九图和输入框的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/06/play-cocos2dx-29/">【玩转cocos2d-x之二十九】利用CCClipingNode做游戏遮罩</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/03/play-cocos2dx-28/">【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/play-cocos2dx-26/">【玩转cocos2d-x之二十六】数据结构CCDictionary</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/25/play-cocos2dx-25/">【玩转cocos2d-x之二十五】数据结构CCArray</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/play-cocos2dx-24/">【玩转cocos2d-x之二十四】截图保存功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/play-cocos2dx-23/">【玩转cocos2d-x之二十三】多线程和同步03-图片异步加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/05/play-cocos2dx-22/">【玩转cocos2d-x之二十二】多线程和同步02-售票</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/04/play-cocos2dx-21/">【玩转cocos2d-x之二十一】多线程和同步01-pthread库</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/31/play-cocos2dx-20/">【玩转cocos2d-x之二十】从CCObject看cocos2d-x的内存管理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/30/play-cocos2dx-19/">【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/28/play-cocos2dx-18/">【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/25/play-cocos2dx-17/">【玩转cocos2d-x之十七】cocos2d-x中文显示</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/24/play-cocos2dx-16/">【玩转cocos2d-x之十六】滚动字幕和公告</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/23/play-cocos2dx-15/">【玩转cocos2d-x之十五】关卡选择的设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/22/play-cocos2dx-14/">【玩转cocos2d-x之十四】菜单选项卡的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/21/play-cocos2dx-13/">【玩转cocos2d-x之十三】CCMenu的布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/19/play-cocos2dx-12/">【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/18/play-cocos2dx-11/">【玩转cocos2d-x之十一】定时器schedule</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/17/play-cocos2dx-10/">【玩转cocos2d-x之十】cocos2d-x坐标系</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/16/play-cocos2dx-09/">【玩转cocos2d-x之九】动作类CCAction</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/15/play-cocos2dx-08/">【玩转cocos2d-x之八】精灵类CCSprite</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-07/">【玩转cocos2d-x之七】场景类CCScene和布景类CCLayer</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-06/">【玩转cocos2d-x之六】节点类CCNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/12/play-cocos2dx-05/">【玩转cocos2d-x之五】导演类CCDirector</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/11/play-cocos2dx-04/">【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/10/play-cocos2dx-03/">【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/09/play-cocos2dx-02/">【玩转cocos2d-x之二】游戏和引擎构成</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/08/play-cocos2dx-01/">【玩转cocos2d-x之一】V2.2.0版本开发环境配置</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 偶尔e网事
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?6a700383a5c5c84a6ebb00bc6823e169";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
