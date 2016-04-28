@@ -17,7 +17,7 @@ date: 2016-04-24 17:51:33
 
 ### 2015年
 
-* ![](../images/works/hlddz.png) 欢乐斗地主，和腾讯合作，使用 Cocos2d-Js 开发，运行在 Cocos runtime 平台和 H5 平台。
-* ![](../images/works/mxywk.png) 冒险与挖矿，和木七七合作，使用 Cocos2d-Js 开发，运行在 Cocos runtime 平台和 H5 平台。
+* ![](../images/works/hlddz.png) 欢乐斗地主，和腾讯合作，使用 Cocos2d-Js 开发。
+* ![](../images/works/mxywk.png) 冒险与挖矿，和木七七合作，使用 Cocos2d-Js 开发。
 
 ### 2016年
