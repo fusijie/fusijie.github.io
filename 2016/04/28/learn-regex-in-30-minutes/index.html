@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>30分钟正则表达式快速入门 | Jacky&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="正则表达式在查找，解析，替换文本是非常管用的，这些常见的文本包含但不限于代码，日志，表格，甚至于文稿。但是很多人一看到正则表达式，反应通常是
+
+
+其实并没有这么难，本文就是带你30分钟快速入门正则表达式。
+本文改编自 http://regexone.com/。
+ABCs首先要明白的第一件事就是本质上一切都是字符，正则表达式就是一串用于匹配字符串的字符串。
+一般情况下我们使用 ASCII 字符，也就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="30分钟正则表达式快速入门">
+<meta property="og:url" content="http://fusijie.github.io/2016/04/28/learn-regex-in-30-minutes/index.html">
+<meta property="og:site_name" content="Jacky's Blog">
+<meta property="og:description" content="正则表达式在查找，解析，替换文本是非常管用的，这些常见的文本包含但不限于代码，日志，表格，甚至于文稿。但是很多人一看到正则表达式，反应通常是
+
+
+其实并没有这么难，本文就是带你30分钟快速入门正则表达式。
+本文改编自 http://regexone.com/。
+ABCs首先要明白的第一件事就是本质上一切都是字符，正则表达式就是一串用于匹配字符串的字符串。
+一般情况下我们使用 ASCII 字符，也就">
+<meta property="og:image" content="http://fusijie.github.io/images/posts/2016-04-28-learn-regex-in-30-minutes/ylmb.jpg">
+<meta property="og:updated_time" content="2016-04-28T14:36:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="30分钟正则表达式快速入门">
+<meta name="twitter:description" content="正则表达式在查找，解析，替换文本是非常管用的，这些常见的文本包含但不限于代码，日志，表格，甚至于文稿。但是很多人一看到正则表达式，反应通常是
+
+
+其实并没有这么难，本文就是带你30分钟快速入门正则表达式。
+本文改编自 http://regexone.com/。
+ABCs首先要明白的第一件事就是本质上一切都是字符，正则表达式就是一串用于匹配字符串的字符串。
+一般情况下我们使用 ASCII 字符，也就">
+<meta name="twitter:image" content="http://fusijie.github.io/images/posts/2016-04-28-learn-regex-in-30-minutes/ylmb.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">偶尔e网事</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/message">给我留言</a></li>
+                        
+                            <li><a href="/works">作品展示</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                            
+                                <a class="fl qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/CCARRAY-FOREACH/" style="font-size: 10px;">CCARRAY_FOREACH</a> <a href="/tags/CCAction/" style="font-size: 10px;">CCAction</a> <a href="/tags/CCApplication/" style="font-size: 10px;">CCApplication</a> <a href="/tags/CCArray/" style="font-size: 10px;">CCArray</a> <a href="/tags/CCClipingNode/" style="font-size: 10px;">CCClipingNode</a> <a href="/tags/CCCopying/" style="font-size: 10px;">CCCopying</a> <a href="/tags/CCDICT-FOREACH/" style="font-size: 10px;">CCDICT_FOREACH</a> <a href="/tags/CCDictElement/" style="font-size: 10px;">CCDictElement</a> <a href="/tags/CCDictionary/" style="font-size: 15px;">CCDictionary</a> <a href="/tags/CCDirector/" style="font-size: 10px;">CCDirector</a> <a href="/tags/CCDisplayLinkDirecto/" style="font-size: 10px;">CCDisplayLinkDirecto</a> <a href="/tags/CCDrawNode/" style="font-size: 10px;">CCDrawNode</a> <a href="/tags/CCDrawingPrimitives/" style="font-size: 10px;">CCDrawingPrimitives</a> <a href="/tags/CCEGLView/" style="font-size: 10px;">CCEGLView</a> <a href="/tags/CCEditBox/" style="font-size: 10px;">CCEditBox</a> <a href="/tags/CCFiniteTimeAction/" style="font-size: 10px;">CCFiniteTimeAction</a> <a href="/tags/CCFollowCCSpeed/" style="font-size: 10px;">CCFollowCCSpeed</a> <a href="/tags/CCHttpClient/" style="font-size: 10px;">CCHttpClient</a> <a href="/tags/CCLayer/" style="font-size: 10px;">CCLayer</a> <a href="/tags/CCLayerMultiplex/" style="font-size: 15px;">CCLayerMultiplex</a> <a href="/tags/CCMenu/" style="font-size: 10px;">CCMenu</a> <a href="/tags/CCNode/" style="font-size: 10px;">CCNode</a> <a href="/tags/CCNotificationCenter/" style="font-size: 10px;">CCNotificationCenter</a> <a href="/tags/CCObject/" style="font-size: 10px;">CCObject</a> <a href="/tags/CCRenderTexture/" style="font-size: 10px;">CCRenderTexture</a> <a href="/tags/CCRepeatForever/" style="font-size: 10px;">CCRepeatForever</a> <a href="/tags/CCScale9Sprite/" style="font-size: 10px;">CCScale9Sprite</a> <a href="/tags/CCScene/" style="font-size: 10px;">CCScene</a> <a href="/tags/CCScheduler/" style="font-size: 10px;">CCScheduler</a> <a href="/tags/CCSequence/" style="font-size: 10px;">CCSequence</a> <a href="/tags/CCSprite/" style="font-size: 10px;">CCSprite</a> <a href="/tags/CCTableView/" style="font-size: 10px;">CCTableView</a> <a href="/tags/CCTextureProtocol/" style="font-size: 10px;">CCTextureProtocol</a> <a href="/tags/EarthWarrior3D/" style="font-size: 10px;">EarthWarrior3D</a> <a href="/tags/Item/" style="font-size: 10px;">Item</a> <a href="/tags/JNI/" style="font-size: 10px;">JNI</a> <a href="/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/tags/Mutex/" style="font-size: 10px;">Mutex</a> <a href="/tags/OpenGL坐标系/" style="font-size: 10px;">OpenGL坐标系</a> <a href="/tags/PowerCmd/" style="font-size: 10px;">PowerCmd</a> <a href="/tags/RapidXML/" style="font-size: 10px;">RapidXML</a> <a href="/tags/Smali/" style="font-size: 10px;">Smali</a> <a href="/tags/TexturePacket/" style="font-size: 10px;">TexturePacket</a> <a href="/tags/TinyXML/" style="font-size: 10px;">TinyXML</a> <a href="/tags/VS2012/" style="font-size: 10px;">VS2012</a> <a href="/tags/addChild/" style="font-size: 10px;">addChild</a> <a href="/tags/addImageAsync/" style="font-size: 10px;">addImageAsync</a> <a href="/tags/addSpriteFramesWithFile/" style="font-size: 10px;">addSpriteFramesWithFile</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/apache/" style="font-size: 10px;">apache</a> <a href="/tags/applicationDidFinish/" style="font-size: 10px;">applicationDidFinish</a> <a href="/tags/cocos2d-x/" style="font-size: 20px;">cocos2d-x</a> <a href="/tags/cocos2d-x联网/" style="font-size: 10px;">cocos2d-x联网</a> <a href="/tags/commit-hash/" style="font-size: 10px;">commit hash</a> <a href="/tags/copyWithZone/" style="font-size: 10px;">copyWithZone</a> <a href="/tags/fastmove/" style="font-size: 10px;">fastmove</a> <a href="/tags/merge/" style="font-size: 10px;">merge</a> <a href="/tags/mutex/" style="font-size: 10px;">mutex</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/plist/" style="font-size: 10px;">plist</a> <a href="/tags/pthread/" style="font-size: 15px;">pthread</a> <a href="/tags/rebase/" style="font-size: 10px;">rebase</a> <a href="/tags/update/" style="font-size: 10px;">update</a> <a href="/tags/uthash/" style="font-size: 10px;">uthash</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a> <a href="/tags/win32/" style="font-size: 10px;">win32</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/xml解析/" style="font-size: 10px;">xml解析</a> <a href="/tags/中国好学霸/" style="font-size: 10px;">中国好学霸</a> <a href="/tags/中文显示/" style="font-size: 10px;">中文显示</a> <a href="/tags/中英文切换/" style="font-size: 10px;">中英文切换</a> <a href="/tags/关卡选择/" style="font-size: 10px;">关卡选择</a> <a href="/tags/内存/" style="font-size: 10px;">内存</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/函数指针/" style="font-size: 10px;">函数指针</a> <a href="/tags/售票/" style="font-size: 10px;">售票</a> <a href="/tags/回调函数/" style="font-size: 15px;">回调函数</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/定时器/" style="font-size: 10px;">定时器</a> <a href="/tags/屏幕坐标系/" style="font-size: 10px;">屏幕坐标系</a> <a href="/tags/属性/" style="font-size: 10px;">属性</a> <a href="/tags/带颜色的Layer/" style="font-size: 10px;">带颜色的Layer</a> <a href="/tags/常用接口/" style="font-size: 15px;">常用接口</a> <a href="/tags/常用方法/" style="font-size: 10px;">常用方法</a> <a href="/tags/异步加载图片/" style="font-size: 10px;">异步加载图片</a> <a href="/tags/微信SDK集成/" style="font-size: 10px;">微信SDK集成</a> <a href="/tags/我叫MT/" style="font-size: 10px;">我叫MT</a> <a href="/tags/截图保存/" style="font-size: 10px;">截图保存</a> <a href="/tags/手动内存管理/" style="font-size: 10px;">手动内存管理</a> <a href="/tags/拷贝机制/" style="font-size: 10px;">拷贝机制</a> <a href="/tags/效率/" style="font-size: 10px;">效率</a> <a href="/tags/数据传递/" style="font-size: 10px;">数据传递</a> <a href="/tags/数据源/" style="font-size: 10px;">数据源</a> <a href="/tags/无法执行/" style="font-size: 10px;">无法执行</a> <a href="/tags/时间片/" style="font-size: 10px;">时间片</a> <a href="/tags/服务器/" style="font-size: 10px;">服务器</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/消息传递/" style="font-size: 10px;">消息传递</a> <a href="/tags/游戏loading/" style="font-size: 10px;">游戏loading</a> <a href="/tags/游戏引导/" style="font-size: 10px;">游戏引导</a> <a href="/tags/游戏引擎/" style="font-size: 10px;">游戏引擎</a> <a href="/tags/游戏破解/" style="font-size: 10px;">游戏破解</a> <a href="/tags/游戏遮罩/" style="font-size: 10px;">游戏遮罩</a> <a href="/tags/滚动/" style="font-size: 10px;">滚动</a> <a href="/tags/滚动公告/" style="font-size: 10px;">滚动公告</a> <a href="/tags/滚动字幕/" style="font-size: 10px;">滚动字幕</a> <a href="/tags/点九图/" style="font-size: 10px;">点九图</a> <a href="/tags/特点/" style="font-size: 10px;">特点</a> <a href="/tags/环境配置/" style="font-size: 10px;">环境配置</a> <a href="/tags/疯狂猜成语/" style="font-size: 10px;">疯狂猜成语</a> <a href="/tags/相对坐标系/" style="font-size: 10px;">相对坐标系</a> <a href="/tags/精灵拖拽/" style="font-size: 10px;">精灵拖拽</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/绘图/" style="font-size: 10px;">绘图</a> <a href="/tags/绝对坐标系/" style="font-size: 10px;">绝对坐标系</a> <a href="/tags/自动内存管理/" style="font-size: 10px;">自动内存管理</a> <a href="/tags/菜单选项卡/" style="font-size: 10px;">菜单选项卡</a> <a href="/tags/裁剪节点/" style="font-size: 10px;">裁剪节点</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/解决方案/" style="font-size: 10px;">解决方案</a> <a href="/tags/解析/" style="font-size: 10px;">解析</a> <a href="/tags/跨平台实现/" style="font-size: 10px;">跨平台实现</a> <a href="/tags/输入框/" style="font-size: 10px;">输入框</a> <a href="/tags/逆向分析/" style="font-size: 10px;">逆向分析</a> <a href="/tags/锚点排列/" style="font-size: 10px;">锚点排列</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">偶尔e网事</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">偶尔e网事</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/message">给我留言</a></li>
+                
+                    <li><a href="/works">作品展示</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=17GipL69vrKXob6n_aam_bS4ug" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/fusijie" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/GeekJacky" title="weibo">weibo</a>
+                    
+                        <a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=754505629&site=qq&menu=yes" title="qq">qq</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/fusijie" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/fusijie" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-learn-regex-in-30-minutes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/28/learn-regex-in-30-minutes/" class="article-date">
+      <time datetime="2016-04-28T13:54:28.000Z" itemprop="datePublished">2016-04-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      30分钟正则表达式快速入门
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Others/">Others</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/正则表达式/">正则表达式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>正则表达式在查找，解析，替换文本是非常管用的，这些常见的文本包含但不限于代码，日志，表格，甚至于文稿。但是很多人一看到正则表达式，反应通常是</p>
+<div align="center"><img src="/images/posts/2016-04-28-learn-regex-in-30-minutes/ylmb.jpg" alt="" border="0"><br><br></div>
+
+<p>其实并没有这么难，本文就是带你30分钟快速入门正则表达式。</p>
+<p>本文改编自 <a href="http://regexone.com/" target="_blank" rel="external">http://regexone.com/</a>。</p>
+<h3 id="ABCs"><a href="#ABCs" class="headerlink" title="ABCs"></a>ABCs</h3><p>首先要明白的第一件事就是<strong>本质上一切都是字符</strong>，正则表达式就是一串用于匹配字符串的字符串。</p>
+<p>一般情况下我们使用 ASCII 字符，也就是英文字符，数字，标点符号和一些特殊符号（%#$@!），当然 Unicode 字符也可以用作正则表达式</p>
+<a id="more"></a>。<br><br>先来试一试最简单的字符串直接匹配。<br><br>练习：匹配字符串<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      abcdefg</span><br><span class="line">match      abcde</span><br><span class="line">match      abc</span><br></pre></td></tr></table></figure>
+<p>答案：（正则表达式是没有唯一答案的，这和你需要的匹配程度有关）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      abc</span><br></pre></td></tr></table></figure>
+<h3 id="123s"><a href="#123s" class="headerlink" title="123s"></a>123s</h3><p>字符包括英文字母，当然也包括数字。</p>
+<p><code>\d</code> 通常用来表示单个数字（0~9），比如 <code>\d</code> 可以是 0~9，<code>\d\d</code> 可以是 00~99。</p>
+<p>练习：匹配数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      abc123xyz</span><br><span class="line">match      define &quot;123&quot;</span><br><span class="line">match      var g = 123;</span><br></pre></td></tr></table></figure>
+<p>答案：(当然你也可以写<code>\d\d\d</code>，同样可以匹配123)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      123</span><br></pre></td></tr></table></figure>
+<h3 id="点号"><a href="#点号" class="headerlink" title="点号"></a>点号</h3><p>正则表达式中点号（.）是做通配符使用，也就是说点号可以表示任意单个字符（字母，数字，空格，任何符号都是）。</p>
+<p>但是如果要准确适配点号本身，那如何表示呢？<code>\.</code></p>
+<p>练习：使用通配符匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">match      cat.</span><br><span class="line">match      896.</span><br><span class="line">match      ?=+.</span><br><span class="line">skip       abc1</span><br></pre></td></tr></table></figure>
+<p>答案：(关键在于最后一个字符点号要能够准确适配)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      ...\.</span><br></pre></td></tr></table></figure>
+<h3 id="匹配指定字符"><a href="#匹配指定字符" class="headerlink" title="匹配指定字符"></a>匹配指定字符</h3><p>点号太给力了，但是给力不一定是万能的，比如我们要匹配一个电话号码，“abcd-efghijkl” 可以是一个有效是电话号码吗？</p>
+<p>所以我们需要一种能匹配指定字符的方法，这就是<code>[]</code>。比如 <code>[abc]</code> 只匹配 a 或 b 或 c。要注意 <code>[]</code> 只匹配单个字符。</p>
+<p>练习：匹配字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">match      can</span><br><span class="line">match      man</span><br><span class="line">match      fan</span><br><span class="line">skip       dan</span><br><span class="line">skip       ran</span><br><span class="line">skip       pan</span><br></pre></td></tr></table></figure>
+<p>答案：(学了下一节之后你会发现还可以用[^drp]an)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      [cmf]an</span><br></pre></td></tr></table></figure>
+<h3 id="匹配指定排除的字符"><a href="#匹配指定排除的字符" class="headerlink" title="匹配指定排除的字符"></a>匹配指定排除的字符</h3><p>有时候我们并不知道要匹配哪个字符，但是我们指定不匹配哪个字符。</p>
+<p>这时候 <code>^</code> 就有用了。比如 <code>[^abc]</code> 匹配除 a 和 b 和 c 以外的所有字符，注意也是单个。</p>
+<p>练习：匹配指定排除的字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      hog</span><br><span class="line">match      dog</span><br><span class="line">skip       bog</span><br></pre></td></tr></table></figure>
+<p>答案：（也可以使用上一节的 <code>[hd]og</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      [^b]og</span><br></pre></td></tr></table></figure>
+<h3 id="范围字符"><a href="#范围字符" class="headerlink" title="范围字符"></a>范围字符</h3><p>如果需要指定的字符太多了，比如从 a 到 g，难道我们就要写 <code>[abcdefg]</code> 么？当然有更方便的写法 <code>[a-g]</code>。</p>
+<p>举个栗子，<code>[a-z]</code> 表示匹配所有小写字母（注意大小写是区分的），<code>[0-9]</code> 表示匹配所有数字，<code>[^n-p]</code> 表示匹配除 n 到 p 以外的单个字符，而 <code>\w</code> 其实就是 <code>[A-Za-z0-9_]</code>。</p>
+<p>练习：匹配指定范围字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">match      Ana</span><br><span class="line">match      Bob</span><br><span class="line">match      Cpc</span><br><span class="line">skip       aax</span><br><span class="line">skip       bby</span><br><span class="line">skip       ccz</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      [A-Z][n-p][a-c]</span><br></pre></td></tr></table></figure>
+<h3 id="匹配重复次数"><a href="#匹配重复次数" class="headerlink" title="匹配重复次数"></a>匹配重复次数</h3><p>前面我们学习的是匹配字符，假如要匹配一个3位数的数字，那就是 <code>\d\d\d</code>，但是如果是10位呢？如果是100位呢？</p>
+<p>这里就需要重复次数的语法了，<code>{}</code>。</p>
+<p><code>a{3}</code> 表示a重复3次，<code>a{2,6}</code>表示a重复2次到6次之间都匹配。</p>
+<p>结合之前学习的，<code>[a-z]{5}</code>表示某个小写字母重复5次，比如 bbbbb，而 <code>\d{3,8}</code> 表示某个数字重复3到8次，比如 55555。</p>
+<p>练习：匹配重复字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      wazzzzup</span><br><span class="line">match      wazzzup</span><br><span class="line">skip       wazup</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      waz&#123;3,4&#125;up</span><br></pre></td></tr></table></figure>
+<h3 id="另一种匹配重复次数"><a href="#另一种匹配重复次数" class="headerlink" title="另一种匹配重复次数"></a>另一种匹配重复次数</h3><p>除了使用 <code>{}</code> 来匹配重复次数，还可以使用下面两种符号来匹配重复次数。</p>
+<p><code>*</code>，表示0次到多次重复，比如 <code>.*</code> 匹配任意字符串</p>
+<p><code>+</code>，表示1次到多次重复，比如 <code>a+</code> 匹配超过一个包含 a 的字符串</p>
+<p>练习：匹配重复字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">match      aaaabcc</span><br><span class="line">match      aabbbbc</span><br><span class="line">match      aacc</span><br><span class="line">skip       a</span><br></pre></td></tr></table></figure>
+<p>答案：（也可以是上一节的 <code>a{2,4}b{0,4}c{1,2}</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      a+b*c+</span><br></pre></td></tr></table></figure>
+<h3 id="可选字符"><a href="#可选字符" class="headerlink" title="可选字符"></a>可选字符</h3><p>可选字符是指某个字符可以是一个也可以没有，用 <code>?</code> 表示。</p>
+<p>举个栗子，<code>ab?c</code> 可以匹配 abc 或者 ac。</p>
+<p>需要注意的是，如果要准确匹配问号，则需要使用 <code>\?</code>。</p>
+<p>练习：匹配可选字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">match      1 file found?</span><br><span class="line">match      2 files found?</span><br><span class="line">match      24 files found?</span><br><span class="line">skip       no files found.</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      \d+ files? found\?</span><br></pre></td></tr></table></figure>
+<h3 id="匹配空白符"><a href="#匹配空白符" class="headerlink" title="匹配空白符"></a>匹配空白符</h3><p>空白符包含空格键（␣），制表符（\t），换行符（\n）和回车符（\r），使用 <code>\s</code> 表示。</p>
+<p>练习：匹配空白字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">match      1.   abc</span><br><span class="line">match      2.    abc</span><br><span class="line">match      3.       abc</span><br><span class="line">skip       4.abc</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      \d\.\s+abc</span><br></pre></td></tr></table></figure>
+<h3 id="开始和结束"><a href="#开始和结束" class="headerlink" title="开始和结束"></a>开始和结束</h3><p>到目前为止，我们写的正则表达式都是匹配片段文本，如果需要匹配完整的文本呢？</p>
+<p>所谓完整，就是有开头有结尾。正则表达式中使用 <code>^</code> 和 <code>$</code> 表示。</p>
+<p>练习：匹配行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      Mission:successful</span><br><span class="line">skip       Last Mission: unsuccessful</span><br><span class="line">skip       Next Mission: successful upon capture of target</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex      ^Mission: successful$</span><br></pre></td></tr></table></figure>
+<h3 id="匹配组"><a href="#匹配组" class="headerlink" title="匹配组"></a>匹配组</h3><p>正则表达式不仅可以匹配文本，还允许我们取出部分信息做进一步的处理。</p>
+<p>如何取出我们想要的信息呢？使用<code>()</code>。</p>
+<p>比如，有个图片的 url，可能是这样的 <code>https://noexist.com/IMG123.png</code>，你希望取出文件名 <code>IMG_123</code>。对应的正则表达式就是 <code>^(IMG\d+)\.png</code>。</p>
+<p>练习：匹配组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">capture       file_record_transcript.pdf      file_record_transcript</span><br><span class="line">capture       file_07241999.pdf               file_07241999</span><br><span class="line">skip          testfile_fake.pdf.tmp</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex        ^(file.+)\.pdf$</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套组"><a href="#嵌套组" class="headerlink" title="嵌套组"></a>嵌套组</h3><p>有的时候你想要获得多层信息，还是以图片的 url（<code>https://noexist.com/IMG123.png</code>）为例，你既想拿到完整的图片名（IMG123），也想得到图片的序号（123）。这时候嵌套组就可以派上用场了。</p>
+<p>嵌套组使用多个嵌套的 <code>()</code> 来区分组。比如 <code>^(IMG(\d+))\.png$</code> 就可以实现上述目的。</p>
+<p>练习：匹配嵌套组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">capture       Jan 1987      Jan 1987       1987</span><br><span class="line">capture       May 1969      May 1969       1969</span><br><span class="line">capture       Aug 2011      Aug 2011       2011</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex        (\w+ (\d+))</span><br></pre></td></tr></table></figure>
+<h3 id="匹配重复组"><a href="#匹配重复组" class="headerlink" title="匹配重复组"></a>匹配重复组</h3><p>之前我们了解到 <code>*</code>，<code>+</code>，<code>{m,n}</code>，<code>?</code> 可以用在单个字符上，同样的，它也可以用在组上。</p>
+<p>比如我们知道某个电话号码可能包含或者不包含一个区号，那么我们就可以写一个 <code>(\d{4})?</code> 来处理区号。</p>
+<p>练习：匹配嵌套组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">capture      1280x720      1280      720</span><br><span class="line">capture      1920x1600     1920      1600</span><br><span class="line">capture      1024x768      1024      768</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex        (\d+)x(\d+)</span><br></pre></td></tr></table></figure>
+<h3 id="可选项匹配"><a href="#可选项匹配" class="headerlink" title="可选项匹配"></a>可选项匹配</h3><p>之前我们学习到了精确匹配，但是有时候我们在几个选项之间犹豫，这时候就可以使用 <code>|</code> 来处理可选项的匹配。</p>
+<p>比如 <code>Buy more (milk|bread|juice)</code> 可以匹配 Buy more milk，Buy more bread 和 Buy more juice。</p>
+<p>练习：匹配可选文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">match    I love cats</span><br><span class="line">match    I love dogs</span><br><span class="line">skip     I love logs</span><br><span class="line">skip     I love cogs</span><br></pre></td></tr></table></figure>
+<p>答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex    I love (cats|dogs)</span><br></pre></td></tr></table></figure>
+<h3 id="其他特殊字符"><a href="#其他特殊字符" class="headerlink" title="其他特殊字符"></a>其他特殊字符</h3><p>之前我们已经学习了 <code>\d（数字）</code>，<code>\s（空格）</code>，<code>\w（字母数字下划线）</code>。正则表达式也提供给我们一套相反的集合，用大写的 <code>\D（非数字）</code>，<code>\S（非空格）</code>，<code>\W（非字母数字下划线，比如标点符号）</code> 来表示。</p>
+<p>另外 <code>\b</code> 用于匹配单词和非单词字符之间的边界。比如我们要获取一个单词，就可以这么写 <code>\w+\b</code>。</p>
+<p>还有一些系统是支持用 <code>\0</code>，<code>\1</code>，<code>\2</code> 来表示组。</p>
+<p>练习：匹配特殊字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">match      The quick brown fox jumped over the lazy dog.</span><br><span class="line">match      There were 614 instances of students getting 90.0% or above.</span><br><span class="line">match      The FCC had to censor the network for saying &amp;$#*@!.</span><br></pre></td></tr></table></figure>
+<p>答案：自由发挥~</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/28/learn-regex-in-30-minutes/">30分钟正则表达式快速入门</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
+        <p><span>发布时间:</span>2016年04月28日 - 21时54分</p>
+        <p><span>最后更新:</span>2016年04月28日 - 22时36分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/28/learn-regex-in-30-minutes/" title="30分钟正则表达式快速入门">http://fusijie.github.io/2016/04/28/learn-regex-in-30-minutes/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2016/04/28/learn-regex-in-30-minutes/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2014/11/18/what-is-a-rebase/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(译)第三部分：什么是rebase?</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ABCs"><span class="toc-number">1.</span> <span class="toc-text">ABCs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#123s"><span class="toc-number">2.</span> <span class="toc-text">123s</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#点号"><span class="toc-number">3.</span> <span class="toc-text">点号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配指定字符"><span class="toc-number">4.</span> <span class="toc-text">匹配指定字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配指定排除的字符"><span class="toc-number">5.</span> <span class="toc-text">匹配指定排除的字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#范围字符"><span class="toc-number">6.</span> <span class="toc-text">范围字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配重复次数"><span class="toc-number">7.</span> <span class="toc-text">匹配重复次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#另一种匹配重复次数"><span class="toc-number">8.</span> <span class="toc-text">另一种匹配重复次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可选字符"><span class="toc-number">9.</span> <span class="toc-text">可选字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配空白符"><span class="toc-number">10.</span> <span class="toc-text">匹配空白符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始和结束"><span class="toc-number">11.</span> <span class="toc-text">开始和结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配组"><span class="toc-number">12.</span> <span class="toc-text">匹配组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套组"><span class="toc-number">13.</span> <span class="toc-text">嵌套组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配重复组"><span class="toc-number">14.</span> <span class="toc-text">匹配重复组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可选项匹配"><span class="toc-number">15.</span> <span class="toc-text">可选项匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他特殊字符"><span class="toc-number">16.</span> <span class="toc-text">其他特殊字符</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/04/28/learn-regex-in-30-minutes/" data-title="30分钟正则表达式快速入门" data-url="http://fusijie.github.io/2016/04/28/learn-regex-in-30-minutes/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fusijie"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2014/11/18/what-is-a-rebase/" title="下一篇: (译)第三部分：什么是rebase?">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/learn-regex-in-30-minutes/">30分钟正则表达式快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/18/what-is-a-rebase/">(译)第三部分：什么是rebase?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/15/what-is-a-merge/">(译)第二部分：什么是merge?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/08/what-is-a-commit-hash/">(译)第一部分：什么是commit hash?</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/08/smali-introduction/">Smali和逆向分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/02/cocos2dx-faq-2/">Cocos2dx-FAQ-2</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/31/how-to-complie-cpp-with-lua-in-the-vs/">如何在Windows平台使用VS搭建C++/Lua的开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/26/cocos2dx-faq-1/">Cocos2dx-FAQ-1</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/24/tools-powercmd/">PowerCmd，一个Windows下cmd的绝佳替代工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/08/21/play-cocos2dx-37/">【玩转cocos2d-x之三十七】在Cocos2d-x中集成安卓版微信SDK</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/07/10/play-cocos2dx-36/">【玩转cocos2d-x之三十六】Earth Warrior 3D 大揭秘</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/25/play-cocos2dx-35/">【玩转cocos2d-x之三十五】《我叫MT offline》Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/08/play-cocos2dx-34/">【玩转cocos2d-x之三十四】绘图：CCDrawingPrimitives和CCDrawNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/26/play-cocos2dx-33/">【玩转cocos2d-x之三十三】游戏嵌入Webview网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/18/play-cocos2dx-32/">【玩转cocos2d-x之三十二】xml的解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/17/play-cocos2dx-31/">【玩转cocos2d-x之三十一】服务器的网络通信编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/13/play-cocos2dx-30/">【玩转cocos2d-x之三十】点九图和输入框的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/06/play-cocos2dx-29/">【玩转cocos2d-x之二十九】利用CCClipingNode做游戏遮罩</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/03/play-cocos2dx-28/">【玩转cocos2d-x之二十八】cocos2d-x的消息和数据传递</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/play-cocos2dx-26/">【玩转cocos2d-x之二十六】数据结构CCDictionary</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/25/play-cocos2dx-25/">【玩转cocos2d-x之二十五】数据结构CCArray</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/13/play-cocos2dx-24/">【玩转cocos2d-x之二十四】截图保存功能的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/11/play-cocos2dx-23/">【玩转cocos2d-x之二十三】多线程和同步03-图片异步加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/05/play-cocos2dx-22/">【玩转cocos2d-x之二十二】多线程和同步02-售票</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/04/play-cocos2dx-21/">【玩转cocos2d-x之二十一】多线程和同步01-pthread库</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/31/play-cocos2dx-20/">【玩转cocos2d-x之二十】从CCObject看cocos2d-x的内存管理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/30/play-cocos2dx-19/">【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/28/play-cocos2dx-18/">【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/25/play-cocos2dx-17/">【玩转cocos2d-x之十七】cocos2d-x中文显示</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/24/play-cocos2dx-16/">【玩转cocos2d-x之十六】滚动字幕和公告</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/23/play-cocos2dx-15/">【玩转cocos2d-x之十五】关卡选择的设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/22/play-cocos2dx-14/">【玩转cocos2d-x之十四】菜单选项卡的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/21/play-cocos2dx-13/">【玩转cocos2d-x之十三】CCMenu的布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/19/play-cocos2dx-12/">【玩转cocos2d-x之十二】plist解析工具：Anti_TexturePacker</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/18/play-cocos2dx-11/">【玩转cocos2d-x之十一】定时器schedule</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/17/play-cocos2dx-10/">【玩转cocos2d-x之十】cocos2d-x坐标系</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/16/play-cocos2dx-09/">【玩转cocos2d-x之九】动作类CCAction</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/15/play-cocos2dx-08/">【玩转cocos2d-x之八】精灵类CCSprite</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-07/">【玩转cocos2d-x之七】场景类CCScene和布景类CCLayer</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/14/play-cocos2dx-06/">【玩转cocos2d-x之六】节点类CCNode</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/12/play-cocos2dx-05/">【玩转cocos2d-x之五】导演类CCDirector</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/11/play-cocos2dx-04/">【玩转cocos2d-x之四】cocos2d-x怎么实现跨平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/10/play-cocos2dx-03/">【玩转cocos2d-x之三】cocos2d-x游戏是怎么跑起来的</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/09/play-cocos2dx-02/">【玩转cocos2d-x之二】游戏和引擎构成</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/08/play-cocos2dx-01/">【玩转cocos2d-x之一】V2.2.0版本开发环境配置</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 偶尔e网事
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?6a700383a5c5c84a6ebb00bc6823e169";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
