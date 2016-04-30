@@ -13,6 +13,8 @@ tags: [单独编译, so, apk]
 
 从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：[Github](https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae)。
 
+<!-- more -->
+
 ### 在Eclipse中编译so及apk
 
 #### 使用build_native.py脚本编译
