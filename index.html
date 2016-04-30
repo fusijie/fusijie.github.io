@@ -319,62 +319,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h3><ul>
+              <h3 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h3><ul>
 <li>环境：Mac OSX/Cocos2d-x v3.7/NDK r10c/Ant v1.9.5/ADT v23.0.6/AndroidStudio v1.3.1</li>
 <li>注意：此教程与Cocos2d-x版本关系极大，不保证其他版本的Cocos2d-x可以正常应用此教程，但是原理都是一样的。</li>
 </ul>
-<p>从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：<a href="https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae" target="_blank" rel="external">Github</a>。</p>
-<h3 id="在Eclipse中编译so及apk"><a href="#在Eclipse中编译so及apk" class="headerlink" title="在Eclipse中编译so及apk"></a>在Eclipse中编译so及apk</h3><h4 id="使用build-native-py脚本编译"><a href="#使用build-native-py脚本编译" class="headerlink" title="使用build_native.py脚本编译"></a>使用build_native.py脚本编译</h4><p>这一种方式是会直接调用Cocos Console的，所以会直接打包成apk。</p>
-<h5 id="导入Cocos2d-x项目和libCocos2dx"><a href="#导入Cocos2d-x项目和libCocos2dx" class="headerlink" title="导入Cocos2d-x项目和libCocos2dx"></a>导入Cocos2d-x项目和libCocos2dx</h5><h5 id="开启C-编译"><a href="#开启C-编译" class="headerlink" title="开启C++编译"></a>开启C++编译</h5><p>右键项目属性-&gt;Builders-&gt;勾选CDT Builder。</p>
-<h5 id="C-C-Build-gt-Build-command"><a href="#C-C-Build-gt-Build-command" class="headerlink" title="C/C++ Build-&gt;Build command"></a>C/C++ Build-&gt;Build command</h5><p>默认是</p>
-<pre><code>python ${ProjDirPath}/build_native.py -b release
-</code></pre><p>修改为</p>
-<pre><code>python ${ProjDirPath}/build_native.py -b debug
-</code></pre><p>原因是采用release模式要求输入keystore，如果已经设置了keystore，这一步可以跳过，否则在最终打包apk会提示错误，因为这个模式下（非终端）无法输入keytore，注意这里的模式不是-m(mode)，是-b(build)。（如何设置keystore？往下看）</p>
-<h5 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h5><p>因为Cocos console需要一些环境变量，而在Eclipse环境下无法读取到zsh或者bash的配置，所以需要在Eclipse的环境里设置这些变量：C/C++-&gt;Environment</p>
-<pre><code>PATH -&gt; ${PATH}:/Users/Jacky/Cocos2d-x/v3/tools/cocos2d-console/bin/
-ANT_ROOT -&gt; /usr/local/Cellar/ant/1.9.5/libexec/bin
-ANDROID_SDK_ROOT -&gt; /Users/Jacky/AndroidDev/sdk
-NDK_ROOT -&gt; /Users/Jacky/AndroidDev/android-ndk-r10c（如果你设置了全局的NDK_ROOT，你会发现这个变量已经存在）
-</code></pre><p>这些实际上也是第一次配置Cocos Console需要设置的值。</p>
-<h5 id="如何设置keystore"><a href="#如何设置keystore" class="headerlink" title="如何设置keystore"></a>如何设置keystore</h5><p>在proj.android/ant.properties文件末尾，添加keystore信息</p>
-<pre><code>key.alias.password=xxx
-key.store.password=yyy
-key.store=/Users/Jacky/AndroidDev/cocos.keystore
-key.alias=zzz
-</code></pre><h4 id="使用ndk-build编译"><a href="#使用ndk-build编译" class="headerlink" title="使用ndk-build编译"></a>使用ndk-build编译</h4><h5 id="导入Cocos2d-x项目和libCocos2dx-1"><a href="#导入Cocos2d-x项目和libCocos2dx-1" class="headerlink" title="导入Cocos2d-x项目和libCocos2dx"></a>导入Cocos2d-x项目和libCocos2dx</h5><h5 id="开启C-编译-1"><a href="#开启C-编译-1" class="headerlink" title="开启C++编译"></a>开启C++编译</h5><p>右键项目属性-&gt;Builders-&gt;勾选CDT Builder。</p>
-<h5 id="C-C-Build-gt-Build-command-1"><a href="#C-C-Build-gt-Build-command-1" class="headerlink" title="C/C++ Build-&gt;Build command"></a>C/C++ Build-&gt;Build command</h5><p>默认是</p>
-<pre><code>python ${ProjDirPath}/build_native.py -b release
-</code></pre><p>修改为</p>
-<pre><code>/Users/Jacky/AndroidDev/android-ndk-r10c/ndk-build -j4
-</code></pre><p>-j4表示编译使用的CPU核数，我这里是4核，Cocos console会自动获取CPU核数并且全开，这里需要你手动指定。</p>
-<h5 id="指定NDK-Tool-Chain版本"><a href="#指定NDK-Tool-Chain版本" class="headerlink" title="指定NDK Tool Chain版本"></a>指定NDK Tool Chain版本</h5><p>设置NDK Tool Chain版本，proj.android/jni/Application.mk文件末尾，指定NDK Tool Chain版本。因为一些关键字如override是C++11新增的特性，GCC从4.7版本开始支持此特性。</p>
-<pre><code>NDK_TOOLCHAIN_VERSION = 4.9
-</code></pre><h5 id="拷贝资源"><a href="#拷贝资源" class="headerlink" title="拷贝资源"></a>拷贝资源</h5><p>手动拷贝Resources目录下资源到proj.android/assets/目录下。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>这里介绍了2种在Eclipse中交叉编译的方式，第一种方式调用的是Cocos Console，它主要完成三件事：交叉编译，拷贝资源和打包apk。第二种方式调用的是ndk-build，它只做了交叉编译这件事，所以需要自己手动拷贝资源，打包apk。当然第一种方式交叉编译最终调用的也是ndk-build，因此以上两种方式也可以在终端运行。</p>
-<h3 id="在Android-Studio中编译so及apk"><a href="#在Android-Studio中编译so及apk" class="headerlink" title="在Android Studio中编译so及apk"></a>在Android Studio中编译so及apk</h3><h4 id="导入Cocos2d-x项目"><a href="#导入Cocos2d-x项目" class="headerlink" title="导入Cocos2d-x项目"></a>导入Cocos2d-x项目</h4><h4 id="修改proj-android-studio-app-build-gradle"><a href="#修改proj-android-studio-app-build-gradle" class="headerlink" title="修改proj.android-studio/app/build.gradle"></a>修改proj.android-studio/app/build.gradle</h4><p>在文件开头导入</p>
-<pre><code>import org.apache.tools.ant.taskdefs.condition.Os
-</code></pre><p>在文件末尾加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">   //ndk-build</span><br><span class="line">   task ndkBuild(type: Exec,  dependsOn: &apos;copyRes&apos;) &#123;</span><br><span class="line">       workingDir file(&apos;jni&apos;)</span><br><span class="line">       commandLine getNdkBuildCmd(), &apos;-j4&apos;</span><br><span class="line">   &#125;</span><br><span class="line">   tasks.withType(JavaCompile) &#123;</span><br><span class="line">       compileTask -&gt; compileTask.dependsOn ndkBuild</span><br><span class="line">   &#125;</span><br><span class="line">   //ndk-clean</span><br><span class="line">   task ndkClean(type: Exec) &#123;</span><br><span class="line">       workingDir file(&apos;jni&apos;)</span><br><span class="line">       commandLine getNdkBuildCmd(), &apos;clean&apos;</span><br><span class="line">   &#125;</span><br><span class="line">   clean.dependsOn ndkClean</span><br><span class="line">   //copy resource</span><br><span class="line">   task createDir&#123;</span><br><span class="line">       doLast&#123;</span><br><span class="line">           delete &apos;assets&apos;</span><br><span class="line">           mkdir(&apos;assets&apos;)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   task copyRes(type: Copy, dependsOn: &apos;createDir&apos;)&#123;</span><br><span class="line">       from &apos;../../Resources&apos;</span><br><span class="line">       into &apos;assets&apos;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">def getNdkDir() &#123;</span><br><span class="line">    if (System.env.ANDROID_NDK_ROOT != null)</span><br><span class="line">        return System.env.ANDROID_NDK_ROOT</span><br><span class="line">    Properties properties = new Properties()</span><br><span class="line">    properties.load(project.rootProject.file(&apos;local.properties&apos;).newDataInputStream())</span><br><span class="line">    def ndkdir = properties.getProperty(&apos;ndk.dir&apos;, null)</span><br><span class="line">    if (ndkdir == null)</span><br><span class="line">        throw new GradleException(&quot;NDK location not found. Define location with ndk.dir in the local.properties file or with an ANDROID_NDK_ROOT environment variable.&quot;)</span><br><span class="line">    return ndkdir</span><br><span class="line">&#125;</span><br><span class="line">def getNdkBuildCmd() &#123;</span><br><span class="line">    def ndkbuild = getNdkDir() + &quot;/ndk-build&quot;</span><br><span class="line">    if (Os.isFamily(Os.FAMILY_WINDOWS))</span><br><span class="line">        ndkbuild += &quot;.cmd&quot;</span><br><span class="line">    return ndkbuild</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="添加NDK路径"><a href="#添加NDK路径" class="headerlink" title="添加NDK路径"></a>添加NDK路径</h4><p>在proj.android-studio/local.properties末尾加入ndk路径。</p>
-<pre><code>ndk.dir=/Users/Jacky/AndroidDev/android-ndk-r10c
-</code></pre><h4 id="指定NDK-ToolChain版本"><a href="#指定NDK-ToolChain版本" class="headerlink" title="指定NDK ToolChain版本"></a>指定NDK ToolChain版本</h4><p>在proj.android-studio/app/jni/Application.mk末尾指定NDK ToolChain版本。</p>
-<pre><code>NDK_TOOLCHAIN_VERSION = 4.9
-</code></pre><h3 id="使用Cocos-Console在编译过程中插入自定义步骤"><a href="#使用Cocos-Console在编译过程中插入自定义步骤" class="headerlink" title="使用Cocos Console在编译过程中插入自定义步骤"></a>使用Cocos Console在编译过程中插入自定义步骤</h3><p>如果希望在编译过程中插入一些自定义的脚本，比如拷贝一些第三方库的依赖，那可以采用如下方式进行设置。</p>
-<p><a href="http://www.cocos2d-x.org/wiki/Cocos2d-console#Add-custom-steps-during-compiling" target="_blank" rel="external">http://www.cocos2d-x.org/wiki/Cocos2d-console#Add-custom-steps-during-compiling</a></p>
-<p>不想看英文版，也可以看中文的<a href="http://www.cocoachina.com/bbs/read.php?tid-319299.html" target="_blank" rel="external">http://www.cocoachina.com/bbs/read.php?tid-319299.html</a></p>
-<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p>Q.Eclipse出现An internal error occurred during: “C/C++ Indexer”. java.lang.NullPointerException或者Serializing CDT project settings错误？</p>
-<p>A.先关闭Eclipse，删除proj.android/.cproject文件中的类似如下内容后重启Eclipse。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;cconfiguration id=&quot;0.1230402123.1377291156&quot;&gt;</span><br><span class="line">    &lt;storageModule buildSystemId=&quot;org.eclipse.cdt.managedbuilder.core.configurationDataProvider&quot; id=&quot;0.1230402123.1377291156&quot; moduleId=&quot;org.eclipse.cdt.core.settings&quot; name=&quot;Debug&quot;&gt;</span><br><span class="line">        &lt;externalSettings/&gt;</span><br><span class="line">        &lt;extensions&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.VCErrorParser&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.GmakeErrorParser&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.CWDLocator&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.GCCErrorParser&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.GASErrorParser&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">            &lt;extension id=&quot;org.eclipse.cdt.core.GLDErrorParser&quot; point=&quot;org.eclipse.cdt.core.ErrorParser&quot;/&gt;</span><br><span class="line">        &lt;/extensions&gt;</span><br><span class="line">    &lt;/storageModule&gt;</span><br><span class="line">    &lt;storageModule moduleId=&quot;org.eclipse.cdt.core.externalSettings&quot;/&gt;</span><br><span class="line">&lt;/cconfiguration&gt;</span><br></pre></td></tr></table></figure>
-<p>如果还不行，建个新项目，把proj.android/.cproject和proj.android/.project替换到项目中，版本控制回退这两个文件也行，再次进入需要重新配置。</p>
-<p>参考<a href="http://http//stackoverflow.com/questions/25384264/after-import-an-cocos2d-project-eclipse-raise-an-two-weird-errors-android-lib" target="_blank" rel="external">StackOverflow</a>。</p>
-<p>Q.即使没有更改C++源码，ndk-build每一次都重新进行编译？</p>
-<p>A.这个问题应该是存在于旧版本（r8c就有这个bug），新的ndk貌似还没遇到这样的问题，本教程应该不会涉及这个问题。</p>
-<p>参考<a href="http://http//stackoverflow.com/questions/13885400/every-ndk-build-is-a-full-rebuild" target="_blank" rel="external">StackOverflow</a>。</p>
-<p>Q.要进行ndk-gbd调试发现没有生成gdbserver及gdb.setup怎么办？</p>
-<p>A.在使用ndk-buld的时候加入 NDK_DEBUG=1，即</p>
-<pre><code>ndk-build -j4 NDK_DEBUG=1
-</code></pre>
+<p>从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：<a href="https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae">Github</a>。</p>
+          
       
     </div>
     
@@ -391,6 +341,10 @@ key.alias=zzz
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apk/">apk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/so/">so</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单独编译/">单独编译</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a  href="/2015/08/24/eclipse-as-build-so-apk-seperate/#more">阅读全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>

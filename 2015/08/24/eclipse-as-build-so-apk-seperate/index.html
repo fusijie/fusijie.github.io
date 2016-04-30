@@ -19,7 +19,7 @@
 注意：此教程与Cocos2d-x版本关系极大，不保证其他版本的Cocos2d-x可以正常应用此教程，但是原理都是一样的。
 
 从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-bui">
-<meta property="og:updated_time" content="2016-04-30T12:55:33.000Z">
+<meta property="og:updated_time" content="2016-04-30T12:58:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Eclipse/AndroidStudio + NDK 单独编译 so 和 apk">
 <meta name="twitter:description" content="概况
@@ -275,6 +275,7 @@
 <li>注意：此教程与Cocos2d-x版本关系极大，不保证其他版本的Cocos2d-x可以正常应用此教程，但是原理都是一样的。</li>
 </ul>
 <p>从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：<a href="https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae" target="_blank" rel="external">Github</a>。</p>
+<a id="more"></a>
 <h3 id="在Eclipse中编译so及apk"><a href="#在Eclipse中编译so及apk" class="headerlink" title="在Eclipse中编译so及apk"></a>在Eclipse中编译so及apk</h3><h4 id="使用build-native-py脚本编译"><a href="#使用build-native-py脚本编译" class="headerlink" title="使用build_native.py脚本编译"></a>使用build_native.py脚本编译</h4><p>这一种方式是会直接调用Cocos Console的，所以会直接打包成apk。</p>
 <h5 id="导入Cocos2d-x项目和libCocos2dx"><a href="#导入Cocos2d-x项目和libCocos2dx" class="headerlink" title="导入Cocos2d-x项目和libCocos2dx"></a>导入Cocos2d-x项目和libCocos2dx</h5><h5 id="开启C-编译"><a href="#开启C-编译" class="headerlink" title="开启C++编译"></a>开启C++编译</h5><p>右键项目属性-&gt;Builders-&gt;勾选CDT Builder。</p>
 <h5 id="C-C-Build-gt-Build-command"><a href="#C-C-Build-gt-Build-command" class="headerlink" title="C/C++ Build-&gt;Build command"></a>C/C++ Build-&gt;Build command</h5><p>默认是</p>
@@ -336,7 +337,7 @@ key.alias=zzz
         <p><span>本文标题:</span><a href="/2015/08/24/eclipse-as-build-so-apk-seperate/">Eclipse/AndroidStudio + NDK 单独编译 so 和 apk</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
         <p><span>发布时间:</span>2015年08月24日 - 20时36分</p>
-        <p><span>最后更新:</span>2016年04月30日 - 20时55分</p>
+        <p><span>最后更新:</span>2016年04月30日 - 20时58分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/08/24/eclipse-as-build-so-apk-seperate/" title="Eclipse/AndroidStudio + NDK 单独编译 so 和 apk">http://fusijie.github.io/2015/08/24/eclipse-as-build-so-apk-seperate/</a>
             <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2015/08/24/eclipse-as-build-so-apk-seperate/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

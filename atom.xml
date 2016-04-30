@@ -152,13 +152,14 @@
     <link href="http://fusijie.github.io/2015/08/24/eclipse-as-build-so-apk-seperate/"/>
     <id>http://fusijie.github.io/2015/08/24/eclipse-as-build-so-apk-seperate/</id>
     <published>2015-08-24T12:36:47.000Z</published>
-    <updated>2016-04-30T12:55:33.000Z</updated>
+    <updated>2016-04-30T12:58:28.000Z</updated>
     
     <content type="html">&lt;h3 id=&quot;概况&quot;&gt;&lt;a href=&quot;#概况&quot; class=&quot;headerlink&quot; title=&quot;概况&quot;&gt;&lt;/a&gt;概况&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;环境：Mac OSX/Cocos2d-x v3.7/NDK r10c/Ant v1.9.5/ADT v23.0.6/AndroidStudio v1.3.1&lt;/li&gt;
 &lt;li&gt;注意：此教程与Cocos2d-x版本关系极大，不保证其他版本的Cocos2d-x可以正常应用此教程，但是原理都是一样的。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：&lt;a href=&quot;https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h3 id=&quot;在Eclipse中编译so及apk&quot;&gt;&lt;a href=&quot;#在Eclipse中编译so及apk&quot; class=&quot;headerlink&quot; title=&quot;在Eclipse中编译so及apk&quot;&gt;&lt;/a&gt;在Eclipse中编译so及apk&lt;/h3&gt;&lt;h4 id=&quot;使用build-native-py脚本编译&quot;&gt;&lt;a href=&quot;#使用build-native-py脚本编译&quot; class=&quot;headerlink&quot; title=&quot;使用build_native.py脚本编译&quot;&gt;&lt;/a&gt;使用build_native.py脚本编译&lt;/h4&gt;&lt;p&gt;这一种方式是会直接调用Cocos Console的，所以会直接打包成apk。&lt;/p&gt;
 &lt;h5 id=&quot;导入Cocos2d-x项目和libCocos2dx&quot;&gt;&lt;a href=&quot;#导入Cocos2d-x项目和libCocos2dx&quot; class=&quot;headerlink&quot; title=&quot;导入Cocos2d-x项目和libCocos2dx&quot;&gt;&lt;/a&gt;导入Cocos2d-x项目和libCocos2dx&lt;/h5&gt;&lt;h5 id=&quot;开启C-编译&quot;&gt;&lt;a href=&quot;#开启C-编译&quot; class=&quot;headerlink&quot; title=&quot;开启C++编译&quot;&gt;&lt;/a&gt;开启C++编译&lt;/h5&gt;&lt;p&gt;右键项目属性-&amp;gt;Builders-&amp;gt;勾选CDT Builder。&lt;/p&gt;
 &lt;h5 id=&quot;C-C-Build-gt-Build-command&quot;&gt;&lt;a href=&quot;#C-C-Build-gt-Build-command&quot; class=&quot;headerlink&quot; title=&quot;C/C++ Build-&amp;gt;Build command&quot;&gt;&lt;/a&gt;C/C++ Build-&amp;gt;Build command&lt;/h5&gt;&lt;p&gt;默认是&lt;/p&gt;
@@ -214,7 +215,10 @@ key.alias=zzz
     <summary type="html">
     
       &lt;h3 id=&quot;概况&quot;&gt;&lt;a href=&quot;#概况&quot; class=&quot;headerlink&quot; title=&quot;概况&quot;&gt;&lt;/a&gt;概况&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;环境：Mac OSX/Cocos2d-x v3.7/NDK r10c/Ant v1.9.5/ADT v23.0.6/Androi
+&lt;li&gt;环境：Mac OSX/Cocos2d-x v3.7/NDK r10c/Ant v1.9.5/ADT v23.0.6/AndroidStudio v1.3.1&lt;/li&gt;
+&lt;li&gt;注意：此教程与Cocos2d-x版本关系极大，不保证其他版本的Cocos2d-x可以正常应用此教程，但是原理都是一样的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;从Cocos2d-x v3.4开始，考虑到维护成本，build_native.py脚本不再直接调用ndk-build，而是调用Cocos Console. 具体PR可见：&lt;a href=&quot;https://github.com/cocos2d/cocos2d-x/commit/a1e8dec3840b3042054f04b3197da81412b29cae&quot;&gt;Github&lt;/a&gt;。&lt;/p&gt;
     
     </summary>
     
