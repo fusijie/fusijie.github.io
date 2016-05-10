@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fusijie.github.io/"/>
-  <updated>2016-05-05T16:33:23.000Z</updated>
+  <updated>2016-05-10T13:50:09.000Z</updated>
   <id>http://fusijie.github.io/</id>
   
   <author>
@@ -14,6 +14,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaScript-函数和标准对象</title>
+    <link href="http://fusijie.github.io/2016/05/10/learn-javascript-function-and-standard-objects/"/>
+    <id>http://fusijie.github.io/2016/05/10/learn-javascript-function-and-standard-objects/</id>
+    <published>2016-05-10T13:46:47.000Z</published>
+    <updated>2016-05-10T13:50:09.000Z</updated>
+    
+    <content type="html">&lt;p&gt;JavaScript 的函数是第一类对象，可以动态创建，可以做传参，可以做返回值等等，而且由于 JavaScript 函数级作用域的关系，匿名函数的使用十分广泛，所以使用起来非常的灵活。&lt;/p&gt;
+&lt;h3 id=&quot;arguments&quot;&gt;&lt;a href=&quot;#arguments&quot; class=&quot;headerlink&quot; title=&quot;arguments&quot;&gt;&lt;/a&gt;arguments&lt;/h3&gt;&lt;p&gt;arguments 也是个奇葩的东西，类似 Array 又不是 Array，但是一般情况下当 Array 使用就可以了。&lt;/p&gt;
+&lt;h3 id=&quot;return&quot;&gt;&lt;a href=&quot;#return&quot; class=&quot;headerlink&quot; title=&quot;return&quot;&gt;&lt;/a&gt;return&lt;/h3&gt;&lt;p&gt;因为句末分号的关系，return 后面的语句不要换行写。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;函数级别的变量作用域&quot;&gt;&lt;a href=&quot;#函数级别的变量作用域&quot; class=&quot;headerlink&quot; title=&quot;函数级别的变量作用域&quot;&gt;&lt;/a&gt;函数级别的变量作用域&lt;/h3&gt;&lt;p&gt;简简单单一个作用域，非要搞得这么恶心，还好 ES 6 引入了 let 关键字来处理块级作用域。但是不管怎样也没有 Python 的 变量作用域恶心。。。&lt;/p&gt;
+&lt;h3 id=&quot;变量提升&quot;&gt;&lt;a href=&quot;#变量提升&quot; class=&quot;headerlink&quot; title=&quot;变量提升&quot;&gt;&lt;/a&gt;变量提升&lt;/h3&gt;&lt;p&gt;这个蛋疼的特性我也是无力吐槽了，所以请注意在函数的内部首先声明所有的变量。&lt;/p&gt;
+&lt;h3 id=&quot;全局作用域&quot;&gt;&lt;a href=&quot;#全局作用域&quot; class=&quot;headerlink&quot; title=&quot;全局作用域&quot;&gt;&lt;/a&gt;全局作用域&lt;/h3&gt;&lt;p&gt;不在函数内声明的变量就具有全局作用域。默认所有全局作用域都绑到 window 上。&lt;/p&gt;
+&lt;h3 id=&quot;this&quot;&gt;&lt;a href=&quot;#this&quot; class=&quot;headerlink&quot; title=&quot;this&quot;&gt;&lt;/a&gt;this&lt;/h3&gt;&lt;p&gt;相信我说 this 是 JavaScript 最恶心的东西没人会反对。。。不说啥了，自己体会。&lt;/p&gt;
+&lt;h3 id=&quot;apply-call&quot;&gt;&lt;a href=&quot;#apply-call&quot; class=&quot;headerlink&quot; title=&quot;apply, call&quot;&gt;&lt;/a&gt;apply, call&lt;/h3&gt;&lt;p&gt;函数调用的两种方式，主要方便在可以控制 this 的指向，前者将参数打包为 Array 传入，后者将参数按序传入。&lt;/p&gt;
+&lt;h3 id=&quot;高阶函数&quot;&gt;&lt;a href=&quot;#高阶函数&quot; class=&quot;headerlink&quot; title=&quot;高阶函数&quot;&gt;&lt;/a&gt;高阶函数&lt;/h3&gt;&lt;p&gt;map，reduce，filter，sort，和 python 基本上是一样的，都是对 Array 进行处理。&lt;/p&gt;
+&lt;h3 id=&quot;闭包&quot;&gt;&lt;a href=&quot;#闭包&quot; class=&quot;headerlink&quot; title=&quot;闭包&quot;&gt;&lt;/a&gt;闭包&lt;/h3&gt;&lt;p&gt;本质上，闭包是一个携带环境状态的函数，所以在返回函数的时候不要引用任何的循环变量以及后续会发生变化的变量。&lt;/p&gt;
+&lt;h3 id=&quot;delete&quot;&gt;&lt;a href=&quot;#delete&quot; class=&quot;headerlink&quot; title=&quot;delete&quot;&gt;&lt;/a&gt;delete&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;不是所有的属性和方法都能被删除。&lt;/li&gt;
+&lt;li&gt;var 声明的变量，对象，数组都不能被删除。&lt;/li&gt;
+&lt;li&gt;删除数组的某个索引，不会影响数组的长度。&lt;/li&gt;
+&lt;li&gt;不要根据返回值判断是否删除成功。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;typeof&quot;&gt;&lt;a href=&quot;#typeof&quot; class=&quot;headerlink&quot; title=&quot;typeof&quot;&gt;&lt;/a&gt;typeof&lt;/h3&gt;&lt;p&gt;typeof 获取对象类型，返回小写字母开头的字符串。 &lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;typeof null === &amp;apos;object&amp;apos;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typeof [] === &amp;apos;object&amp;apos;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typeof undefined === &amp;apos;undefined&amp;apos; //判断某个变量是否有声明&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;包装对象&quot;&gt;&lt;a href=&quot;#包装对象&quot; class=&quot;headerlink&quot; title=&quot;包装对象&quot;&gt;&lt;/a&gt;包装对象&lt;/h3&gt;&lt;p&gt;int 和 Integer 的关系。不要使用包装对象。数字和字符串的转换，使用 parseInt，parseFloat，减0，toString，加空串。&lt;/p&gt;
+&lt;p&gt;另外对基础类型的处理需小心，如下，基础类型 string 会被&lt;strong&gt;临时&lt;/strong&gt;提升为 String 类。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;var a = &amp;apos;abcdefg&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;a.pro = 100;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;console.log(a.pro);//undefined&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;var b = new String(&amp;apos;abcdefg&amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;b.pro = 100;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;console.log(b.pro);//100&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;Date&quot;&gt;&lt;a href=&quot;#Date&quot; class=&quot;headerlink&quot; title=&quot;Date&quot;&gt;&lt;/a&gt;Date&lt;/h3&gt;&lt;p&gt;特别注意月份索引从 0 开始。getTime() 返回从 1970.1.1 开始&lt;strong&gt;的毫秒时间&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;JSON&quot;&gt;&lt;a href=&quot;#JSON&quot; class=&quot;headerlink&quot; title=&quot;JSON&quot;&gt;&lt;/a&gt;JSON&lt;/h3&gt;&lt;p&gt;JSON.stringify 可以带参数 replacer（函数）和 space（空格）&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;var obj = &amp;#123;x:1, y: &amp;#123;a:2, b: 3&amp;#125;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;JSON.stringify(obj, function(k,v)&amp;#123;return v;&amp;#125;, &amp;apos;    &amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;quot;x&amp;quot;: 1,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;quot;y&amp;quot;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;a&amp;quot;: 2,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;b&amp;quot;: 3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;rest，let，const，箭头函数，generator&quot;&gt;&lt;a href=&quot;#rest，let，const，箭头函数，generator&quot; class=&quot;headerlink&quot; title=&quot;rest，let，const，箭头函数，generator&quot;&gt;&lt;/a&gt;rest，let，const，箭头函数，generator&lt;/h3&gt;&lt;p&gt;这些都是 ES6 标准，鉴于目前浏览器的支持情况，不介绍。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;rest&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;let&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;const&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;箭头函数&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;generator&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;JavaScript 的函数是第一类对象，可以动态创建，可以做传参，可以做返回值等等，而且由于 JavaScript 函数级作用域的关系，匿名函数的使用十分广泛，所以使用起来非常的灵活。&lt;/p&gt;
+&lt;h3 id=&quot;arguments&quot;&gt;&lt;a href=&quot;#arguments&quot; class=&quot;headerlink&quot; title=&quot;arguments&quot;&gt;&lt;/a&gt;arguments&lt;/h3&gt;&lt;p&gt;arguments 也是个奇葩的东西，类似 Array 又不是 Array，但是一般情况下当 Array 使用就可以了。&lt;/p&gt;
+&lt;h3 id=&quot;return&quot;&gt;&lt;a href=&quot;#return&quot; class=&quot;headerlink&quot; title=&quot;return&quot;&gt;&lt;/a&gt;return&lt;/h3&gt;&lt;p&gt;因为句末分号的关系，return 后面的语句不要换行写。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://fusijie.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="函数" scheme="http://fusijie.github.io/tags/%E5%87%BD%E6%95%B0/"/>
+    
+      <category term="标准对象" scheme="http://fusijie.github.io/tags/%E6%A0%87%E5%87%86%E5%AF%B9%E8%B1%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>JavaScript-基础介绍</title>
@@ -70,9 +127,9 @@
     
       <category term="JavaScript" scheme="http://fusijie.github.io/tags/JavaScript/"/>
     
-      <category term="读书笔记" scheme="http://fusijie.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="基础" scheme="http://fusijie.github.io/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="读书笔记" scheme="http://fusijie.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -1353,63 +1410,6 @@ $ ./build_native.py
     
     
       <category term="EarthWarrior3D" scheme="http://fusijie.github.io/tags/EarthWarrior3D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【玩转cocos2d-x之三十五】《我叫MT offline》Demo</title>
-    <link href="http://fusijie.github.io/2014/02/25/play-cocos2dx-35/"/>
-    <id>http://fusijie.github.io/2014/02/25/play-cocos2dx-35/</id>
-    <published>2014-02-25T11:43:00.000Z</published>
-    <updated>2016-04-30T10:38:04.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h3&gt;&lt;h4 id=&quot;这是怎样一个游戏？&quot;&gt;&lt;a href=&quot;#这是怎样一个游戏？&quot; class=&quot;headerlink&quot; title=&quot;这是怎样一个游戏？&quot;&gt;&lt;/a&gt;这是怎样一个游戏？&lt;/h4&gt;&lt;p&gt;这是一个最好的时代。软件跑在硬件之前，而创意跑在软件之前。除去那些跨时代的作品（现在还没出，比如体感，识别等等和硬件强相关的游戏），现在的手游对技术的要求门槛已经大大降低了。这是个创意决定市场的时代。&lt;/p&gt;
-&lt;p&gt;（1）比如早些时候的愤怒小鸟，植物僵尸，水果忍者，这些是智能机刚刚诞生的时候出来的，可以说是借iphone引领的触屏之风顺势而行火了一把，这种机会可遇不可求。&lt;/p&gt;
-&lt;p&gt;（2）再如飞机大战，FlappyBird，这些是利用怀旧风，无差别竞技以及用户口碑营销堆起来的游戏，这靠的要么后台硬有干爹，要么祖坟正运气好，如果都没有，想火也很难。&lt;/p&gt;
-&lt;p&gt;（3）又如卡牌，COC，横版格斗，这些靠的是真正的创意。由此引来的一堆跟风之作就能看出来，几千万的月流水也证明了这一点，第一个想到创意，第一个抢到市场就是赢家。但是再来山寨就没意思了。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;MT就是这样一款一出现就让人眼前一亮的游戏，我期待手游市场天天都能出现不一样的作品，能抓住用户的游戏，而不是反复的换皮圈钱关服走人。&lt;/em&gt;&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;我为什么要写这么一个demo？&quot;&gt;&lt;a href=&quot;#我为什么要写这么一个demo？&quot; class=&quot;headerlink&quot; title=&quot;我为什么要写这么一个demo？&quot;&gt;&lt;/a&gt;我为什么要写这么一个demo？&lt;/h4&gt;&lt;p&gt;对于一个游戏狂热份子，当《我叫MT》出来的时候，新奇的玩法，酷炫的卡牌，流畅的动画，以及WOW情结，让我找不到理由拒绝它（虽然到现在蛋疼的用户体验和反人类设计还有不少）。每个游戏都有自己的生命周期，这些是跑不掉的，或许卓越的钱还没有赚够，但我希望这款游戏最后能有一个体面的结局。&lt;/p&gt;
-&lt;p&gt;从MT ios一区开始，玩到现在也近一年半了。它陪伴我历经了很多事情，如人饮水冷暖自知。每个程序员都有一颗做游戏的心。在决定进入游戏行业后，我决定写个MT的demo出来，算是感谢也算是怀念。说来也巧，当初找来各种版本的《我叫MT》反编译拿游戏资源为的只是为了收集所有的卡牌图片，结果后面发现2.3以后的版本都做了资源加密处理。所以手上只有2.3版的资源，这个demo就按着2.3版做。&lt;/p&gt;
-&lt;h4 id=&quot;《我叫MT-offline》这个游戏能做什么？&quot;&gt;&lt;a href=&quot;#《我叫MT-offline》这个游戏能做什么？&quot; class=&quot;headerlink&quot; title=&quot;《我叫MT offline》这个游戏能做什么？&quot;&gt;&lt;/a&gt;《我叫MT offline》这个游戏能做什么？&lt;/h4&gt;&lt;p&gt;其实它什么也做不了，只是游戏的整体框架以及所有动画的demo，由于写的比较赶，很多功能都没有来得及实现，代码也写的比较粗糙。接下来我会继续完善它，我的最终目的是把它改成单机版的《我叫MT offline》。它的工作量太大了，而且体力活占大部分，所以代码模块化复用和游戏内存优化显得很重要。如果不用赔60亿我会考虑把源码推上&lt;a href=&quot;https://github.com/fusijie&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;游戏采用VS2012+cocos2d-x v2.2.0开发。&lt;/p&gt;
-&lt;h3 id=&quot;游戏结构和效果&quot;&gt;&lt;a href=&quot;#游戏结构和效果&quot; class=&quot;headerlink&quot; title=&quot;游戏结构和效果&quot;&gt;&lt;/a&gt;游戏结构和效果&lt;/h3&gt;&lt;h4 id=&quot;公告&quot;&gt;&lt;a href=&quot;#公告&quot; class=&quot;headerlink&quot; title=&quot;公告&quot;&gt;&lt;/a&gt;公告&lt;/h4&gt;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;/images/posts/2014-02-25-play-cocos2dx-35/announcement.png&quot; alt=&quot;&quot; border=&quot;0&quot; title=&quot;4&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;游戏&quot;&gt;&lt;a href=&quot;#游戏&quot; class=&quot;headerlink&quot; title=&quot;游戏&quot;&gt;&lt;/a&gt;游戏&lt;/h4&gt;&lt;center&gt;&lt;embed src=&quot;http://player.youku.com/player.php/sid/XNjc3ODI3NjY0/v.swf&quot; allowfullscreen=&quot;true&quot; quality=&quot;high&quot; width=&quot;480&quot; height=&quot;400&quot; align=&quot;middle&quot; allowscriptaccess=&quot;always&quot; type=&quot;application/x-shockwave-flash&quot;&gt;&lt;/center&gt;
-
-&lt;p&gt;录了个视频，我会尽快放出apk。&lt;/p&gt;
-&lt;h4 id=&quot;开幕故事&quot;&gt;&lt;a href=&quot;#开幕故事&quot; class=&quot;headerlink&quot; title=&quot;开幕故事&quot;&gt;&lt;/a&gt;开幕故事&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/story.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/story.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;游戏主场景&quot;&gt;&lt;a href=&quot;#游戏主场景&quot; class=&quot;headerlink&quot; title=&quot;游戏主场景&quot;&gt;&lt;/a&gt;游戏主场景&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/mainui.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/mainui.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;英雄&quot;&gt;&lt;a href=&quot;#英雄&quot; class=&quot;headerlink&quot; title=&quot;英雄&quot;&gt;&lt;/a&gt;英雄&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/card.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/card.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;进化&quot;&gt;&lt;a href=&quot;#进化&quot; class=&quot;headerlink&quot; title=&quot;进化&quot;&gt;&lt;/a&gt;进化&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/evolve.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/evolve.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;碎片&quot;&gt;&lt;a href=&quot;#碎片&quot; class=&quot;headerlink&quot; title=&quot;碎片&quot;&gt;&lt;/a&gt;碎片&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/chip.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/chip.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;升级&quot;&gt;&lt;a href=&quot;#升级&quot; class=&quot;headerlink&quot; title=&quot;升级&quot;&gt;&lt;/a&gt;升级&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/levelup.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/levelup.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;奖励&quot;&gt;&lt;a href=&quot;#奖励&quot; class=&quot;headerlink&quot; title=&quot;奖励&quot;&gt;&lt;/a&gt;奖励&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/task.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/task.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;技能学院&quot;&gt;&lt;a href=&quot;#技能学院&quot; class=&quot;headerlink&quot; title=&quot;技能学院&quot;&gt;&lt;/a&gt;技能学院&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/colleage.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/colleage.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;副本列表&quot;&gt;&lt;a href=&quot;#副本列表&quot; class=&quot;headerlink&quot; title=&quot;副本列表&quot;&gt;&lt;/a&gt;副本列表&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/instance.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/instance.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;副本战斗&quot;&gt;&lt;a href=&quot;#副本战斗&quot; class=&quot;headerlink&quot; title=&quot;副本战斗&quot;&gt;&lt;/a&gt;副本战斗&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/battle.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/battle.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;竞技场&quot;&gt;&lt;a href=&quot;#竞技场&quot; class=&quot;headerlink&quot; title=&quot;竞技场&quot;&gt;&lt;/a&gt;竞技场&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/arena.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/arena.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;商店&quot;&gt;&lt;a href=&quot;#商店&quot; class=&quot;headerlink&quot; title=&quot;商店&quot;&gt;&lt;/a&gt;商店&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/store.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/store.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;单次抽奖&quot;&gt;&lt;a href=&quot;#单次抽奖&quot; class=&quot;headerlink&quot; title=&quot;单次抽奖&quot;&gt;&lt;/a&gt;单次抽奖&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/raffleone.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/raffleone.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;十连抽&quot;&gt;&lt;a href=&quot;#十连抽&quot; class=&quot;headerlink&quot; title=&quot;十连抽&quot;&gt;&lt;/a&gt;十连抽&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/raffleten.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/raffleten.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;好友&quot;&gt;&lt;a href=&quot;#好友&quot; class=&quot;headerlink&quot; title=&quot;好友&quot;&gt;&lt;/a&gt;好友&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/friend.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/friend.gif&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;攻略&quot;&gt;&lt;a href=&quot;#攻略&quot; class=&quot;headerlink&quot; title=&quot;攻略&quot;&gt;&lt;/a&gt;攻略&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;/images/posts/2014-02-25-play-cocos2dx-35/more.gif&quot;&gt;http://fusijie.github.io/images/posts/2014-02-25-play-cocos2dx-35/more.gif&lt;/a&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h3&gt;&lt;h4 id=&quot;这是怎样一个游戏？&quot;&gt;&lt;a href=&quot;#这是怎样一个游戏？&quot; class=&quot;headerlink&quot; title=&quot;这是怎样一个游戏？&quot;&gt;&lt;/a&gt;这是怎样一个游戏？&lt;/h4&gt;&lt;p&gt;这是一个最好的时代。软件跑在硬件之前，而创意跑在软件之前。除去那些跨时代的作品（现在还没出，比如体感，识别等等和硬件强相关的游戏），现在的手游对技术的要求门槛已经大大降低了。这是个创意决定市场的时代。&lt;/p&gt;
-&lt;p&gt;（1）比如早些时候的愤怒小鸟，植物僵尸，水果忍者，这些是智能机刚刚诞生的时候出来的，可以说是借iphone引领的触屏之风顺势而行火了一把，这种机会可遇不可求。&lt;/p&gt;
-&lt;p&gt;（2）再如飞机大战，FlappyBird，这些是利用怀旧风，无差别竞技以及用户口碑营销堆起来的游戏，这靠的要么后台硬有干爹，要么祖坟正运气好，如果都没有，想火也很难。&lt;/p&gt;
-&lt;p&gt;（3）又如卡牌，COC，横版格斗，这些靠的是真正的创意。由此引来的一堆跟风之作就能看出来，几千万的月流水也证明了这一点，第一个想到创意，第一个抢到市场就是赢家。但是再来山寨就没意思了。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;MT就是这样一款一出现就让人眼前一亮的游戏，我期待手游市场天天都能出现不一样的作品，能抓住用户的游戏，而不是反复的换皮圈钱关服走人。&lt;/em&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="cocos2d-x" scheme="http://fusijie.github.io/categories/cocos2d-x/"/>
-    
-    
-      <category term="我叫MT" scheme="http://fusijie.github.io/tags/%E6%88%91%E5%8F%ABMT/"/>
     
   </entry>
   
