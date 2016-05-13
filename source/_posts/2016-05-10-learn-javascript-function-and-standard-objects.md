@@ -51,6 +51,37 @@ typeof [] === 'object'
 typeof undefined === 'undefined' //判断某个变量是否有声明
 ```
 
+### Copy
+
+```
+/* 检测对象类型
+ * @param: obj {JavaScript Object}
+ * @param: type {String} 以大写开头的 JS 类型名
+ * @return: {Boolean}
+ */
+function is(obj, type)  {
+  return Object.prototype.toString.call(obj).slice(8, -1) === type;
+}
+
+/* 复制对象
+ * @param: obj {JavaScript Object} 原始对象
+ * @param: isDeep {Boolean} 是否为深拷贝
+ * @return: {JavaScript Object} 返回一个新的对象
+ */
+function copy(obj, isDeep) {
+  var ret = obj.slice ? [] : {}, p, prop;
+  // 配合 is 函数使用
+  if(!isDeep && is(obj, 'Array')) return obj.slice();
+  for(p in obj) {
+    if(!obj.hasOwnProperty(p)) continue;
+    prop = obj[p];
+    ret[p] = (is(prop, 'Object') || is(prop, 'Array')) ? 
+      copy(prop, isDeep) : prop;
+  }
+  return ret;
+}
+```
+
 ### 包装对象
 int 和 Integer 的关系。不要使用包装对象。数字和字符串的转换，使用 parseInt，parseFloat，减0，toString，加空串。
 
