@@ -220,6 +220,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-smali-introduction" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/08/smali-introduction/" class="article-date">
+      <time datetime="2014-09-08T12:37:00.000Z" itemprop="datePublished">2014-09-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/08/smali-introduction/">Smali和逆向分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>这篇文章其实2个月前就想写了，但并不好写，就懒得写了，所以拖到现在～其实接触smali这门语法是件蛮偶然的事，接触后发现，次奥，这货在某些领域太有用了，至于为什么我想看完这篇文章应该都明白了。</p>
+<p>我自己也只是接触了皮毛，大概用了2个礼拜多一点，也不是很系统的学习，写这篇的目的主要还是想把知道的东西记下来，以后好追溯。</p>
+<h3 id="Smali简介"><a href="#Smali简介" class="headerlink" title="Smali简介"></a>Smali简介</h3><p>Smali是Dalvik的寄存器语言，它与Java的关系，简单理解就是汇编之于C。假如你对汇编有足够的驾驭能力，那你可以通过修改汇编代码来改变C/C++代码的走向。当然，学过汇编的都清楚，汇编比<a href="http://www.muppetlabs.com/~breadbox/bf/">BrainFuck</a>还难学，更不用说去反编译修改了。</p>
+<p>但是Smali有一点不一样，就是它很简单，只有一点点的语法，只要你会java，了解Android的相关知识，那你完全可以通过修改Smali代码来反向修改java代码，虽然绕了一点，但是在某些情况下你不得不这么做。还好，Smali很简单。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Smali/">Smali</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏破解/">游戏破解</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/逆向分析/">逆向分析</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2014/09/08/smali-introduction/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-play-cocos2dx-42" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -804,80 +873,6 @@
       
         <p class="article-more-link">
           <a  href="/2014/08/23/play-cocos2dx-38/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-play-cocos2dx-37" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/08/21/play-cocos2dx-37/" class="article-date">
-      <time datetime="2014-08-20T16:26:00.000Z" itemprop="datePublished">2014-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/21/play-cocos2dx-37/">【玩转cocos2d-x之三十七】在Cocos2d-x中集成安卓版微信SDK</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>微信的火热程度已不必说了，如果能在Cocos2d-x中集成微信SDK，让游戏能分享给好友或者朋友圈，那对游戏推广将会是非常有利的。好了，本文就是手把手地教大伙如何在Cocos2d-x中集成微信SDK。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
-<li>OS: Mac OSX</li>
-<li>IDE: Xcode v5.11 and Eclipse ADT v22.3</li>
-<li>Android SDK:4.0 </li>
-<li>Adnroid NDK:r9d</li>
-<li>Cocos2d-x 3.2release</li>
-</ul>
-<h3 id="创建Cocos2d-x工程"><a href="#创建Cocos2d-x工程" class="headerlink" title="创建Cocos2d-x工程"></a>创建Cocos2d-x工程</h3><p>这里不再详述，网上的资料多如牛毛了。这里我按自己习惯的方式来。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信SDK集成/">微信SDK集成</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/08/21/play-cocos2dx-37/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>

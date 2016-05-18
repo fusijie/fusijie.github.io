@@ -3,23 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位 | Jacky&#39;s Blog</title>
+  <title>TPCode-67FDB22A | Jacky&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="现在各种猜成语猜歌名好学霸之类的游戏火的一塌糊涂。本节就介绍下文字的拖拽和定位。
-基本原理其实这只是精灵的简单拖拽和坐标的识别而已。当触摸点在精灵的范围内，精灵可以感应拖动，当触摸结束进行位置判断，如果在有效范围内就进行自动定位。">
+  <meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位">
-<meta property="og:url" content="http://fusijie.github.io/2013/10/28/play-cocos2dx-18/index.html">
+<meta property="og:title" content="TPCode-67FDB22A">
+<meta property="og:url" content="http://fusijie.github.io/2016/05/18/TPCode/index.html">
 <meta property="og:site_name" content="Jacky's Blog">
-<meta property="og:description" content="现在各种猜成语猜歌名好学霸之类的游戏火的一塌糊涂。本节就介绍下文字的拖拽和定位。
-基本原理其实这只是精灵的简单拖拽和坐标的识别而已。当触摸点在精灵的范围内，精灵可以感应拖动，当触摸结束进行位置判断，如果在有效范围内就进行自动定位。">
-<meta property="og:image" content="http://img.blog.csdn.net/20131209083021671">
-<meta property="og:updated_time" content="2016-04-24T14:25:53.000Z">
+<meta property="og:description">
+<meta property="og:updated_time" content="2016-05-18T01:36:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位">
-<meta name="twitter:description" content="现在各种猜成语猜歌名好学霸之类的游戏火的一塌糊涂。本节就介绍下文字的拖拽和定位。
-基本原理其实这只是精灵的简单拖拽和坐标的识别而已。当触摸点在精灵的范围内，精灵可以感应拖动，当触摸结束进行位置判断，如果在有效范围内就进行自动定位。">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20131209083021671">
+<meta name="twitter:title" content="TPCode-67FDB22A">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="Jacky&#39;s Blog" type="application/atom+xml">
   
@@ -221,11 +216,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-play-cocos2dx-18" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-TPCode" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2013/10/28/play-cocos2dx-18/" class="article-date">
-      <time datetime="2013-10-28T10:00:00.000Z" itemprop="datePublished">2013-10-28</time>
+      <a href="/2016/05/18/TPCode/" class="article-date">
+      <time datetime="2016-05-18T01:34:41.000Z" itemprop="datePublished">2016-05-18</time>
 </a>
     </div>
   
@@ -238,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位
+      TPCode-67FDB22A
     </h1>
   
 
@@ -246,16 +241,8 @@
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
-    </div>
-
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中国好学霸/">中国好学霸</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/疯狂猜成语/">疯狂猜成语</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/精灵拖拽/">精灵拖拽</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -263,19 +250,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>现在各种猜成语猜歌名好学霸之类的游戏火的一塌糊涂。本节就介绍下文字的拖拽和定位。</p>
-<h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>其实这只是精灵的简单拖拽和坐标的识别而已。当触摸点在精灵的范围内，精灵可以感应拖动，当触摸结束进行位置判断，如果在有效范围内就进行自动定位。</p>
-<a id="more"></a>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="背景加入和文字精灵的加入"><a href="#背景加入和文字精灵的加入" class="headerlink" title="背景加入和文字精灵的加入"></a>背景加入和文字精灵的加入</h4><p>这里是采用<a href="http://blog.csdn.net/jackystudio/article/details/13014883" target="_blank" rel="external">这一节</a>所述方式添加中文。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> AutoSet::init()  </span><br><span class="line">&#123;  </span><br><span class="line">   	<span class="keyword">bool</span> bRet=<span class="literal">false</span>;  </span><br><span class="line">   	<span class="keyword">do</span>   </span><br><span class="line">   	&#123;  </span><br><span class="line">       	CC_BREAK_IF(!CCLayer::init());  </span><br><span class="line">       	CCSize visiableSize=CCDirector::sharedDirector()-&gt;getVisibleSize();  </span><br><span class="line"> </span><br><span class="line">       	CCSprite* background=CCSprite::create(<span class="string">"AutoSetBk.jpg"</span>);  </span><br><span class="line">       	background-&gt;setPosition(ccp(visiableSize.width/<span class="number">2</span>,visiableSize.height/<span class="number">2</span>));  </span><br><span class="line">       	<span class="keyword">this</span>-&gt;addChild(background);<span class="comment">//添加背景  </span></span><br><span class="line"> </span><br><span class="line">       	<span class="comment">//利用CCDictionary来读取xml  </span></span><br><span class="line">       	CCDictionary* chnStrings = CCDictionary::createWithContentsOfFile(<span class="string">"CHN_Strings.xml"</span>);  </span><br><span class="line">       	<span class="keyword">const</span> <span class="keyword">char</span> *hao = ((CCString*)chnStrings-&gt;objectForKey(<span class="string">"hao"</span>))-&gt;m_sString.c_str();   </span><br><span class="line"> </span><br><span class="line">       	text=CCLabelTTF::create(hao,<span class="string">"Arial"</span>,<span class="number">50</span>);  </span><br><span class="line">       	text-&gt;setPosition(ccp(<span class="number">120</span>,<span class="number">160</span>));  </span><br><span class="line">       	text-&gt;setColor(ccc3(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>));  </span><br><span class="line">       	<span class="keyword">this</span>-&gt;addChild(text);<span class="comment">//添加文本  </span></span><br><span class="line"> </span><br><span class="line">       	<span class="keyword">this</span>-&gt;setTouchEnabled(<span class="literal">true</span>);<span class="comment">//设置触摸可用  </span></span><br><span class="line"> </span><br><span class="line">       	bRet=<span class="literal">true</span>;  </span><br><span class="line">   	&#125; <span class="keyword">while</span> (<span class="number">0</span>);  </span><br><span class="line">   	return bRet;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="触摸的实现和拖拽的定位"><a href="#触摸的实现和拖拽的定位" class="headerlink" title="触摸的实现和拖拽的定位"></a>触摸的实现和拖拽的定位</h4><p>因为3.0版本cocos2d-x的触摸实现已经变更了，所以这里不再赘述，3.0之前的触摸的原理和实现具体可以参见<a href="http://blog.csdn.net/jackystudio/article/details/11860007" target="_blank" rel="external">这一节</a>。</p>
-<h5 id="注册触摸事件"><a href="#注册触摸事件" class="headerlink" title="注册触摸事件"></a>注册触摸事件</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> AutoSet::registerWithTouchDispatcher(<span class="keyword">void</span>)  </span><br><span class="line">&#123;  </span><br><span class="line">   	CCDirector *pDirector=CCDirector::sharedDirector();    </span><br><span class="line">   	pDirector-&gt;getTouchDispatcher()-&gt;addTargetedDelegate(<span class="keyword">this</span>,<span class="number">0</span>,<span class="literal">true</span>);<span class="comment">//单点触摸  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="触摸开始"><a href="#触摸开始" class="headerlink" title="触摸开始"></a>触摸开始</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> AutoSet::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)  </span><br><span class="line">&#123;  </span><br><span class="line">   	return <span class="literal">true</span>;<span class="comment">//返回true表示接收触摸事件  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="触摸过程"><a href="#触摸过程" class="headerlink" title="触摸过程"></a>触摸过程</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> AutoSet::ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)  </span><br><span class="line">&#123;  </span><br><span class="line">   	CCPoint beginPoint = pTouch-&gt;getLocationInView();  <span class="comment">//获取触摸位置  </span></span><br><span class="line">   	beginPoint = CCDirector::sharedDirector()-&gt;convertToGL(beginPoint);<span class="comment">//坐标转换  </span></span><br><span class="line">   	CCPoint pt=text-&gt;getPosition();  </span><br><span class="line">   	CCRect rect=CCRectMake(pt.x<span class="number">-30</span>,pt.y<span class="number">-30</span>,<span class="number">60</span>,<span class="number">60</span>);  </span><br><span class="line">   	<span class="keyword">if</span> (rect.containsPoint(beginPoint))<span class="comment">//判断触摸点是否在文字上  </span></span><br><span class="line">   	&#123;  </span><br><span class="line">       	CCPoint endPoint=pTouch-&gt;getPreviousLocationInView();<span class="comment">//获取触摸的前一个位置    </span></span><br><span class="line">       	endPoint=CCDirector::sharedDirector()-&gt;convertToGL(endPoint);     </span><br><span class="line"> </span><br><span class="line">       	CCPoint offSet =ccpSub(beginPoint,endPoint);<span class="comment">//获取offset    </span></span><br><span class="line">       	CCPoint toPoint=ccpAdd(text-&gt;getPosition(),offSet); <span class="comment">//获取真正移动位置  </span></span><br><span class="line">       	text-&gt;setPosition(toPoint);<span class="comment">//移动文字  </span></span><br><span class="line">   	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="触摸结束"><a href="#触摸结束" class="headerlink" title="触摸结束"></a>触摸结束</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> AutoSet::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)  </span><br><span class="line">&#123;  </span><br><span class="line">   	CCPoint lastPoint = pTouch-&gt;getLocationInView();<span class="comment">//获取触摸结束点位置  </span></span><br><span class="line">   	lastPoint = CCDirector::sharedDirector()-&gt;convertToGL(lastPoint);  </span><br><span class="line">   	CCRect rect=CCRectMake(<span class="number">330</span>,<span class="number">130</span>,<span class="number">60</span>,<span class="number">60</span>);  </span><br><span class="line">   	CCMoveTo* moveto;  </span><br><span class="line">   	<span class="keyword">if</span> (!rect.containsPoint(lastPoint))<span class="comment">//如果未在指定区域，还原到初始位置  </span></span><br><span class="line">   	&#123;  </span><br><span class="line">       	moveto=CCMoveTo::create(<span class="number">0.1f</span>,ccp(<span class="number">120</span>,<span class="number">160</span>));  </span><br><span class="line">   	&#125;  </span><br><span class="line">   	<span class="keyword">else</span><span class="comment">//如果在指定区域，移动到该区域中心  </span></span><br><span class="line">   	&#123;  </span><br><span class="line">       	moveto=CCMoveTo::create(<span class="number">0.1f</span>,ccp(<span class="number">360</span>,<span class="number">160</span>));  </span><br><span class="line">   	&#125;  </span><br><span class="line">   	text-&gt;runAction(moveto);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><div align="center"><img src="http://img.blog.csdn.net/20131209083021671" alt="" border="0" title="效果"><br><br></div></p>
-<h3 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h3><p><a href="http://download.csdn.net/detail/jackyvincefu/6463261" target="_blank" rel="external">源码下载</a></p>
-
+        <a id="more"></a>
       
     </div>
     
@@ -283,13 +258,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2013/10/28/play-cocos2dx-18/">【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/18/TPCode/">TPCode-67FDB22A</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 偶尔e网事 的个人博客">偶尔e网事</a></p>
-        <p><span>发布时间:</span>2013年10月28日 - 18时00分</p>
-        <p><span>最后更新:</span>2016年04月24日 - 22时25分</p>
+        <p><span>发布时间:</span>2016年05月18日 - 09时34分</p>
+        <p><span>最后更新:</span>2016年05月18日 - 09时36分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2013/10/28/play-cocos2dx-18/" title="【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位">http://fusijie.github.io/2013/10/28/play-cocos2dx-18/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2013/10/28/play-cocos2dx-18/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/18/TPCode/" title="TPCode-67FDB22A">http://fusijie.github.io/2016/05/18/TPCode/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://fusijie.github.io/2016/05/18/TPCode/　　作者: 偶尔e网事" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -302,18 +277,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2013/10/30/play-cocos2dx-19/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制
-        
-      </div>
-    </a>
   
-  
-    <a href="/2013/10/25/play-cocos2dx-17/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【玩转cocos2d-x之十七】cocos2d-x中文显示</div>
+    <a href="/2016/05/14/learn-javascript-oop-and-prototype-chain/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript-OOP 和原型链</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -324,7 +290,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本原理"><span class="toc-number">1.</span> <span class="toc-text">基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#背景加入和文字精灵的加入"><span class="toc-number">2.1.</span> <span class="toc-text">背景加入和文字精灵的加入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#触摸的实现和拖拽的定位"><span class="toc-number">2.2.</span> <span class="toc-text">触摸的实现和拖拽的定位</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#注册触摸事件"><span class="toc-number">2.2.1.</span> <span class="toc-text">注册触摸事件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#触摸开始"><span class="toc-number">2.2.2.</span> <span class="toc-text">触摸开始</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#触摸过程"><span class="toc-number">2.2.3.</span> <span class="toc-text">触摸过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#触摸结束"><span class="toc-number">2.2.4.</span> <span class="toc-text">触摸结束</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图"><span class="toc-number">3.</span> <span class="toc-text">效果图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码下载"><span class="toc-number">4.</span> <span class="toc-text">源码下载</span></a></li></ol>
+    
 </div>
 <style>
     .left-col .switch-btn {
@@ -386,7 +352,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2013/10/28/play-cocos2dx-18/" data-title="【玩转cocos2d-x之十八】仿《中国好学霸》文字拖拽和定位" data-url="http://fusijie.github.io/2013/10/28/play-cocos2dx-18/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/18/TPCode/" data-title="TPCode-67FDB22A" data-url="http://fusijie.github.io/2016/05/18/TPCode/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -409,13 +375,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2013/10/30/play-cocos2dx-19/" title="上一篇: 【玩转cocos2d-x之十九】从CCObject看cocos2d-x的拷贝机制">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2013/10/25/play-cocos2dx-17/" title="下一篇: 【玩转cocos2d-x之十七】cocos2d-x中文显示">
+            <a href="/2016/05/14/learn-javascript-oop-and-prototype-chain/" title="下一篇: JavaScript-OOP 和原型链">
                 <i class="fa fa-angle-right"></i>
             </a>
         

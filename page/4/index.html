@@ -220,6 +220,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-play-cocos2dx-27" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/11/28/play-cocos2dx-27/" class="article-date">
+      <time datetime="2013-11-28T01:25:00.000Z" itemprop="datePublished">2013-11-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/28/play-cocos2dx-27/">【玩转cocos2d-x之二十七】CCSequence不能执行CCRepeatForever</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>之前在遇到这么一个问题，在CCSequence中加入CCRepeatForever，发现其他动作执行没问题，就是CCRepeatForever无法执行。代码并没有问题，很奇怪。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight cpp"><figcaption><span>示例</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CCBlink* blink=CCBlink::create(<span class="number">0.5f</span>,<span class="number">10</span>);<span class="comment">//创建闪烁动画，duration=0.5s  </span></span><br><span class="line">CCAnimation* animation=CCAnimation::create();  </span><br><span class="line">animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">animation-&gt;addSpriteFrameWithFileName(<span class="string">"CloseSelected.png"</span>);  </span><br><span class="line">animation-&gt;setDelayPerUnit(<span class="number">1.0f</span>);<span class="comment">//帧间间隔1s  </span></span><br><span class="line">CCAnimate* animate=CCAnimate::create(animation);<span class="comment">//创建帧动画  </span></span><br><span class="line">CCRepeatForever* repeat=CCRepeatForever::create(animate);  </span><br><span class="line">CCSequence* sequence=CCSequence::create(blink,repeat,NULL);<span class="comment">//创建连续动画  </span></span><br><span class="line">CCSprite* close=CCSprite::create(<span class="string">"CloseNormal.png"</span>);  </span><br><span class="line">close-&gt;setPosition(ccp(<span class="number">240</span>,<span class="number">160</span>));  </span><br><span class="line"><span class="keyword">this</span>-&gt;addChild(close);  </span><br><span class="line">close-&gt;runAction(sequence);<span class="comment">//执行连续动画</span></span><br></pre></td></tr></table></figure>
+<p>结果精灵闪烁10次以后，帧动画不执行了。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCRepeatForever/">CCRepeatForever</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCSequence/">CCSequence</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/无法执行/">无法执行</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/解决方案/">解决方案</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2013/11/28/play-cocos2dx-27/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-play-cocos2dx-26" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -807,72 +875,6 @@
       
         <p class="article-more-link">
           <a  href="/2013/10/28/play-cocos2dx-18/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-play-cocos2dx-17" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/10/25/play-cocos2dx-17/" class="article-date">
-      <time datetime="2013-10-25T08:53:00.000Z" itemprop="datePublished">2013-10-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/10/25/play-cocos2dx-17/">【玩转cocos2d-x之十七】cocos2d-x中文显示</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>cocos2d-x的中文显示其实就是一个UTF-8编码在作怪而已，一种简单的方法就是把文本保存为UTF-8编码即可（注意不是UTF-8 + BOM），建议使用UE，Sublime Text或者EditPlus之类的本文编辑器。这里介绍另一种方法：通过读取xml文件显示中文，这种方法更利于软件的国际化，demo顺便实现了中英文切换。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/cocos2d-x/">cocos2d-x</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCDictionary/">CCDictionary</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xml/">xml</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中文显示/">中文显示</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中英文切换/">中英文切换</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2013/10/25/play-cocos2dx-17/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
