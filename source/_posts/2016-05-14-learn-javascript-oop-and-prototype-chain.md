@@ -40,7 +40,6 @@ function getProperty(obj, prop) {
 要理解 prototype 其实不难，记住两点：
 
 * 所有的对象都有 constructor 属性，指向这个对象的构造函数，比如 var arr =[1,2,3]，其实就是 var arr = new Array(1,2,3)，所以 arr 的构造函数就是 Array，同样的 Object 也是一个构造函数。
-
 * 所有的构造函数都有 prototype 属性，指向了一个对象。这个对象就是使用该构造函数生成的对象的原型。
 
 所以尝试一下理解以下代码：
