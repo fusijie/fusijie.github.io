@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fusijie.github.io/"/>
-  <updated>2016-05-18T01:36:07.000Z</updated>
+  <updated>2016-05-18T14:52:32.000Z</updated>
   <id>http://fusijie.github.io/</id>
   
   <author>
@@ -16,20 +16,57 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>TPCode-67FDB22A</title>
-    <link href="http://fusijie.github.io/2016/05/18/TPCode/"/>
-    <id>http://fusijie.github.io/2016/05/18/TPCode/</id>
-    <published>2016-05-18T01:34:41.000Z</published>
-    <updated>2016-05-18T01:36:07.000Z</updated>
+    <title>ejoy2d 环境搭建小记</title>
+    <link href="http://fusijie.github.io/2016/05/18/ejoy2d-env-setup/"/>
+    <id>http://fusijie.github.io/2016/05/18/ejoy2d-env-setup/</id>
+    <published>2016-05-18T14:50:53.000Z</published>
+    <updated>2016-05-18T14:52:32.000Z</updated>
     
-    <content type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;</content>
+    <content type="html">&lt;p&gt;之前在优化 Cocos2d-x 的粒子系统时，参考了云风的 ejoy2d，这两天心血来潮突然想完整看下源码，之前只是看了 &lt;code&gt;sprite&lt;/code&gt;，&lt;code&gt;particle system&lt;/code&gt;，&lt;code&gt;renderer&lt;/code&gt; 这部分。&lt;/p&gt;
+&lt;p&gt;克隆了源码之后发现编译过不了，上次也遇到了。毕竟时隔快一年了，当时的情况也忘了，不知道是引擎的问题还是说开发环境变了，现在又要重新找一遍问题，也是蛋疼。所以这次就干脆记下来方便查阅。&lt;/p&gt;
+&lt;p&gt;程序员比起写代码，应该更害怕编译链接这种问题，因为这些问题很大程度不是由自身引起的或者说使用不当，所以把控感不强。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;编译-glfw3&quot;&gt;&lt;a href=&quot;#编译-glfw3&quot; class=&quot;headerlink&quot; title=&quot;编译 glfw3&quot;&gt;&lt;/a&gt;编译 glfw3&lt;/h3&gt;&lt;p&gt;地址：&lt;a href=&quot;https://github.com/glfw/glfw&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/glfw/glfw&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;编译手册：&lt;a href=&quot;http://www.glfw.org/docs/latest/compile.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.glfw.org/docs/latest/compile.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我这里是 mac，所以直接&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd &amp;lt;glfw-root-dir&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mkdir build&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd build&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cmake ..&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo make install&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make clean&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这时候可以看到 glfw 被安装到 &lt;code&gt;/usr/local&lt;/code&gt; 目录中：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Install the project...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Install configuration: &amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/include/GLFW&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/include/GLFW/glfw3.h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/include/GLFW/glfw3native.h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/lib/cmake/glfw3/glfw3Config.cmake&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/lib/cmake/glfw3/glfw3ConfigVersion.cmake&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/lib/cmake/glfw3/glfw3Targets.cmake&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Installing: /usr/local/lib/cmake/glfw3/glfw3Targets-noconfig.cmake&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Up-to-date: /usr/local/lib/pkgconfig/glfw3.pc&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-- Installing: /usr/local/lib/libglfw3.a&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;编译-freetype2&quot;&gt;&lt;a href=&quot;#编译-freetype2&quot; class=&quot;headerlink&quot; title=&quot;编译 freetype2&quot;&gt;&lt;/a&gt;编译 freetype2&lt;/h3&gt;&lt;p&gt;freetype2 地址：&lt;a href=&quot;https://www.freetype.org/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.freetype.org/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;编译：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo make install&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;同样可以看到 freetype2 被安装到 &lt;code&gt;/usr/local&lt;/code&gt; 目录中。&lt;/p&gt;
+&lt;p&gt;如果编译 freetype2 出现如下问题：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;install: ./builds/unix/freetype-config: No such file or directory&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make: *** [install] Error 71&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;可以参考：&lt;a href=&quot;https://lists.nongnu.org/archive/html/freetype/2014-01/msg00000.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://lists.nongnu.org/archive/html/freetype/2014-01/msg00000.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当然如果你安装过 X11，X11 里已经带了 freetype2，不过位置就不同了。&lt;/p&gt;
+&lt;p&gt;关于 X11 和 OSX：&lt;a href=&quot;https://support.apple.com/en-us/HT201341&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://support.apple.com/en-us/HT201341&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;编译-ejoy2d&quot;&gt;&lt;a href=&quot;#编译-ejoy2d&quot; class=&quot;headerlink&quot; title=&quot;编译 ejoy2d&quot;&gt;&lt;/a&gt;编译 ejoy2d&lt;/h3&gt;&lt;p&gt;地址：&lt;a href=&quot;https://github.com/ejoy/ejoy2d.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/ejoy/ejoy2d.git&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我当前的节点是：&lt;a href=&quot;https://github.com/ejoy/ejoy2d/tree/5c7ae1db5dd28c6fdbcb1db2a2b6183e54a6c1e1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;5c7ae1db5dd28c6fdbcb1db2a2b6183e54a6c1e1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;ejoy 已经自带 Makefile 了。稍微修改一下头文件和静态库的搜索目录，添加链接的 framework 即可：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;figcaption&gt;&lt;span&gt;diff&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-macosx : CFLAGS += -I/usr/include $(shell freetype-config --cflags) -D __MACOSX&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-macosx : LDFLAGS += -lglfw3  -framework OpenGL -lfreetype -lm -ldl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+macosx : CFLAGS += -I/usr/local/include $(shell freetype-config --cflags) -D __MACOSX&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+macosx : LDFLAGS += -L/usr/local/lib -lglfw3 -lfreetype -lm -ldl -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework Carbon&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;然后执行：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;可以看到生成了 &lt;code&gt;ej2d&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;p&gt;测试例在 &lt;code&gt;examples/&lt;/code&gt; 目录下，执行&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;./ej2d examples/flappybird.lua&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;即可浏览测试例。&lt;/p&gt;
+</content>
     
     <summary type="html">
     
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+      &lt;p&gt;之前在优化 Cocos2d-x 的粒子系统时，参考了云风的 ejoy2d，这两天心血来潮突然想完整看下源码，之前只是看了 &lt;code&gt;sprite&lt;/code&gt;，&lt;code&gt;particle system&lt;/code&gt;，&lt;code&gt;renderer&lt;/code&gt; 这部分。&lt;/p&gt;
+&lt;p&gt;克隆了源码之后发现编译过不了，上次也遇到了。毕竟时隔快一年了，当时的情况也忘了，不知道是引擎的问题还是说开发环境变了，现在又要重新找一遍问题，也是蛋疼。所以这次就干脆记下来方便查阅。&lt;/p&gt;
+&lt;p&gt;程序员比起写代码，应该更害怕编译链接这种问题，因为这些问题很大程度不是由自身引起的或者说使用不当，所以把控感不强。&lt;/p&gt;
     
     </summary>
     
+      <category term="ejoy2d" scheme="http://fusijie.github.io/categories/ejoy2d/"/>
+    
+    
+      <category term="ejoy2d" scheme="http://fusijie.github.io/tags/ejoy2d/"/>
+    
+      <category term="游戏引擎，环境" scheme="http://fusijie.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%EF%BC%8C%E7%8E%AF%E5%A2%83/"/>
     
   </entry>
   
