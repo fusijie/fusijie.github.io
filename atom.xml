@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fusijie.github.io/"/>
-  <updated>2016-05-18T14:52:32.000Z</updated>
+  <updated>2016-05-18T14:53:48.000Z</updated>
   <id>http://fusijie.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://fusijie.github.io/2016/05/18/ejoy2d-env-setup/"/>
     <id>http://fusijie.github.io/2016/05/18/ejoy2d-env-setup/</id>
     <published>2016-05-18T14:50:53.000Z</published>
-    <updated>2016-05-18T14:52:32.000Z</updated>
+    <updated>2016-05-18T14:53:48.000Z</updated>
     
     <content type="html">&lt;p&gt;之前在优化 Cocos2d-x 的粒子系统时，参考了云风的 ejoy2d，这两天心血来潮突然想完整看下源码，之前只是看了 &lt;code&gt;sprite&lt;/code&gt;，&lt;code&gt;particle system&lt;/code&gt;，&lt;code&gt;renderer&lt;/code&gt; 这部分。&lt;/p&gt;
 &lt;p&gt;克隆了源码之后发现编译过不了，上次也遇到了。毕竟时隔快一年了，当时的情况也忘了，不知道是引擎的问题还是说开发环境变了，现在又要重新找一遍问题，也是蛋疼。所以这次就干脆记下来方便查阅。&lt;/p&gt;
@@ -64,9 +64,11 @@
       <category term="ejoy2d" scheme="http://fusijie.github.io/categories/ejoy2d/"/>
     
     
+      <category term="游戏引擎" scheme="http://fusijie.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/"/>
+    
       <category term="ejoy2d" scheme="http://fusijie.github.io/tags/ejoy2d/"/>
     
-      <category term="游戏引擎，环境" scheme="http://fusijie.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%EF%BC%8C%E7%8E%AF%E5%A2%83/"/>
+      <category term="环境" scheme="http://fusijie.github.io/tags/%E7%8E%AF%E5%A2%83/"/>
     
   </entry>
   
